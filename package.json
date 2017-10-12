@@ -1,6 +1,7 @@
 {
   "name": "snippets-box",
   "description": "Snippet manager based on GitHub Gist、Github Pages and Chrome Extension",
+  "homepage" : "https://zhw2590582.github.io/snippets-box",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
