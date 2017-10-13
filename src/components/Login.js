@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -11,7 +10,7 @@ import { version } from '../../package.json';
 
 const LoginContainer = styled.div`
   height: 100%;
-  background: #fafafa url(${require("../images/loginBg.png")});
+  background: #fafafa url(${require("../images/login-bg.png")});
 
   .login-box {
     position: absolute;
