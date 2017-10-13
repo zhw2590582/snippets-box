@@ -12,6 +12,7 @@ import Loading from './Loading';
 import { isProduction } from '../utils';
 import { getStorage, delStorage } from '../utils/storage';
 import DevTools from 'mobx-react-devtools';
+import { redirect_uri } from '../config';
 
 const AppContainer = styled.div`
   height: 100%;
@@ -41,7 +42,7 @@ class App extends React.Component {
 
     // 菜单创建Gist
     document.body.addEventListener('__snippets_box_hood__', e => {
-      if (e.detail.type !== 'creatGist') return;
+      if (e.target.baseURI !== redirect_uri) return;
       console.log(e.detail);
     });
   }
