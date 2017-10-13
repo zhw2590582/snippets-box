@@ -1,1 +1,2 @@
-console.log('options');
+import 'normalize.css';
+import '../../styles/options.scss';

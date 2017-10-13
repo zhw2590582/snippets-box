@@ -16,6 +16,8 @@ chrome.runtime.onMessage.addListener(message => {
 // 接收来自缓存
 chrome.storage.local.get('gistCache', storage => {
   if (!storage.gistCache) return;
-  sendMessage(storage.gistCache);
-  chrome.storage.local.remove('gistCache');
+  setTimeout(() => {
+    sendMessage(storage.gistCache);
+    chrome.storage.local.remove('gistCache');
+  }, 500);
 });

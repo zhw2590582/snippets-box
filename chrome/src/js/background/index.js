@@ -1,19 +1,15 @@
 import '../../utils/hotReload';
 import { default_url } from '../../config';
 
-let port = null;
-
 // 打开唯一页面
 window.openPage = (url, callback) => {
   chrome.tabs.query({ currentWindow: true, url: url }, tabs => {
     if (tabs.length === 0) {
       chrome.tabs.create({ url: url }, tab => {
-        port = chrome.runtime.connect({ name: 'background' });
         callback && callback('create', tab);
       });
     } else {
       chrome.tabs.highlight({ tabs: tabs[0].index }, () => {
-        port = chrome.runtime.connect({ name: 'background' });
         callback && callback('highlight', tabs[0]);
       });
     }

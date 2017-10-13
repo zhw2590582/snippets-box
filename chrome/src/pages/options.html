@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SnippetsBox</title>
-  	<meta charset="UTF-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0,minimal-ui">
-  </head>
-  <body class="options_page">
-    <div id="app"></div>
-    <script src="../js/options.js"></script>
-  </body>
+
+<head>
+  <title>Snippets Box Option Page</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0,minimal-ui">
+</head>
+
+<body>
+  <div class="option-box">
+    <div class="option-header">
+      <img class="logo" alt="logo" src="data:image/png;base64,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"
+      />
+      <p class="name">
+        SnippetsBox
+        <span class="version">1.0.0</span>
+      </p>
+      <p class="description">Snippet manager based on GitHub Gist</p>
+    </div>
+    <div class="option-main clearfix">
+      <input class="input" type="text" placeholder="Please Enter Snippets Box Url">
+      <a class="btn" href="#">Save</a>
+    </div>
+    <div class="option-footer">
+      Created by
+      <a href="https://github.com/zhw2590582/snippets-box" target="_blank">
+        zhw2590582
+      </a>
+    </div>
+  </div>
+  <script src="../js/options.js"></script>
+</body>
+
 </html>
