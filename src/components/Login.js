@@ -119,7 +119,6 @@ class Login extends React.Component {
             onClick={this.login}
             className="login-btn"
             href={`https://github.com/login/oauth/authorize?client_id=${client_id}&state=SnippetsBox&redirect_uri=${redirect_uri}&scope=gist`}
-            target="_blank"
           >
             <Icon type="github" />
             Sign up with Github
