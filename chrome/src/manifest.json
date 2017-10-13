@@ -1,0 +1,43 @@
+{
+  "name": "Snippets Box",
+  "short_name": "Snippets Box",
+  "description": "Snippet manager based on GitHub Gist、Github Pages and Chrome Extension",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "background": {
+    "persistent": false,
+    "page": "pages/background.html"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    },
+    "default_title": "Snippets Box"
+  },
+  "content_scripts": [{
+    "matches": [
+      "<all_urls>"
+    ],
+    "js": [
+      "js/content.js"
+    ],
+    "run_at": "document_end",
+    "all_frames": true
+  }],
+  "options_page": "pages/options.html",
+  "permissions": [
+    "tabs",
+    "contextMenus",
+    "storage",
+    "<all_urls>"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'"
+}

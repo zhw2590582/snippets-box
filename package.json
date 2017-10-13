@@ -5,7 +5,9 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js",
-    "build": "rimraf ./docs && webpack --config webpack.config.production.js"
+    "build": "rimraf ./docs && webpack --config webpack.config.production.js",
+    "devChrome": "webpack -w --config ./chrome/build/webpack.dev.conf.js",
+    "buildChrome": "webpack --config ./chrome/build/webpack.prod.conf.js"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

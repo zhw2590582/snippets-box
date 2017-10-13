@@ -1,5 +1,7 @@
 node_modules/
 dist/
+chrome/dev/
+chrome/dist/
 .env
 .DS_Store
 npm-debug.log

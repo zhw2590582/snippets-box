@@ -25,12 +25,17 @@ export const resolveGist = gist => {
   return gist;
 };
 
+// 合成gist
+export const constructGist = gist => {
+  return gist;
+}
+
 // 错误抛出
 export const errorHandle = (err, callback) => {
   notification.error({
     message: 'Error !!!',
     description: err
   });
-  callback && callback();  
+  callback && callback();
   throw new TypeError(err);
 };
