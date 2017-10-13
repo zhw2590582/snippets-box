@@ -39,34 +39,11 @@ class App extends React.Component {
       });
     });
 
-    // 菜单创建Gist --- 从缓存
-    getStorage('gistCache', storage => {
-      if (!storage) return;
-      if (this.props.store.userInfo) {
-        createGist(storage.gistCache);
-        delStorage('gistCache');
-      } else {
-        notification.error({
-          message: 'Notification',
-          description: 'Please Login!'
-        });
-      }
+    // 菜单创建Gist
+    doucumnet.body.addEventListener('__snippets_box_hood__', e => {
+      if (e.detail.type !== 'creatGist') return;
+      console.log(e.detail);
     });
-
-    // // 菜单创建Gist --- 从postMessage
-    // chrome.runtime.onConnect.addListener(port => {
-    //   port.onMessage.addListener(gistCache => {
-    //     if(gistCache.type !== 'creatGist') return;
-    //     if(this.props.store.userInfo){
-    //       createGist(gistCache);
-    //     } else {
-    //       notification.error({
-    //         message: 'Notification',
-    //         description: 'Please Login!'
-    //       });
-    //     }
-    //   });
-    // });
   }
 
   render() {

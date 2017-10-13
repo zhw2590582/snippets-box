@@ -96,7 +96,7 @@ module.exports = {
       minimize: true,
       compress: {
         warnings: false,
-        drop_console: true,
+        //drop_console: true,
         screw_ie8: true
       },
       output: {
