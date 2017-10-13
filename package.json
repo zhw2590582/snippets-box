@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js",
-    "build": "rimraf ./dist && webpack --config webpack.config.production.js",
+    "build": "rimraf ./docs && webpack --config webpack.config.production.js",
     "preview": "pushstate-server ./dist 1234"
   },
   "devDependencies": {
