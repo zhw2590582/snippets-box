@@ -1,5 +1,5 @@
 const sendMessage = data => {
-  doucumnet.body.dispatchEvent(
+  document.body.dispatchEvent(
     new CustomEvent('__snippets_box_hood__', {
       detail: data
     })

@@ -40,7 +40,7 @@ class App extends React.Component {
     });
 
     // 菜单创建Gist
-    doucumnet.body.addEventListener('__snippets_box_hood__', e => {
+    document.body.addEventListener('__snippets_box_hood__', e => {
       if (e.detail.type !== 'creatGist') return;
       console.log(e.detail);
     });
