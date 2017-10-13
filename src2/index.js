@@ -1,31 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { AppContainer } from 'react-hot-loader';
 import { rehydrate, hotRehydrate } from 'rfx-core';
-import 'promise-polyfill';
-import 'whatwg-fetch';
-import stores from './stores';
-import App from './components/App';
-import { ThemeProvider } from 'styled-components';
-import theme from './styles/theme';
-import 'normalize.css';
-import './styles/global';
-import { isProduction } from './utils';
 
-useStrict(true);
+import { isProduction } from './utils/constants';
+import App from './components/App';
+import stores from './stores/stores';
+
 const store = rehydrate();
 
 const renderApp = Component => {
   render(
     <AppContainer>
-      <Provider store={isProduction ? store : hotRehydrate()}>
-        <ThemeProvider theme={theme}>
-          <Component />
-        </ThemeProvider>
-      </Provider>
+      <Router>
+        <Provider store={isProduction ? store : hotRehydrate()}>
+          <App />
+        </Provider>
+      </Router>
     </AppContainer>,
     document.getElementById('root')
   );
