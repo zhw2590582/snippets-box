@@ -1,87 +1,80 @@
-'use strict';
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { inject, observer } from 'mobx-react';
-import { notification } from 'antd';
-import Login from './Login';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import GistsList from './GistsList';
-import Content from './Content';
-import Loading from './Loading';
+import React, { Component } from "react";
+import { Route, Link, withRouter } from "react-router-dom";
+import { inject, observer } from "mobx-react";
+import LazyRoute from "lazy-route";
+import DevTools from "mobx-react-devtools";
 
-const AppContainer = styled.div`
-  height: 100%;
-  background: #fff;
-  font-size: 14px;
-`;
+import TopBar from "./TopBar";
 
-class App extends React.Component {
-  componentDidMount() {
-    let { setToken, setUserInfo, reset, createGist } = this.props.store;
+@withRouter
+@inject("store")
+@observer
+export default class App extends Component {
+	constructor(props) {
+		super(props);
+		this.store = this.props.store;
+	}
+	componentDidMount() {
+		this.authenticate();
+	}
+	authenticate(e) {
+		if (e) e.preventDefault();
+		this.store.appState.authenticate();
+	}
+	render() {
+		const {
+			authenticated,
+			authenticating,
+			timeToRefresh,
+			refreshToken,
+			testval
+		} = this.store.appState;
+		return (
+			<div className="wrapper">
+				{/*<DevTools />*/}
+				<TopBar />
 
-    // // 同步用户信息
-    // chrome.storage.local.get('userInfo', storage => {
-    //   storage.userInfo && setUserInfo(storage.userInfo);
-    // });
-
-    // // 同步access_token
-    // chrome.storage.local.get('access_token', storage => {
-    //   storage.access_token &&
-    //     setToken(storage.access_token, () => {
-    //       reset();
-    //     });
-    // });
-
-    // // 菜单创建Gist --- 从缓存
-    // chrome.storage.local.get('gistCache', storage => {
-    //   if(!storage.gistCache) return;
-    //   if(this.props.store.userInfo){
-    //     createGist(storage.gistCache);
-    //     chrome.storage.local.remove('gistCache');
-    //   } else {
-    //     notification.error({
-    //       message: 'Notification',
-    //       description: 'Please Login!'
-    //     });
-    //   }
-    // })
-    
-    // // 菜单创建Gist --- 从postMessage
-    // chrome.runtime.onConnect.addListener(port => {
-    //   port.onMessage.addListener(gistCache => {
-    //     if(gistCache.type !== 'creatGist') return;
-    //     if(this.props.store.userInfo){
-    //       createGist(gistCache);
-    //     } else {
-    //       notification.error({
-    //         message: 'Notification',
-    //         description: 'Please Login!'
-    //       });
-    //     }
-    //   });
-    // });
-  }
-
-  render() {
-    let { isLoading, userInfo, openGist } = this.props.store;
-    return userInfo ? (
-      <AppContainer>
-        <Header />
-        <Sidebar />
-        <GistsList />
-        {openGist && <Content />}
-        {isLoading && <Loading />}
-      </AppContainer>
-    ) : (
-      <Login />
-    );
-  }
+				<Route
+					exact
+					path="/"
+					render={props => (
+						<LazyRoute {...props} component={import("./Home")} />
+					)}
+				/>
+				<Route
+					exact
+					path="/posts"
+					render={props => (
+						<LazyRoute {...props} component={import("./SubPage")} />
+					)}
+				/>
+				<Route
+					exact
+					path="/posts/:id"
+					render={props => (
+						<LazyRoute {...props} component={import("./SubItem")} />
+					)}
+				/>
+				<Route
+					exact
+					path="/login"
+					render={props => (
+						<LazyRoute {...props} component={import("./Login")} />
+					)}
+				/>
+				<footer>
+					{testval}
+					<a href="https://twitter.com/mhaagens" target="_blank">
+						@mhaagens
+					</a>
+					{" "}
+					| github:
+					{" "}
+					<a href="https://github.com/mhaagens" target="_blank">
+						mhaagens
+					</a>
+				</footer>
+			</div>
+		);
+	}
 }
-
-App.propTypes = {
-  store: PropTypes.object
-};
-
-export default inject('store')(observer(App));
