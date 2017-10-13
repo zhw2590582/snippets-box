@@ -77,7 +77,7 @@ export class Stores {
     return res;
   }
 
-  // 获取用户信息
+  // 登录获取用户信息
   @action
   getUserInfo = async (code, callback) => {
     this.logging = true;
