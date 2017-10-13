@@ -110,10 +110,12 @@ class Login extends React.Component {
             <img
               className="logo"
               alt="logo"
+              width="70"
+              heigth="70"
               src={require('../images/icon-128.png')}
             />
             <p className="name">
-              SnippetsBox<span className="version">{version}</span>
+              Snippets Box<span className="version">{version}</span>
             </p>
             <p className="description">Snippet manager based on GitHub Gist</p>
           </div>
