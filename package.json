@@ -5,8 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js",
-    "build": "rimraf ./docs && webpack --config webpack.config.production.js",
-    "preview": "pushstate-server ./dist 1234"
+    "build": "rimraf ./docs && webpack --config webpack.config.production.js"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -32,7 +31,6 @@
     "node-sass": "^4.5.3",
     "postcss-cssnext": "^3.0.2",
     "postcss-loader": "^2.0.6",
-    "pushstate-server": "^3.0.1",
     "react-hot-loader": "next",
     "resolve-url-loader": "^2.1.0",
     "rimraf": "^2.5.4",
@@ -54,7 +52,6 @@
     "prop-types": "^15.5.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-router-dom": "latest",
     "store": "^2.0.12",
     "styled-components": "^2.0.0",
     "whatwg-fetch": "^2.0.3"
