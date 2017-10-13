@@ -42,7 +42,7 @@ class App extends React.Component {
 
     // 菜单创建Gist
     document.body.addEventListener('__snippets_box_hood__', e => {
-      if (e.target.baseURI !== redirect_uri) return;
+      if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist') return;
       console.log(e.detail);
     });
   }
