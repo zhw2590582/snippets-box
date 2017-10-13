@@ -11,8 +11,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'docs'),
     publicPath: '/snippets-box/',
-    filename: 'assets/[name].[hash].js',
-    chunkFilename: 'assets/[name].[chunkhash].js'
+    filename: '[name].[hash].js',
+    chunkFilename: '[name].[chunkhash].js'
   },
   devtool: 'cheap-module-source-map',
   module: {
@@ -48,7 +48,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               query: {
-                name: 'assets/[name].[ext]'
+                name: '[name].[ext]'
               }
             }
           },
@@ -103,7 +103,7 @@ module.exports = {
         comments: false
       }
     }),
-    new ExtractTextPlugin('assets/styles.css'),
+    new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       hash: false,
       favicon: './src/images/favicon.ico',
