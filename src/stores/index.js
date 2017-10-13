@@ -1,6 +1,6 @@
 import { observable, action, computed, runInAction } from 'mobx';
 import { post, get } from '../utils/fetch';
-import { resolveGist } from '../utils';
+import { resolveGist, errorHandle } from '../utils';
 import {
   setStorage,
   getStorage,
@@ -13,6 +13,7 @@ import Gists from 'gists';
 
 export class Stores {
   gistsApi = null; // Gists Api实例
+  @observable logging = false; // 登录中
   @observable isLoading = false; // 加载状态
   @observable access_token = ''; // 访问Token
   @observable userInfo = null; // 用户信息
@@ -79,17 +80,18 @@ export class Stores {
   // 获取用户信息
   @action
   getUserInfo = async (code, callback) => {
+    this.logging = true;
     let data = await get(
       `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&redirect_uri=${redirect_uri}`
     );
 
     if (!data.access_token) {
-      notification.error({
-        message: 'Notification',
-        description: 'Please login again!'
+      errorHandle('Can not get token, Please login again!', () => {
+        runInAction(() => {
+          history.replaceState(null, '', redirect_uri);
+          this.logging = false;
+        });
       });
-      history.replaceState(null, '', redirect_uri);
-      return;
     }
 
     let userInfo = await get(
@@ -97,12 +99,12 @@ export class Stores {
     );
 
     if (!userInfo.id) {
-      notification.error({
-        message: 'Notification',
-        description: 'Please login again!'
+      errorHandle('Can not get user info, Please login again!', () => {
+        runInAction(() => {
+          history.replaceState(null, '', redirect_uri);
+          this.logging = false;
+        });
       });
-      history.replaceState(null, '', redirect_uri);
-      return;
     }
 
     setStorage('access_token', data.access_token, () => {
@@ -112,6 +114,7 @@ export class Stores {
           this.userInfo = userInfo;
           this.reset();
           history.replaceState(null, '', redirect_uri);
+          this.logging = false;
           callback && callback();
         });
       });

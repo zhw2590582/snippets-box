@@ -1,3 +1,5 @@
+import { notification } from 'antd';
+
 // 运行环境
 export const isProduction = process.env.NODE_ENV === 'production';
 
@@ -21,4 +23,14 @@ export const resolveGist = gist => {
     gist.tags = [];
   }
   return gist;
+};
+
+// 错误抛出
+export const errorHandle = (err, callback) => {
+  notification.error({
+    message: 'Error !!!',
+    description: err
+  });
+  callback && callback();  
+  throw new TypeError(err);
 };
