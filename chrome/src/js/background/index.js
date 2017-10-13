@@ -1,16 +1,20 @@
 import '../../utils/hotReload';
 import { default_url } from '../../config';
 
+let port = null;
+
 // 打开唯一页面
 window.openPage = (url, callback) => {
   chrome.tabs.query({ currentWindow: true, url: url }, tabs => {
     if (tabs.length === 0) {
-      chrome.tabs.create({ url: url }, () => {
-        callback && callback('create', tabs);
+      chrome.tabs.create({ url: url }, tab => {
+        port = chrome.runtime.connect({ name: 'background' });
+        callback && callback('create', tab);
       });
     } else {
       chrome.tabs.highlight({ tabs: tabs[0].index }, () => {
-        callback && callback('highlight', tabs);
+        port = chrome.runtime.connect({ name: 'background' });
+        callback && callback('highlight', tabs[0]);
       });
     }
   });
@@ -40,7 +44,7 @@ chrome.contextMenus.create({
 
 // 菜单新建Gist
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-  goSnippets((type, tabs) => {
+  goSnippets((type, tab) => {
     // 拼接Gist信息
     let gistCache = {
       type: 'creatGist',
@@ -48,6 +52,13 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
       description: info.selectionText
     };
 
-    console.log(gistCache, tabs);
+    // 假如页面未打开则先缓存，等待组件创建完再新建Gist
+    if (type === 'create') {
+      chrome.storage.local.set({ gistCache });
+      return;
+    }
+
+    // 假如页面已打开则新建Gist
+    chrome.tabs.sendMessage(tab.id, gistCache);
   });
 });
