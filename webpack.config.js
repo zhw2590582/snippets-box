@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://0.0.0.0:3000',
+    'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     'babel-polyfill',
     'whatwg-fetch',
@@ -15,7 +15,7 @@ module.exports = {
     hot: true,
     contentBase: path.resolve(__dirname, 'dist'),
     port: 3000,
-    host: '0.0.0.0',
+    host: 'localhost',
     publicPath: '/',
     historyApiFallback: true,
     disableHostCheck: true
@@ -53,16 +53,27 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
-          'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+          {
+            loader: 'file-loader',
+            options: {
+              query: {
+                name: 'assets/[name].[ext]'
+              }
+            }
+          },
           {
             loader: 'image-webpack-loader',
             options: {
-              progressive: true,
-              optimizationLevel: 7,
-              interlaced: false,
-              pngquant: {
-                quality: '65-90',
-                speed: 4
+              query: {
+                mozjpeg: {
+                  progressive: true
+                },
+                gifsicle: {
+                  interlaced: true
+                },
+                optipng: {
+                  optimizationLevel: 7
+                }
               }
             }
           }
@@ -81,7 +92,11 @@ module.exports = {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({ hash: false, template: './index.hbs' }),
+    new HtmlWebpackPlugin({
+      hash: false,
+      favicon: './src/images/favicon.ico',
+      template: './index.hbs'
+    }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nb/)
   ]
 };

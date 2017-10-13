@@ -16,7 +16,7 @@ import './styles/global';
 import { isProduction } from './utils';
 
 useStrict(true);
-const store = rehydrate();
+const store = rehydrate().stores;
 
 const renderApp = Component => {
   render(
