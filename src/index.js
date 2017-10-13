@@ -1,10 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { AppContainer } from 'react-hot-loader';
-import { rehydrate, hotRehydrate } from 'rfx-core';
 import 'promise-polyfill';
 import 'whatwg-fetch';
 import stores from './stores';
@@ -13,15 +11,13 @@ import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 import 'normalize.css';
 import './styles/global';
-import { isProduction } from './utils';
 
 useStrict(true);
-const store = rehydrate().stores;
 
 const renderApp = Component => {
   render(
     <AppContainer>
-      <Provider store={isProduction ? store : hotRehydrate()}>
+      <Provider store={stores}>
         <ThemeProvider theme={theme}>
           <Component />
         </ThemeProvider>

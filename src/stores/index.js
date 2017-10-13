@@ -1,7 +1,12 @@
-import { store } from "rfx-core";
 import { observable, action, computed, runInAction } from 'mobx';
 import { post, get } from '../utils/fetch';
 import { resolveGist } from '../utils';
+import {
+  setStorage,
+  getStorage,
+  delStorage,
+  cleanStorage
+} from '../utils/storage';
 import { client_id, client_secret, redirect_uri } from '../config';
 import { notification } from 'antd';
 import Gists from 'gists';
@@ -83,8 +88,8 @@ export class Stores {
     );
 
     if (userInfo.id) {
-      chrome.storage.local.set({ access_token: data.access_token }, () => {
-        chrome.storage.local.set({ userInfo }, () => {
+      setStorage({ access_token: data.access_token }, () => {
+        setStorage({ userInfo }, () => {
           runInAction(() => {
             this.access_token = data.access_token;
             this.userInfo = userInfo;
@@ -122,7 +127,7 @@ export class Stores {
   @action
   logout = callback => {
     this.userInfo = null;
-    chrome.storage.local.clear();
+    cleanStorage();
     callback && callback();
   };
 
@@ -224,6 +229,4 @@ export class Stores {
   // 标记Gist
 }
 
-export default store.setup({
-	stores: Stores
-});
+export default new Stores();

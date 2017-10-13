@@ -5,12 +5,13 @@ import { inject, observer } from 'mobx-react';
 import { client_id, redirect_uri } from '../config';
 import { notification, Icon, Spin } from 'antd';
 import { version } from '../../package.json';
+import { getQueryString } from '../utils';
 
 //const { goOptions } = chrome.extension.getBackgroundPage();
 
 const LoginContainer = styled.div`
   height: 100%;
-  background: #fafafa url(${require("../images/login-bg.png")});
+  background: #fafafa url(${require('../images/login-bg.png')});
 
   .login-box {
     position: absolute;
@@ -35,7 +36,7 @@ const LoginContainer = styled.div`
         font-size: 20px;
         color: #000;
         margin-bottom: 10px;
-        .version{
+        .version {
           margin-left: 10px;
           color: #999;
           font-size: 14px;
@@ -92,18 +93,15 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    // chrome.runtime.onConnect.addListener(port => {
-    //   port.onMessage.addListener(data => {
-    //     if(data.type !== 'oauth') return;
-    //     this.props.store.getUserInfo(data.code, () => {
-    //       //goOptions();
-    //       notification.success({
-    //         message: 'Notification',
-    //         description: 'Login Successful!'
-    //       });
-    //     });
-    //   });
-    // });
+    const code = getQueryString('code');
+    if (code) {
+      this.props.store.getUserInfo(code, () => {
+        notification.success({
+          message: 'Notification',
+          description: 'Login Successful!'
+        });
+      });
+    }
   }
 
   render() {
@@ -111,7 +109,7 @@ class Login extends React.Component {
       <LoginContainer>
         <div className="login-box">
           <div className="logo">
-            <img src={require("../images/icon-128.png")} />
+            <img src={require('../images/icon-128.png')} />
             <p className="name">
               SnippetsBox<span className="version">{version}</span>
             </p>

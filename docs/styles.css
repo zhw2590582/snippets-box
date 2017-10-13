@@ -3673,6 +3673,267 @@ samp {
 
 /* stylelint-disable declaration-bang-space-before */
 
+.ant-notification {
+  position: fixed;
+  z-index: 1010;
+  margin-right: 24px;
+  width: 335px;
+}
+
+.ant-notification-topLeft,
+.ant-notification-bottomLeft {
+  margin-right: 0;
+  margin-left: 24px;
+}
+
+.ant-notification-topLeft .ant-notification-fade-enter.ant-notification-fade-enter-active,
+.ant-notification-bottomLeft .ant-notification-fade-enter.ant-notification-fade-enter-active,
+.ant-notification-topLeft .ant-notification-fade-appear.ant-notification-fade-appear-active,
+.ant-notification-bottomLeft .ant-notification-fade-appear.ant-notification-fade-appear-active {
+  -webkit-animation-name: NotificationLeftFadeIn;
+  animation-name: NotificationLeftFadeIn;
+}
+
+.ant-notification-notice {
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+  position: relative;
+  margin-bottom: 10px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+  border-radius: 4px;
+  background: #fff;
+  padding: 16px;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.ant-notification-notice-message {
+  display: inline-block;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, .85);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.ant-notification-notice-message-single-line-auto-margin {
+  display: block;
+  background-color: transparent;
+  width: calc(231px - 100%);
+  max-width: 4px;
+  pointer-events: none;
+}
+
+.ant-notification-notice-message-single-line-auto-margin:before {
+  display: block;
+  padding-bottom: 100%;
+  content: '';
+}
+
+.ant-notification-notice-description {
+  font-size: 12px;
+}
+
+.ant-notification-notice-closable .ant-notification-notice-message {
+  padding-right: 24px;
+}
+
+.ant-notification-notice-with-icon .ant-notification-notice-message {
+  margin-bottom: 4px;
+  margin-left: 48px;
+  font-size: 14px;
+}
+
+.ant-notification-notice-with-icon .ant-notification-notice-description {
+  margin-left: 48px;
+  font-size: 12px;
+}
+
+.ant-notification-notice-icon {
+  position: absolute;
+  font-size: 32px;
+  line-height: 32px;
+}
+
+.ant-notification-notice-icon-success {
+  color: #00a854;
+}
+
+.ant-notification-notice-icon-info {
+  color: #108ee9;
+}
+
+.ant-notification-notice-icon-warning {
+  color: #ffbf00;
+}
+
+.ant-notification-notice-icon-error {
+  color: #f04134;
+}
+
+.ant-notification-notice-close-x:after {
+  cursor: pointer;
+  font-family: "anticon";
+  font-size: 12px;
+  content: "\E633";
+}
+
+.ant-notification-notice-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  outline: none;
+  color: rgba(0, 0, 0, .43);
+  text-decoration: none;
+}
+
+.ant-notification-notice-close:hover {
+  color: #404040;
+}
+
+.ant-notification-notice-btn {
+  float: right;
+  margin-top: 16px;
+}
+
+.ant-notification .notification-fade-effect {
+  -webkit-animation-duration: 0.24s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  animation-duration: 0.24s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-notification-fade-enter,
+.ant-notification-fade-appear {
+  -webkit-animation-duration: 0.24s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-animation-play-state: paused;
+  opacity: 0;
+  animation-duration: 0.24s;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+  animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-notification-fade-leave {
+  -webkit-animation-duration: 0.24s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-play-state: paused;
+  animation-duration: 0.24s;
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+  animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-notification-fade-enter.ant-notification-fade-enter-active,
+.ant-notification-fade-appear.ant-notification-fade-appear-active {
+  -webkit-animation-name: NotificationFadeIn;
+  -webkit-animation-play-state: running;
+  animation-name: NotificationFadeIn;
+  animation-play-state: running;
+}
+
+.ant-notification-fade-leave.ant-notification-fade-leave-active {
+  -webkit-animation-name: NotificationFadeOut;
+  -webkit-animation-play-state: running;
+  animation-name: NotificationFadeOut;
+  animation-play-state: running;
+}
+
+@-webkit-keyframes NotificationFadeIn {
+  0% {
+    left: 335px;
+    opacity: 0;
+  }
+
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes NotificationFadeIn {
+  0% {
+    left: 335px;
+    opacity: 0;
+  }
+
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes NotificationLeftFadeIn {
+  0% {
+    right: 335px;
+    opacity: 0;
+  }
+
+  100% {
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes NotificationLeftFadeIn {
+  0% {
+    right: 335px;
+    opacity: 0;
+  }
+
+  100% {
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes NotificationFadeOut {
+  0% {
+    opacity: 1;
+    margin-bottom: 10px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    max-height: 150px;
+  }
+
+  100% {
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes NotificationFadeOut {
+  0% {
+    opacity: 1;
+    margin-bottom: 10px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    max-height: 150px;
+  }
+
+  100% {
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+  }
+}
+
+/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
+
+/* stylelint-disable declaration-bang-space-before */
+
+/* stylelint-disable declaration-bang-space-before */
+
 .ant-spin {
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
   display: none;
@@ -5393,267 +5654,6 @@ samp {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-  }
-}
-
-/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
-
-/* stylelint-disable declaration-bang-space-before */
-
-/* stylelint-disable declaration-bang-space-before */
-
-.ant-notification {
-  position: fixed;
-  z-index: 1010;
-  margin-right: 24px;
-  width: 335px;
-}
-
-.ant-notification-topLeft,
-.ant-notification-bottomLeft {
-  margin-right: 0;
-  margin-left: 24px;
-}
-
-.ant-notification-topLeft .ant-notification-fade-enter.ant-notification-fade-enter-active,
-.ant-notification-bottomLeft .ant-notification-fade-enter.ant-notification-fade-enter-active,
-.ant-notification-topLeft .ant-notification-fade-appear.ant-notification-fade-appear-active,
-.ant-notification-bottomLeft .ant-notification-fade-appear.ant-notification-fade-appear-active {
-  -webkit-animation-name: NotificationLeftFadeIn;
-  animation-name: NotificationLeftFadeIn;
-}
-
-.ant-notification-notice {
-  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
-  position: relative;
-  margin-bottom: 10px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
-  border-radius: 4px;
-  background: #fff;
-  padding: 16px;
-  overflow: hidden;
-  line-height: 1.5;
-}
-
-.ant-notification-notice-message {
-  display: inline-block;
-  margin-bottom: 4px;
-  color: rgba(0, 0, 0, .85);
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.ant-notification-notice-message-single-line-auto-margin {
-  display: block;
-  background-color: transparent;
-  width: calc(231px - 100%);
-  max-width: 4px;
-  pointer-events: none;
-}
-
-.ant-notification-notice-message-single-line-auto-margin:before {
-  display: block;
-  padding-bottom: 100%;
-  content: '';
-}
-
-.ant-notification-notice-description {
-  font-size: 12px;
-}
-
-.ant-notification-notice-closable .ant-notification-notice-message {
-  padding-right: 24px;
-}
-
-.ant-notification-notice-with-icon .ant-notification-notice-message {
-  margin-bottom: 4px;
-  margin-left: 48px;
-  font-size: 14px;
-}
-
-.ant-notification-notice-with-icon .ant-notification-notice-description {
-  margin-left: 48px;
-  font-size: 12px;
-}
-
-.ant-notification-notice-icon {
-  position: absolute;
-  font-size: 32px;
-  line-height: 32px;
-}
-
-.ant-notification-notice-icon-success {
-  color: #00a854;
-}
-
-.ant-notification-notice-icon-info {
-  color: #108ee9;
-}
-
-.ant-notification-notice-icon-warning {
-  color: #ffbf00;
-}
-
-.ant-notification-notice-icon-error {
-  color: #f04134;
-}
-
-.ant-notification-notice-close-x:after {
-  cursor: pointer;
-  font-family: "anticon";
-  font-size: 12px;
-  content: "\E633";
-}
-
-.ant-notification-notice-close {
-  position: absolute;
-  top: 10px;
-  right: 16px;
-  outline: none;
-  color: rgba(0, 0, 0, .43);
-  text-decoration: none;
-}
-
-.ant-notification-notice-close:hover {
-  color: #404040;
-}
-
-.ant-notification-notice-btn {
-  float: right;
-  margin-top: 16px;
-}
-
-.ant-notification .notification-fade-effect {
-  -webkit-animation-duration: 0.24s;
-  -webkit-animation-fill-mode: both;
-  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-  animation-duration: 0.24s;
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.ant-notification-fade-enter,
-.ant-notification-fade-appear {
-  -webkit-animation-duration: 0.24s;
-  -webkit-animation-fill-mode: both;
-  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-animation-play-state: paused;
-  opacity: 0;
-  animation-duration: 0.24s;
-  animation-fill-mode: both;
-  animation-play-state: paused;
-  animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.ant-notification-fade-leave {
-  -webkit-animation-duration: 0.24s;
-  -webkit-animation-fill-mode: both;
-  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-animation-duration: 0.2s;
-  -webkit-animation-play-state: paused;
-  animation-duration: 0.24s;
-  animation-duration: 0.2s;
-  animation-fill-mode: both;
-  animation-play-state: paused;
-  animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.ant-notification-fade-enter.ant-notification-fade-enter-active,
-.ant-notification-fade-appear.ant-notification-fade-appear-active {
-  -webkit-animation-name: NotificationFadeIn;
-  -webkit-animation-play-state: running;
-  animation-name: NotificationFadeIn;
-  animation-play-state: running;
-}
-
-.ant-notification-fade-leave.ant-notification-fade-leave-active {
-  -webkit-animation-name: NotificationFadeOut;
-  -webkit-animation-play-state: running;
-  animation-name: NotificationFadeOut;
-  animation-play-state: running;
-}
-
-@-webkit-keyframes NotificationFadeIn {
-  0% {
-    left: 335px;
-    opacity: 0;
-  }
-
-  100% {
-    left: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes NotificationFadeIn {
-  0% {
-    left: 335px;
-    opacity: 0;
-  }
-
-  100% {
-    left: 0;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes NotificationLeftFadeIn {
-  0% {
-    right: 335px;
-    opacity: 0;
-  }
-
-  100% {
-    right: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes NotificationLeftFadeIn {
-  0% {
-    right: 335px;
-    opacity: 0;
-  }
-
-  100% {
-    right: 0;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes NotificationFadeOut {
-  0% {
-    opacity: 1;
-    margin-bottom: 10px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    max-height: 150px;
-  }
-
-  100% {
-    opacity: 0;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    max-height: 0;
-  }
-}
-
-@keyframes NotificationFadeOut {
-  0% {
-    opacity: 1;
-    margin-bottom: 10px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    max-height: 150px;
-  }
-
-  100% {
-    opacity: 0;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    max-height: 0;
   }
 }
 
