@@ -11,7 +11,7 @@ export const getQueryString = name => {
 
 // 解析gist
 export const resolveGist = gist => {
-  if (gist.description.includes('@snippetsMeta')) {
+  if (gist.description && gist.description.includes('@snippetsMeta')) {
     let snippetsMeta = JSON.parse(gist.description.split('@snippetsMeta')[1]);
     gist.description = gist.description.split('@snippetsMeta')[0];
     gist.name = snippetsMeta.name;

@@ -80,16 +80,18 @@ export class Stores {
   @action
   getUserInfo = async (code, callback) => {
     let data = await get(
-      `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&redirect_uri=${redirect_uri}`
+      `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&redirect_uri=${redirect_uri}`
     );
+
+    if (!data.access_token) return;
 
     let userInfo = await get(
       `https://api.github.com/user?access_token=${data.access_token}`
     );
 
     if (userInfo.id) {
-      setStorage({ access_token: data.access_token }, () => {
-        setStorage({ userInfo }, () => {
+      setStorage('access_token', data.access_token, () => {
+        setStorage('userInfo', userInfo, () => {
           runInAction(() => {
             this.access_token = data.access_token;
             this.userInfo = userInfo;

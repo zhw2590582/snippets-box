@@ -146,7 +146,7 @@ class Header extends React.Component {
           className="logo fl clearfix"
           href="/"
         >
-          <img className="fl" src="../../../images/icon-128.png" />
+          <img className="fl" src={require('../images/icon-128.png')} />
           <span className="fl">SnippetsBox</span>
         </a>
         <div className="header-right fr clearfix">

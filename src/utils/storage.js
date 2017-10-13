@@ -19,8 +19,9 @@ export function decode(str) {
 }
 
 //设置localstorage
-export function setStorage(name, value) {
+export function setStorage(name, value, callback) {
   store.set(name, encode(JSON.stringify(value)));
+  callback && callback();
 }
 
 //读取localstorage

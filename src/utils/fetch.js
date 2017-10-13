@@ -9,7 +9,6 @@ export default function request(method, url, body) {
 
   return fetch(url, {
     method,
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json'
