@@ -17,7 +17,7 @@ const LoginContainer = styled.div`
     left: 50%;
     width: 340px;
     margin: -150px 0 0 -170px;
-    padding: 30px;
+    padding: 30px 0 10px;
     background: #fff;
     border-radius: 5px;
     text-align: center;
@@ -48,6 +48,7 @@ const LoginContainer = styled.div`
     .login-btn {
       display: inline-block;
       padding: 6px 12px;
+      margin-bottom: 30px;
       font-size: 14px;
       font-weight: 600;
       line-height: 20px;
@@ -68,6 +69,10 @@ const LoginContainer = styled.div`
       .anticon {
         margin-right: 10px;
       }
+    }
+
+    .login-footer {
+      color: #999;
     }
 
     .loading {
@@ -119,6 +124,15 @@ class Login extends React.Component {
             <Icon type="github" />
             Sign up with Github
           </a>
+          <div className="login-footer">
+            Created by{' '}
+            <a
+              href="https://github.com/zhw2590582/snippets-box"
+              target="_blank"
+            >
+              zhw2590582
+            </a>
+          </div>
           {this.props.store.logging && (
             <div className="loading">
               <Spin size="large" tip="Logging..." />
