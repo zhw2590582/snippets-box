@@ -9,6 +9,8 @@ import Sidebar from './Sidebar';
 import GistsList from './GistsList';
 import Content from './Content';
 import Loading from './Loading';
+import { isProduction } from '../utils';
+import DevTools from "mobx-react-devtools";
 
 const AppContainer = styled.div`
   height: 100%;
@@ -74,6 +76,7 @@ class App extends React.Component {
         <GistsList />
         {openGist && <Content />}
         {isLoading && <Loading />}
+        {!isProduction && <DevTools />}
       </AppContainer>
     ) : (
       <Login />
