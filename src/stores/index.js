@@ -83,25 +83,39 @@ export class Stores {
       `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&redirect_uri=${redirect_uri}`
     );
 
-    if (!data.access_token) return;
+    if (!data.access_token) {
+      notification.error({
+        message: 'Notification',
+        description: 'Please login again!'
+      });
+      history.replaceState(null, '', redirect_uri);
+      return;
+    }
 
     let userInfo = await get(
       `https://api.github.com/user?access_token=${data.access_token}`
     );
 
-    if (userInfo.id) {
-      setStorage('access_token', data.access_token, () => {
-        setStorage('userInfo', userInfo, () => {
-          runInAction(() => {
-            this.access_token = data.access_token;
-            this.userInfo = userInfo;
-            this.reset();
-            callback && callback();
-          });
+    if (!userInfo.id) {
+      notification.error({
+        message: 'Notification',
+        description: 'Please login again!'
+      });
+      history.replaceState(null, '', redirect_uri);
+      return;
+    }
+
+    setStorage('access_token', data.access_token, () => {
+      setStorage('userInfo', userInfo, () => {
+        runInAction(() => {
+          this.access_token = data.access_token;
+          this.userInfo = userInfo;
+          this.reset();
+          history.replaceState(null, '', redirect_uri);
+          callback && callback();
         });
       });
-    } else {
-    }
+    });
   };
 
   // 设置用户信息

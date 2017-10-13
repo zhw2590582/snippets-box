@@ -7,8 +7,6 @@ import { notification, Icon, Spin } from 'antd';
 import { version } from '../../package.json';
 import { getQueryString } from '../utils';
 
-//const { goOptions } = chrome.extension.getBackgroundPage();
-
 const LoginContainer = styled.div`
   height: 100%;
   background: #fafafa url(${require('../images/login-bg.png')});
@@ -88,13 +86,10 @@ const LoginContainer = styled.div`
 class Login extends React.Component {
   state = { logging: false };
 
-  login = () => {
-    this.setState({ logging: true });
-  };
-
   componentDidMount() {
     const code = getQueryString('code');
     if (code) {
+      this.setState({ logging: true });
       this.props.store.getUserInfo(code, () => {
         notification.success({
           message: 'Notification',
@@ -116,7 +111,6 @@ class Login extends React.Component {
             <p className="description">Snippet manager based on GitHub Gist</p>
           </div>
           <a
-            onClick={this.login}
             className="login-btn"
             href={`https://github.com/login/oauth/authorize?client_id=${client_id}&state=SnippetsBox&redirect_uri=${redirect_uri}&scope=gist`}
           >
