@@ -35,28 +35,23 @@ const GistsListContainer = styled.div`
 @inject('store')
 @observer
 class GistsList extends React.Component {
-  state = {
-    sort: 'all',
-    updated: false
-  };
-
   sortChange = e => {
-    this.setState({ sort: e.target.value });
+    this.props.store.setSort(e.target.value);
   };
 
   updated = e => {
-    this.setState({ updated: !this.state.updated });
+    this.props.store.setSort(null, true);
   };
 
   render() {
-    let { gistsList } = this.props.store;
+    let { gistsList, selected } = this.props.store;
     return (
       <GistsListContainer>
         <Scrollbars>
           <div className="sort clearfix">
             <div className="fl">
               <Radio.Group
-                value={this.state.sort}
+                value={selected.sort}
                 onChange={this.sortChange}
                 size="small"
               >

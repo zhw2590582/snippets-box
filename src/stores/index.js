@@ -25,9 +25,11 @@ export class Stores {
   @observable gistsByTag = []; // 标签过滤
   @observable // 过滤条件
   selected = {
-    type: '', // 类型
+    type: 'all', // 类型
     val: '', // 值
-    id: '' // 当前选中gist
+    id: '', // 当前选中gist
+    sort: 'all', // 公开排序
+    updated: false // 更新排序
   };
 
   // 获取所有语言
@@ -156,10 +158,9 @@ export class Stores {
   @action
   reset = callback => {
     this.setLoading(true);
-    this.selected = {
-      type: 'all',
-      val: ''
-    };
+    this.selected.type = 'all';
+    this.selected.sort = 'all';
+    this.selected.updated = false;
     this.setGistsApi(this.access_token, () => {
       this.getGists(() => {
         if (this.allGists.length > 0) {
@@ -197,11 +198,8 @@ export class Stores {
   // 获取某语言下的Gists
   @action
   getGistsByLanguage = (val, callback) => {
-    this.selected = {
-      type: 'language',
-      val: val,
-      id: ''
-    };
+    this.selected.type = 'language';
+    this.selected.val = val;
     this.filesByLanguage = [];
     this.allGists.forEach(gist => {
       Object.keys(gist.files).map(file => {
@@ -225,23 +223,26 @@ export class Stores {
     });
     this.gistsList = this.gistsByTag;
     this.getGistsOpen(this.gistsList[0].id);
-    this.selected = {
-      type: 'tag',
-      val: val,
-      id: this.gistsList[0].id
-    };
+    this.selected.type = 'tag';
+    this.selected.val = val;
+    this.selected.id = this.gistsList[0].id;
+    this.selected.sort = 'all';
+    this.selected.updated = false;
     console.log(this);
+  };
+
+  // 更新排序方式
+  @action
+  setSort = (sort, updated) => {
+    sort && (this.selected.sort = sort);
+    updated && (this.selected.updated = !this.selected.updated);
   };
 
   // 打开Gist
   @action
   getGistsOpen = (id, callback) => {
     this.setLoading(true);
-    this.selected = {
-      type: this.selected.type,
-      val: this.selected.val,
-      id: id
-    };
+    this.selected.id = id;
     this.gistsApi.download({ id }, (err, gist) => {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
