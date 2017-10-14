@@ -31,22 +31,56 @@ const HeaderContainer = styled.div`
   background: ${props => props.theme.headerBg};
   border-bottom: 1px solid ${props => props.theme.borderColor};
 
-  .header-left{
+  .header-left {
     width: ${props => props.theme.sidebarWidth};
     padding-left: 15px;
     border-right: 1px solid ${props => props.theme.borderColor};
-    .logo{
+    .logo {
       display: block;
-      img{
+      img {
         margin: 10px 15px 0 0;
       }
-      span{
+      span {
         font-size: 16px;
         color: #666;
       }
-      &:hover{
-        opacity: .75;
+      &:hover {
+        opacity: 0.75;
       }
+    }
+  }
+
+  .header-search {
+    padding-left: 15px;
+  }
+
+  .header-right {
+    .item{
+      margin-right: 20px;
+      color: #999;
+      &:hover{
+        color: #108ee9;
+      }
+    }
+    .creat{
+      padding-right: 20px;
+      border-right: 1px solid ${props => props.theme.borderColor};
+    }
+    .refresh{
+
+    }
+    .setting{
+
+    }
+    .about{
+      padding-right: 20px;
+      border-right: 1px solid ${props => props.theme.borderColor};
+    }
+    .name{
+
+    }
+    .logout{
+
     }
   }
 `;
@@ -55,6 +89,11 @@ const HeaderContainer = styled.div`
 @observer
 class Header extends React.Component {
   state = { settingVisible: false };
+
+  // 搜索
+  search = value => {
+    console.log(value);
+  };
 
   // 刷新
   reload = event => {
@@ -123,63 +162,58 @@ class Header extends React.Component {
       <HeaderContainer className="clearfix">
         <div className="header-left fl">
           <a className="logo clearfix" href={redirect_uri}>
-            <img className="fl" width="30" height="30" alt="logo" src={require('../images/icon-48.png')} />
+            <img
+              className="fl"
+              width="30"
+              height="30"
+              alt="logo"
+              src={require('../images/icon-48.png')}
+            />
             <span className="fl">Snippets Box</span>
           </a>
         </div>
+        <div className="header-search fl">
+          <Search
+            placeholder="Search by keyword or #label"
+            style={{ width: 300 }}
+            onSearch={this.search}
+          />
+        </div>
         <div className="header-right fr clearfix">
-          <div className="creat fl">
+          <div className="item creat fl">
             <Button type="primary" icon="file">
               New Gist
             </Button>
           </div>
-          <div className="search fl">
-            <InputGroup compact>
-              <Select defaultValue="Gists">
-                <Option value="Gists">Gists</Option>
-                <Option value="files">files</Option>
-                <Option value="Labels">Labels</Option>
-              </Select>
-              <Search
-                placeholder="Search by keyword"
-                style={{ width: 150 }}
-                onSearch={value => console.log(value)}
-              />
-            </InputGroup>
-          </div>
-          <div className="tools fl">
-            <Tooltip placement="bottom" title="Refresh Gists">
-              <a href="#" onClick={this.reload}>
-                <Icon type="reload" />
-              </a>
-            </Tooltip>
-            <Tooltip placement="bottom" title="Setting">
-              <a href="#" onClick={this.setting}>
-                <Icon type="setting" />
-              </a>
-            </Tooltip>
-            <Tooltip placement="bottom" title="About">
-              <a href="#" onClick={this.about}>
-                <Icon type="question-circle-o" />
-              </a>
-            </Tooltip>
-          </div>
-          <div className="profile fl">
-            <Tooltip placement="bottom" title="Open Github Gist">
-              <a
-                className="name"
-                href={`https://gist.github.com/${userInfo.login}`}
-                target="_blank"
-              >
-                <Icon type="github" />
-                {userInfo.login}
-              </a>
-            </Tooltip>
-            <a href="#" onClick={this.logout}>
-              <Icon type="logout" />
-              Logout
+          <Tooltip placement="bottom" title="Refresh Gists">
+            <a className="item refresh fl" href="#" onClick={this.reload}>
+              <Icon type="reload" />
             </a>
-          </div>
+          </Tooltip>
+          <Tooltip placement="bottom" title="Setting">
+            <a className="item setting fl" href="#" onClick={this.setting}>
+              <Icon type="setting" />
+            </a>
+          </Tooltip>
+          <Tooltip placement="bottom" title="About">
+            <a className="item about fl" href="#" onClick={this.about}>
+              <Icon type="question-circle-o" />
+            </a>
+          </Tooltip>
+          <Tooltip placement="bottom" title="Open Github Gist">
+            <a
+              className="item name fl"
+              href={`https://gist.github.com/${userInfo.login}`}
+              target="_blank"
+            >
+              <Icon type="github" />
+              {userInfo.login}
+            </a>
+          </Tooltip>
+          <a className="item logout fl" href="#" onClick={this.logout}>
+            <Icon type="logout" />
+            Logout
+          </a>
         </div>
         <Modal
           title="Setting"

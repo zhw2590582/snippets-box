@@ -64,7 +64,6 @@ class App extends React.Component {
         <GistsList />
         {openGist && <Content />}
         {isLoading && <Loading />}
-        {!isProduction && <DevTools />}
       </AppContainer>
     ) : (
       <Login />
