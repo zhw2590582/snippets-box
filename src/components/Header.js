@@ -13,6 +13,7 @@ import {
   Select
 } from 'antd';
 import Setting from './Setting';
+import About from './About';
 import { redirect_uri } from '../config';
 
 const InputGroup = Input.Group;
@@ -38,6 +39,8 @@ const HeaderContainer = styled.div`
     .logo {
       display: block;
       img {
+        width: 30px;
+        height: 30px;
         margin: 10px 15px 0 0;
       }
       span {
@@ -55,32 +58,37 @@ const HeaderContainer = styled.div`
   }
 
   .header-right {
-    .item{
+    .item {
       margin-right: 20px;
       color: #999;
-      &:hover{
+      &:hover {
         color: #108ee9;
       }
     }
-    .creat{
+    .creat {
       padding-right: 20px;
       border-right: 1px solid ${props => props.theme.borderColor};
     }
-    .refresh{
-
+    .refresh {
     }
-    .setting{
-
+    .setting {
     }
-    .about{
+    .about {
       padding-right: 20px;
       border-right: 1px solid ${props => props.theme.borderColor};
     }
-    .name{
-
+    .name {
+      img {
+        width: 30px;
+        height: 30px;
+        margin: 10px 10px 0 0;
+        border-radius: 50%;
+      }
     }
-    .logout{
-
+    .logout {
+      .anticon {
+        margin-right: 10px;
+      }
     }
   }
 `;
@@ -88,12 +96,18 @@ const HeaderContainer = styled.div`
 @inject('store')
 @observer
 class Header extends React.Component {
-  state = { settingVisible: false };
+  state = {
+    settingModal: false,
+    aboutModal: false
+  };
 
   // 搜索
   search = value => {
     console.log(value);
   };
+
+  // 创建
+  creat = () => {};
 
   // 刷新
   reload = event => {
@@ -111,27 +125,32 @@ class Header extends React.Component {
   // 关于
   about = event => {
     event.preventDefault();
+    Modal.info({
+      title: 'About Snippets Box',
+      content: <About />,
+      onOk() {}
+    });
   };
 
   // 设置
   setting = event => {
     event.preventDefault();
     this.setState({
-      settingVisible: true
+      settingModal: true
     });
   };
 
   // 设置 -- Ok
   settingOk = event => {
     this.setState({
-      settingVisible: false
+      settingModal: false
     });
   };
 
   // 设置 -- Cancel
   settingCancel = event => {
     this.setState({
-      settingVisible: false
+      settingModal: false
     });
   };
 
@@ -164,8 +183,6 @@ class Header extends React.Component {
           <a className="logo clearfix" href={redirect_uri}>
             <img
               className="fl"
-              width="30"
-              height="30"
               alt="logo"
               src={require('../images/icon-48.png')}
             />
@@ -181,7 +198,7 @@ class Header extends React.Component {
         </div>
         <div className="header-right fr clearfix">
           <div className="item creat fl">
-            <Button type="primary" icon="file">
+            <Button type="primary" icon="file" onClick={this.creat}>
               New Gist
             </Button>
           </div>
@@ -206,18 +223,19 @@ class Header extends React.Component {
               href={`https://gist.github.com/${userInfo.login}`}
               target="_blank"
             >
-              <Icon type="github" />
-              {userInfo.login}
+              <img className="fl" alt="avatar" src={userInfo.avatar_url} />
+              <span className="fl">{userInfo.login}</span>
             </a>
           </Tooltip>
-          <a className="item logout fl" href="#" onClick={this.logout}>
-            <Icon type="logout" />
-            Logout
-          </a>
+          <Tooltip placement="bottom" title="Logout">
+            <a className="item logout fl" href="#" onClick={this.logout}>
+              <Icon type="logout" />
+            </a>
+          </Tooltip>
         </div>
         <Modal
           title="Setting"
-          visible={this.state.settingVisible}
+          visible={this.state.settingModal}
           onOk={this.settingOk}
           onCancel={this.settingCancel}
         >
