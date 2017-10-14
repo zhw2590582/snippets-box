@@ -3,9 +3,11 @@ const theme = {
   bodyBg: '#fff',
   loadingBg: '#60d778',
   headerBg: '#fff',
+  borderColor: '#eaeaea',
 
   // 布局
   headerHeight: '50px',
+  sidebarWidth: '220px'
 };
 
 export default theme;

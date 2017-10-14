@@ -13,6 +13,7 @@ import {
   Select
 } from 'antd';
 import Setting from './Setting';
+import { redirect_uri } from '../config';
 
 const InputGroup = Input.Group;
 const Search = Input.Search;
@@ -27,8 +28,27 @@ const HeaderContainer = styled.div`
   width: 100%;
   height: ${props => props.theme.headerHeight};
   line-height: ${props => props.theme.headerHeight};
-  padding: 0 15px;
   background: ${props => props.theme.headerBg};
+  border-bottom: 1px solid ${props => props.theme.borderColor};
+
+  .header-left{
+    width: ${props => props.theme.sidebarWidth};
+    padding-left: 15px;
+    border-right: 1px solid ${props => props.theme.borderColor};
+    .logo{
+      display: block;
+      img{
+        margin: 10px 15px 0 0;
+      }
+      span{
+        font-size: 16px;
+        color: #666;
+      }
+      &:hover{
+        opacity: .75;
+      }
+    }
+  }
 `;
 
 @inject('store')
@@ -102,8 +122,8 @@ class Header extends React.Component {
     return (
       <HeaderContainer className="clearfix">
         <div className="header-left fl">
-          <a className="logo clearfix" href="/">
-            <img className="fl" src={require('../images/icon-128.png')} />
+          <a className="logo clearfix" href={redirect_uri}>
+            <img className="fl" width="30" height="30" alt="logo" src={require('../images/icon-48.png')} />
             <span className="fl">Snippets Box</span>
           </a>
         </div>
