@@ -31,7 +31,7 @@ class Sidebar extends React.Component {
       getGistsByTag
     } = this.props.store;
     return (
-      <SidebarContainer className="fl">
+      <SidebarContainer>
         {getTagsLength > 0 && (
           <Filter
             filterName="tag"

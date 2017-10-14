@@ -25,10 +25,10 @@ const HeaderContainer = styled.div`
   right: 0;
   z-index: 99;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: ${props => props.theme.headerHeight};
+  line-height: ${props => props.theme.headerHeight};
   padding: 0 15px;
-  background: #333;
+  background: ${props => props.theme.headerBg};
 `;
 
 @inject('store')
