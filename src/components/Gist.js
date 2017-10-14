@@ -8,7 +8,7 @@ import { Icon, Tooltip } from 'antd';
 const GistContainer = styled.div`
   .item {
     padding: 10px;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid ${props => props.theme.borderColor};
     &:hover,
     &.selected {
       background: #ecf6fd;
@@ -48,13 +48,15 @@ const GistContainer = styled.div`
 class Gist extends React.Component {
   render() {
     let { list } = this.props;
-    let { getGistsOpen } = this.props.store;
+    let { getGistsOpen, selected } = this.props.store;
     return (
       <GistContainer>
         {list.map(gist => {
           return (
             <div
-              className="item hand"
+              className={`item hand ${selected.id == gist.id
+              ? 'selected'
+              : ''}`}
               key={gist.id}
               onClick={getGistsOpen.bind(this, gist.id, e => e)}
             >

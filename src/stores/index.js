@@ -26,7 +26,8 @@ export class Stores {
   @observable // 过滤条件
   selected = {
     type: '',
-    val: ''
+    val: '',
+    id: '',
   };
 
   // 获取所有语言
@@ -154,14 +155,17 @@ export class Stores {
   // 重置
   @action
   reset = callback => {
-    this.selected = {
-      type: 'all'
-    };
     this.setLoading(true);
     this.setGistsApi(this.access_token, () => {
       this.getGists(() => {
         if (this.allGists.length > 0) {
           this.getGistsOpen(this.allGists[0].id);
+          this.gistsList = this.allGists;
+          this.selected = {
+            type: 'all',
+            val: this.selected.val,
+            id: this.gistsList[0].id,
+          };
         } else {
           this.setLoading(false);
         }
@@ -184,7 +188,7 @@ export class Stores {
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
       if (err) throw new TypeError(err);
       runInAction(() => {
-        this.gistsList = this.allGists = res.map(gist => resolveGist(gist));
+        this.allGists = res.map(gist => resolveGist(gist));
         callback && callback();
       });
     });
@@ -195,7 +199,8 @@ export class Stores {
   getGistsByLanguage = (val, callback) => {
     this.selected = {
       type: 'language',
-      val: val
+      val: val,
+      id: '',
     };
     this.filesByLanguage = [];
     this.allGists.forEach(gist => {
@@ -212,10 +217,6 @@ export class Stores {
   // 获取某标签下的Gists
   @action
   getGistsByTag = (val, callback) => {
-    this.selected = {
-      type: 'tag',
-      val: val
-    };
     this.gistsByTag = [];
     this.allGists.forEach(gist => {
       gist.tags.length > 0 &&
@@ -223,6 +224,11 @@ export class Stores {
         this.gistsByTag.push(gist);
     });
     this.gistsList = this.gistsByTag;
+    this.selected = {
+      type: 'tag',
+      val: val,
+      id: this.gistsList[0].id,
+    };
     console.log(this);
   };
 
@@ -230,6 +236,11 @@ export class Stores {
   @action
   getGistsOpen = (id, callback) => {
     this.setLoading(true);
+    this.selected = {
+      type: this.selected.type,
+      val: this.selected.val,
+      id: id
+    };
     this.gistsApi.download({ id }, (err, gist) => {
       if (err) throw new TypeError(err);
       runInAction(() => {
