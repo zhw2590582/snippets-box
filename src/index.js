@@ -9,7 +9,6 @@ import stores from './stores';
 import App from './components/App';
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
-import 'normalize.css';
 import './styles/global';
 
 useStrict(true);

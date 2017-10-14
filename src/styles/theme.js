@@ -3,6 +3,7 @@ const theme = {
   bodyBg: '#fff',
   loadingBg: '#60d778',
   headerBg: '#fff',
+  sidebarBg: '#fff',
   borderColor: '#eaeaea',
 
   // 布局

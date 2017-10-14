@@ -173,8 +173,6 @@ class Header extends React.Component {
     });
   };
 
-  componentDidMount() {}
-
   render() {
     let { userInfo } = this.props.store;
     return (

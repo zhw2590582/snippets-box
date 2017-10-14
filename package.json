@@ -53,6 +53,7 @@
     "promise-polyfill": "^6.0.2",
     "prop-types": "^15.5.0",
     "react": "^16.0.0",
+    "react-custom-scrollbars": "^4.1.2",
     "react-dom": "^16.0.0",
     "store": "^2.0.12",
     "styled-components": "^2.0.0",
