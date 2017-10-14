@@ -62,7 +62,7 @@ class App extends React.Component {
         <Header />
         <Sidebar />
         <GistsList />
-        {openGist && <Content />}
+        <Content />
         {isLoading && <Loading />}
       </AppContainer>
     ) : (

@@ -144,81 +144,88 @@ class Content extends React.Component {
   render() {
     let { openGist } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
-    let defaultActiveKey = Object.keys(openGist.files).map(
+    let defaultActiveKey = openGist && Object.keys(openGist.files).map(
       (file, index) => '' + index
     );
     return (
       <ContentContainer>
-        <div className="gistheader">
-          <div className="name text-ellipsis">
-            {openGist.public ? (
-              <Tooltip placement="bottom" title="Public">
-                <Icon type="unlock" />
-              </Tooltip>
-            ) : (
-              <Tooltip placement="bottom" title="Private">
-                <Icon type="lock" />
-              </Tooltip>
-            )}
-            {openGist.name || 'No Name'}
-          </div>
-          <div className="date">
-            {`${Object.keys(openGist.files).length} Files – Created on ${moment(
-              openGist.created_at
-            ).format('YYYY-MM-DD HH:mm:ss')} – Last updated ${moment(
-              openGist.updated_at
-            ).format('YYYY-MM-DD HH:mm:ss')}`}
-          </div>
-          <div className="description">
-            {openGist.description || 'No Description'}
-          </div>
-          <div className="tags clearfix">
-            {openGist.tags.length > 0
-              ? openGist.tags.map(tag => (
-                  <span className="fl" key={tag}>
-                    <Icon type="tags" />
-                    {tag}
-                  </span>
-                ))
-              : 'No Labels'}
-          </div>
-        </div>
-        <Affix offsetTop={50}>
-          <div className="gistTools clearfix">
-            <ButtonGroup className="fl">
-              <Button icon="edit">Edit</Button>
-              <Button icon="eye-o">Open</Button>
-              <Button icon="delete">Delete</Button>
-            </ButtonGroup>
-          </div>
-        </Affix>
-        <div className="gistCode">
-          <Collapse
-            defaultActiveKey={defaultActiveKey}
-            onChange={this.panelChange}
-          >
-            {Object.keys(openGist.files).map((file, index) => {
-              let fileItem = openGist.files[file];
-              return (
-                <Panel
-                  header={<PanelHeader file={fileItem} />}
-                  key={'' + index}
-                >
-                  <pre className="line-numbers">
-                    <code
-                      className={
-                        'language-' +
-                        (fileItem.language || 'Text').toLowerCase()
-                      }
+        {openGist ? (
+          <div>
+            <div className="gistheader">
+              <div className="name text-ellipsis">
+                {openGist.public ? (
+                  <Tooltip placement="bottom" title="Public">
+                    <Icon type="unlock" />
+                  </Tooltip>
+                ) : (
+                  <Tooltip placement="bottom" title="Private">
+                    <Icon type="lock" />
+                  </Tooltip>
+                )}
+                {openGist.name || 'No Name'}
+              </div>
+              <div className="date">
+                {`${Object.keys(openGist.files)
+                  .length} Files – Created on ${moment(
+                  openGist.created_at
+                ).format('YYYY-MM-DD HH:mm:ss')} – Last updated ${moment(
+                  openGist.updated_at
+                ).format('YYYY-MM-DD HH:mm:ss')}`}
+              </div>
+              <div className="description">
+                {openGist.description || 'No Description'}
+              </div>
+              <div className="tags clearfix">
+                {openGist.tags.length > 0
+                  ? openGist.tags.map(tag => (
+                      <span className="fl" key={tag}>
+                        <Icon type="tags" />
+                        {tag}
+                      </span>
+                    ))
+                  : 'No Labels'}
+              </div>
+            </div>
+            <Affix offsetTop={50}>
+              <div className="gistTools clearfix">
+                <ButtonGroup className="fl">
+                  <Button icon="edit">Edit</Button>
+                  <Button icon="eye-o">Open</Button>
+                  <Button icon="delete">Delete</Button>
+                </ButtonGroup>
+              </div>
+            </Affix>
+            <div className="gistCode">
+              <Collapse
+                defaultActiveKey={defaultActiveKey}
+                onChange={this.panelChange}
+              >
+                {Object.keys(openGist.files).map((file, index) => {
+                  let fileItem = openGist.files[file];
+                  return (
+                    <Panel
+                      header={<PanelHeader file={fileItem} />}
+                      key={'' + index}
                     >
-                      {fileItem.content}
-                    </code>
-                  </pre>
-                </Panel>
-              );
-            })}
-          </Collapse>
-        </div>
+                      <pre className="line-numbers">
+                        <code
+                          className={
+                            'language-' +
+                            (fileItem.language || 'Text').toLowerCase()
+                          }
+                        >
+                          {fileItem.content}
+                        </code>
+                      </pre>
+                    </Panel>
+                  );
+                })}
+              </Collapse>
+            </div>
+          </div>
+        ) : (
+          'Select a Gist to view'
+        )}
       </ContentContainer>
     );
   }

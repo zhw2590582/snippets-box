@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { inject, observer } from 'mobx-react';
 import Gist from './Gist';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Icon, Radio, Switch, Checkbox } from 'antd';
+import { Icon, Radio, Checkbox } from 'antd';
 
 const GistsListContainer = styled.div`
   position: fixed;
@@ -37,7 +37,7 @@ const GistsListContainer = styled.div`
 class GistsList extends React.Component {
   state = {
     sort: 'all',
-    updated: false,
+    updated: false
   };
 
   sortChange = e => {
@@ -46,7 +46,7 @@ class GistsList extends React.Component {
 
   updated = e => {
     this.setState({ updated: !this.state.updated });
-  }
+  };
 
   render() {
     let { gistsList } = this.props.store;
@@ -55,7 +55,11 @@ class GistsList extends React.Component {
         <Scrollbars>
           <div className="sort clearfix">
             <div className="fl">
-              <Radio.Group value={this.state.sort} onChange={this.sortChange} size="small">
+              <Radio.Group
+                value={this.state.sort}
+                onChange={this.sortChange}
+                size="small"
+              >
                 <Radio.Button value="all">All</Radio.Button>
                 <Radio.Button value="public">Public</Radio.Button>
                 <Radio.Button value="private">Private</Radio.Button>
