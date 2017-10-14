@@ -10,6 +10,7 @@ class Filter extends React.Component {
   render() {
     let { filterName, filterList, length, filterFn } = this.props;
     let { selected } = this.props.store;
+
     return (
       <div className="filter">
         <div className="title">
@@ -18,7 +19,7 @@ class Filter extends React.Component {
         </div>
         {Object.keys(filterList).map(item => {
           return (
-            <a href="#" 
+            <div
               className={`item hand clearfix ${selected.type == filterName &&
               selected.val == item
                 ? 'selected'
@@ -28,7 +29,7 @@ class Filter extends React.Component {
             >
               <span className="fl name"># {item}</span>
               <span className="fr num">{filterList[item]}</span>
-            </a>
+            </div>
           );
         })}
       </div>

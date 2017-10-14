@@ -73,8 +73,7 @@ class Sidebar extends React.Component {
               <Icon type="tags-o" />
               {` Favorites`}
             </div>
-            <a
-              href="#"
+            <div
               className={`item hand clearfix ${selected.type == 'all'
                 ? 'selected'
                 : ''}`}
@@ -82,7 +81,7 @@ class Sidebar extends React.Component {
             >
               <span className="fl name"># My Gists</span>
               <span className="fr num">{allGists.length}</span>
-            </a>
+            </div>
             <a
               href={`https://gist.github.com/${userInfo.login}/starred`}
               className="item clearfix hand"
