@@ -1,11 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    vendor: ['react', 'react-dom', 'react-router'],
+    vendor: ['react', 'react-dom'],
     app: ['babel-polyfill', './src/index']
   },
   output: {
@@ -30,16 +29,21 @@ module.exports = {
         }
       },
       {
-        test: /\.scss|css$/i,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            'postcss-loader?sourceMap',
-            'resolve-url-loader',
-            'sass-loader?sourceMap'
-          ]
-        })
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [require('autoprefixer')()]
+            }
+          }
+        ]
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -103,7 +107,6 @@ module.exports = {
         comments: false
       }
     }),
-    new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       hash: false,
       favicon: './src/images/favicon.ico',

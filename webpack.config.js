@@ -41,13 +41,20 @@ module.exports = {
         }
       },
       {
-        test: /\.scss|css$/,
+        test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'resolve-url-loader',
-          'sass-loader?sourceMap'
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [require('autoprefixer')()]
+            }
+          }
         ]
       },
       {
