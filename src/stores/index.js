@@ -177,6 +177,9 @@ export class Stores {
   // 获取gists
   @action
   getGists = callback => {
+    this.selected = {
+      type: 'all'
+    };
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
       if (err) throw new TypeError(err);
       runInAction(() => {

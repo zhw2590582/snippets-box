@@ -54,7 +54,9 @@ const SidebarContainer = styled.div`
 class Sidebar extends React.Component {
   render() {
     let {
+      selected,
       allGists,
+      getGists,
       userInfo,
       getLanguages,
       getTags,
@@ -71,7 +73,13 @@ class Sidebar extends React.Component {
               <Icon type="tags-o" />
               {` Favorites`}
             </div>
-            <a href="#" className="item clearfix hand">
+            <a
+              href="#"
+              className={`item hand clearfix ${selected.type == 'all'
+                ? 'selected'
+                : ''}`}
+              onClick={getGists.bind(this)}
+            >
               <span className="fl name"># My Gists</span>
               <span className="fr num">{allGists.length}</span>
             </a>
