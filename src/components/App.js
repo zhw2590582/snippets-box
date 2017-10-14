@@ -16,7 +16,7 @@ import { redirect_uri } from '../config';
 
 const AppContainer = styled.div`
   height: 100%;
-  background: #fff;
+  background: ${props => props.theme.bodyBg};
   font-size: 14px;
 `;
 
@@ -42,8 +42,9 @@ class App extends React.Component {
 
     // 菜单创建Gist
     document.body.addEventListener('__snippets_box_hood__', e => {
-      if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist') return;
-      if(this.props.store.userInfo){
+      if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist')
+        return;
+      if (this.props.store.userInfo) {
         console.log(e.detail);
       } else {
         notification.error({

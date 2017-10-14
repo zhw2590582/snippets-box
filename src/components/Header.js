@@ -12,6 +12,7 @@ import {
   Input,
   Select
 } from 'antd';
+import Setting from './Setting';
 
 const InputGroup = Input.Group;
 const Search = Input.Search;
@@ -28,50 +29,6 @@ const HeaderContainer = styled.div`
   line-height: 50px;
   padding: 0 15px;
   background: #333;
-
-  a {
-    color: #fff;
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-
-  .logo {
-    font-size: 18px;
-    img {
-      width: 30px;
-      height: 30px;
-      margin: 10px 10px 0 0;
-    }
-  }
-
-  .header-right {
-    .creat {
-      margin-right: 15px;
-    }
-    .search {
-      padding-left: 15px;
-      border-left: 1px solid #585858;
-      width: 235px;
-    }
-    .tools {
-      padding-left: 15px;
-      border-left: 1px solid #585858;
-      a {
-        margin-right: 15px;
-      }
-    }
-    .profile {
-      padding-left: 15px;
-      border-left: 1px solid #585858;
-      .anticon {
-        margin-right: 5px;
-      }
-      .name {
-        margin-right: 20px;
-      }
-    }
-  }
 `;
 
 @inject('store')
@@ -79,6 +36,7 @@ const HeaderContainer = styled.div`
 class Header extends React.Component {
   state = { settingVisible: false };
 
+  // 刷新
   reload = event => {
     event.preventDefault();
     this.props.store.setLoading(true);
@@ -91,10 +49,12 @@ class Header extends React.Component {
     });
   };
 
+  // 关于
   about = event => {
     event.preventDefault();
   };
 
+  // 设置
   setting = event => {
     event.preventDefault();
     this.setState({
@@ -102,18 +62,21 @@ class Header extends React.Component {
     });
   };
 
+  // 设置 -- Ok
   settingOk = event => {
     this.setState({
       settingVisible: false
     });
   };
 
+  // 设置 -- Cancel
   settingCancel = event => {
     this.setState({
       settingVisible: false
     });
   };
 
+  // 登出
   logout = event => {
     event.preventDefault();
     let that = this;
@@ -124,31 +87,26 @@ class Header extends React.Component {
         that.props.store.logout(() => {
           notification.success({
             message: 'Notification',
-            description: 'Sign Out Successful'
+            description: 'Sign Out Successful！'
           });
         });
       },
-      onCancel() {
-        console.log('Cancel');
-      }
+      onCancel() {}
     });
   };
 
-  componentDidMount() {
-    //console.log(this.props.store);
-  }
+  componentDidMount() {}
 
   render() {
     let { userInfo } = this.props.store;
     return (
       <HeaderContainer className="clearfix">
-        <a
-          className="logo fl clearfix"
-          href="/"
-        >
-          <img className="fl" src={require('../images/icon-128.png')} />
-          <span className="fl">SnippetsBox</span>
-        </a>
+        <div className="header-left fl">
+          <a className="logo clearfix" href="/">
+            <img className="fl" src={require('../images/icon-128.png')} />
+            <span className="fl">Snippets Box</span>
+          </a>
+        </div>
         <div className="header-right fr clearfix">
           <div className="creat fl">
             <Button type="primary" icon="file">
@@ -209,9 +167,7 @@ class Header extends React.Component {
           onOk={this.settingOk}
           onCancel={this.settingCancel}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <Setting />
         </Modal>
       </HeaderContainer>
     );
