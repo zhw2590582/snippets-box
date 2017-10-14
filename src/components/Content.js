@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { inject, observer } from 'mobx-react';
-import { Icon, Tooltip, Collapse, notification, Button } from 'antd';
+import { Icon, Tooltip, Collapse, notification, Button, Affix } from 'antd';
 import moment from 'moment';
 import Clipboard from 'clipboard';
 import Prism from '../utils/prism';
@@ -123,7 +123,6 @@ PanelHeader.propTypes = {
   file: PropTypes.object.isRequired
 };
 
-
 @inject('store')
 @observer
 class Content extends React.Component {
@@ -184,17 +183,19 @@ class Content extends React.Component {
               : 'No Labels'}
           </div>
         </div>
-        <div className="gistTools clearfix">
-          <ButtonGroup className="fl">
-            <Button icon="edit">Edit</Button>
-            <Button icon="delete">Delete</Button>
-          </ButtonGroup>
-          <ButtonGroup className="fr">
-            <Button icon="export">Open</Button>
-            <Button icon="star-o">Star</Button>
-            <Button icon="star">Unstar</Button>
-          </ButtonGroup>
-        </div>
+        <Affix offsetTop={50}>
+          <div className="gistTools clearfix">
+            <ButtonGroup className="fl">
+              <Button icon="edit">Edit</Button>
+              <Button icon="delete">Delete</Button>
+            </ButtonGroup>
+            <ButtonGroup className="fr">
+              <Button icon="export">Open</Button>
+              <Button icon="star-o">Star</Button>
+              <Button icon="star">Unstar</Button>
+            </ButtonGroup>
+          </div>
+        </Affix>
         <div className="gistCode">
           <Collapse
             defaultActiveKey={defaultActiveKey}
