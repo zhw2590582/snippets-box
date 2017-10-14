@@ -18,6 +18,7 @@ export class Stores {
   @observable access_token = ''; // 访问Token
   @observable userInfo = null; // 用户信息
   @observable allGists = []; // 所有Gists
+  @observable gistsList = []; // 当前Gists
   @observable openGist = null; // 打开Gist
   @observable newGist = null; // 新建Gist
   @observable filesByLanguage = []; // 语言过滤
@@ -153,6 +154,9 @@ export class Stores {
   // 重置
   @action
   reset = callback => {
+    this.selected = {
+      type: 'all'
+    };
     this.setLoading(true);
     this.setGistsApi(this.access_token, () => {
       this.getGists(() => {
@@ -177,13 +181,10 @@ export class Stores {
   // 获取gists
   @action
   getGists = callback => {
-    this.selected = {
-      type: 'all'
-    };
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
       if (err) throw new TypeError(err);
       runInAction(() => {
-        this.allGists = res.map(gist => resolveGist(gist));
+        this.gistsList = this.allGists = res.map(gist => resolveGist(gist));
         callback && callback();
       });
     });
@@ -204,6 +205,7 @@ export class Stores {
           this.filesByLanguage.push(gist.files[file]);
       });
     });
+    this.gistsList = [];
     console.log(this);
   };
 
@@ -220,6 +222,7 @@ export class Stores {
         gist.tags.includes(val) &&
         this.gistsByTag.push(gist);
     });
+    this.gistsList = this.gistsByTag;
     console.log(this);
   };
 

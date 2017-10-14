@@ -56,7 +56,7 @@ class Sidebar extends React.Component {
     let {
       selected,
       allGists,
-      getGists,
+      reset,
       userInfo,
       getLanguages,
       getTags,
@@ -77,7 +77,7 @@ class Sidebar extends React.Component {
               className={`item hand clearfix ${selected.type == 'all'
                 ? 'selected'
                 : ''}`}
-              onClick={getGists.bind(this)}
+              onClick={reset.bind(this)}
             >
               <span className="fl name"># My Gists</span>
               <span className="fr num">{allGists.length}</span>
