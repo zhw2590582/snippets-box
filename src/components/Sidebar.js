@@ -86,6 +86,7 @@ class Sidebar extends React.Component {
             <a
               href={`https://gist.github.com/${userInfo.login}/starred`}
               className="item clearfix hand"
+              target="_blank"
             >
               <span className="fl name"># Starred</span>
             </a>

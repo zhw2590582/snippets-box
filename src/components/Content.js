@@ -187,12 +187,8 @@ class Content extends React.Component {
           <div className="gistTools clearfix">
             <ButtonGroup className="fl">
               <Button icon="edit">Edit</Button>
+              <Button icon="eye-o">Open</Button>
               <Button icon="delete">Delete</Button>
-            </ButtonGroup>
-            <ButtonGroup className="fr">
-              <Button icon="export">Open</Button>
-              <Button icon="star-o">Star</Button>
-              <Button icon="star">Unstar</Button>
             </ButtonGroup>
           </div>
         </Affix>
