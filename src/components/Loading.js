@@ -8,7 +8,7 @@ const LoadingContainer = styled.div`
   right: 0;
   height: 2px;
   z-index: 99999;
-  background: ${props => props.theme.loadingBg};
+  background: ${props => props.theme.primary};
   -webkit-transform: translateX(100%);
   -moz-transform: translateX(100%);
   -o-transform: translateX(100%);

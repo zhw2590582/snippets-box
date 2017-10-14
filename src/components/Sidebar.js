@@ -38,12 +38,12 @@ const SidebarContainer = styled.div`
         color: #999;
       }
       &:hover {
-        color: #108ee9;
+        color: ${props => props.theme.primary};
       }
       &.selected {
-        color: #108ee9;
+        color: ${props => props.theme.primary};
         background: #ecf6fd;
-        border-left: 2px solid #108ee9;
+        border-left: 2px solid ${props => props.theme.primary};
       }
     }
   }

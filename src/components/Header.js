@@ -62,7 +62,7 @@ const HeaderContainer = styled.div`
       margin-right: 20px;
       color: #999;
       &:hover {
-        color: #108ee9;
+        color: ${props => props.theme.primary};
       }
     }
     .creat {
@@ -221,7 +221,7 @@ class Header extends React.Component {
               href={`https://gist.github.com/${userInfo.login}`}
               target="_blank"
             >
-              <img className="fl" alt="avatar" src={userInfo.avatar_url} />
+              <img className="fl" src={userInfo.avatar_url} />
               <span className="fl">{userInfo.login}</span>
             </a>
           </Tooltip>

@@ -25,9 +25,9 @@ export class Stores {
   @observable gistsByTag = []; // 标签过滤
   @observable // 过滤条件
   selected = {
-    type: '',
-    val: '',
-    id: '',
+    type: '', // 类型
+    val: '', // 值
+    id: '' // 当前选中gist
   };
 
   // 获取所有语言
@@ -158,7 +158,7 @@ export class Stores {
     this.setLoading(true);
     this.selected = {
       type: 'all',
-      val: '',
+      val: ''
     };
     this.setGistsApi(this.access_token, () => {
       this.getGists(() => {
@@ -186,7 +186,7 @@ export class Stores {
   @action
   getGists = callback => {
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
-      if (err) throw new TypeError(err);
+      if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.allGists = res.map(gist => resolveGist(gist));
         callback && callback();
@@ -200,7 +200,7 @@ export class Stores {
     this.selected = {
       type: 'language',
       val: val,
-      id: '',
+      id: ''
     };
     this.filesByLanguage = [];
     this.allGists.forEach(gist => {
@@ -224,10 +224,11 @@ export class Stores {
         this.gistsByTag.push(gist);
     });
     this.gistsList = this.gistsByTag;
+    this.getGistsOpen(this.gistsList[0].id);
     this.selected = {
       type: 'tag',
       val: val,
-      id: this.gistsList[0].id,
+      id: this.gistsList[0].id
     };
     console.log(this);
   };
@@ -242,7 +243,7 @@ export class Stores {
       id: id
     };
     this.gistsApi.download({ id }, (err, gist) => {
-      if (err) throw new TypeError(err);
+      if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.openGist = resolveGist(gist);
         this.setLoading(false);

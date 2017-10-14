@@ -1,7 +1,7 @@
 const theme = {
   // 颜色
   bodyBg: '#fff',
-  loadingBg: '#60d778',
+  primary: '#108ee9',
   headerBg: '#fff',
   sidebarBg: '#fff',
   gistsListBg: '#fff',
