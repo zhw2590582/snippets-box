@@ -156,16 +156,16 @@ export class Stores {
   @action
   reset = callback => {
     this.setLoading(true);
+    this.selected = {
+      type: 'all',
+      val: '',
+    };
     this.setGistsApi(this.access_token, () => {
       this.getGists(() => {
         if (this.allGists.length > 0) {
           this.getGistsOpen(this.allGists[0].id);
           this.gistsList = this.allGists;
-          this.selected = {
-            type: 'all',
-            val: this.selected.val,
-            id: this.gistsList[0].id,
-          };
+          this.selected.id = this.gistsList[0].id;
         } else {
           this.setLoading(false);
         }
