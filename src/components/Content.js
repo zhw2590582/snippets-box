@@ -151,7 +151,7 @@ class Content extends React.Component {
   };
 
   render() {
-    let { openGist, userInfo, unstar, star, selected } = this.props.store;
+    let { openGist, userInfo, unstar, star, selected, destroy } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
     let defaultActiveKey =
       openGist && Object.keys(openGist.files).map((file, index) => '' + index);
@@ -210,7 +210,7 @@ class Content extends React.Component {
                 {openGist.owner.login === userInfo.login && (
                   <ButtonGroup className="fl">
                     <Button icon="edit">Edit</Button>
-                    <Button icon="delete">Delete</Button>
+                    <Button icon="delete" onClick={destroy.bind(this, openGist.id, e => null)}>Delete</Button>
                   </ButtonGroup>
                 )}
                 <ButtonGroup className="fr">

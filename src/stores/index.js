@@ -8,7 +8,7 @@ import {
   cleanStorage
 } from '../utils/storage';
 import { client_id, client_secret, redirect_uri } from '../config';
-import { notification } from 'antd';
+import { notification, Modal } from 'antd';
 import Gists from 'gists';
 
 export class Stores {
@@ -171,6 +171,8 @@ export class Stores {
             this.gistsList = this.allGists;
           });
         } else {
+          this.gistsList = [];
+          this.openGist = null;
           this.setLoading(false);
         }
         this.getStarredOne();
@@ -341,10 +343,32 @@ export class Stores {
   };
 
   // 删除Gist
+  @action
+  destroy = (id, callback) => {
+    let that = this;
+    Modal.confirm({
+      title: 'Do you Want to delete this gist?',
+      content: '',
+      onOk() {
+        that.setLoading(true);
+        that.gistsApi.destroy({ id }, err => {
+          if (err) errorHandle('Please check your network!');
+          notification.success({
+            message: 'Notification',
+            description: 'Delete Success!'
+          });
+          that.reset();
+          that.setLoading(false);
+          callback && callback();
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      }
+    });
+  };
 
   // 编辑Gist
-
-  // 标记Gist
 }
 
 export default new Stores();
