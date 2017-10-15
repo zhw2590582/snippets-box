@@ -30,7 +30,8 @@ export class Stores {
     val: '', // 值
     id: '', // 当前选中gist
     sort: 'all', // 公开排序
-    updated: false // 更新排序
+    updated: false, // 更新排序
+    keywork: '' // 关键词
   };
 
   // 获取所有语言
@@ -166,10 +167,13 @@ export class Stores {
       this.getGists(() => {
         if (this.allGists.length > 0) {
           this.getGistsOpen(this.allGists[0].id);
-          this.gistsList = this.allGists;
+          runInAction(() => {
+            this.gistsList = this.allGists;
+          });
         } else {
           this.setLoading(false);
         }
+        this.getStarredOne();
         callback && callback();
       });
     });
@@ -192,6 +196,17 @@ export class Stores {
       runInAction(() => {
         this.allGists = res.map(gist => resolveGist(gist));
         callback && callback();
+      });
+    });
+  };
+
+  // 一次性获取starred数目
+  @action
+  getStarredOne = callback => {
+    this.gistsApi.starred({ user: this.userInfo.login }, (err, res) => {
+      if (err) errorHandle('Please check your network!');
+      runInAction(() => {
+        this.allStarred = res.map(gist => resolveGist(gist));
       });
     });
   };
@@ -304,6 +319,7 @@ export class Stores {
         message: 'Notification',
         description: 'Star Success!'
       });
+      this.getStarredOne();
       this.setLoading(false);
       callback && callback();
     });
