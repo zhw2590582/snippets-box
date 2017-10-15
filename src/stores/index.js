@@ -296,12 +296,6 @@ export class Stores {
     });
   };
 
-  // 新建Gist
-  @action
-  createGist = (opts, callback) => {
-    console.log(opts);
-  };
-
   // 检测star
   @action
   isStarred = (id, callback) => {
@@ -366,6 +360,12 @@ export class Stores {
         console.log('Cancel');
       }
     });
+  };
+
+  // 新建Gist
+  @action
+  createGist = (opts, callback) => {
+    console.log(opts);
   };
 
   // 编辑Gist
