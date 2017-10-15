@@ -62,7 +62,9 @@ class GistsList extends React.Component {
               </Radio.Group>
             </div>
             <div className="fr">
-              <Checkbox checked={selected.updated} onChange={this.updated}>Updated</Checkbox>
+              <Checkbox checked={selected.updated} onChange={this.updated}>
+                Updated
+              </Checkbox>
             </div>
           </div>
           {gistsList.length > 0 ? (
