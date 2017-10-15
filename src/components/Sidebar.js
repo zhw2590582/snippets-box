@@ -24,25 +24,21 @@ const SidebarContainer = styled.div`
       height: 40px;
       line-height: 40px;
       padding: 0 15px;
-      border-bottom: 1px solid ${props => props.theme.borderColor};
+      border-bottom: 1px solid #222e38;
+      color: #afafaf;
     }
     .item {
-      color: #666;
+      color: #fff;
       display: block;
       height: 35px;
       line-height: 35px;
       padding: 0 15px;
-      border-left: 2px solid #ffffff;
       .num {
-        color: #999;
+        color: #ccc;
       }
-      &:hover {
-        color: ${props => props.theme.primary};
-      }
-      &.selected {
-        color: ${props => props.theme.primary};
-        background: #ecf6fd;
-        border-left: 2px solid ${props => props.theme.primary};
+      &:hover, &.selected {
+        color: #fff;
+        background: ${props => props.theme.primary};
       }
     }
   }
@@ -55,7 +51,9 @@ class Sidebar extends React.Component {
     let {
       selected,
       allGists,
+      allStarred,
       reset,
+      getStarred,
       userInfo,
       getTags,
       getTagsLength,
@@ -66,7 +64,7 @@ class Sidebar extends React.Component {
         <Scrollbars className="scrollbars">
           <div className="filter">
             <div className="title">
-              <Icon type="tags-o" />
+              <Icon type="star-o" />
               {` Favorites`}
             </div>
             <div
@@ -78,13 +76,15 @@ class Sidebar extends React.Component {
               <span className="fl name"># My Gists</span>
               <span className="fr num">{allGists.length}</span>
             </div>
-            <a
-              href={`https://gist.github.com/${userInfo.login}/starred`}
-              className="item clearfix hand"
-              target="_blank"
+            <div
+              className={`item hand clearfix ${selected.type == 'starred'
+              ? 'selected'
+              : ''}`}
+              onClick={getStarred.bind(this, () => null)}              
             >
               <span className="fl name"># Starred</span>
-            </a>
+              <span className="fr num">{allStarred.length}</span>
+            </div>
           </div>
           <div className="filter">
             <div className="title">

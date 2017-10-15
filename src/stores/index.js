@@ -18,6 +18,7 @@ export class Stores {
   @observable access_token = ''; // 访问Token
   @observable userInfo = null; // 用户信息
   @observable allGists = []; // 所有Gists
+  @observable allStarred = []; // 收藏Gists
   @observable gistsList = []; // 当前Gists
   @observable openGist = null; // 打开Gist
   @observable newGist = null; // 新建Gist
@@ -166,7 +167,6 @@ export class Stores {
         if (this.allGists.length > 0) {
           this.getGistsOpen(this.allGists[0].id);
           this.gistsList = this.allGists;
-          this.selected.id = this.gistsList[0].id;
         } else {
           this.setLoading(false);
         }
@@ -190,6 +190,22 @@ export class Stores {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.allGists = res.map(gist => resolveGist(gist));
+        callback && callback();
+      });
+    });
+  };
+
+  // 获取starred
+  @action
+  getStarred = callback => {
+    this.setLoading(true);
+    this.selected.type = 'starred';
+    this.gistsApi.starred({ user: this.userInfo.login }, (err, res) => {
+      if (err) errorHandle('Please check your network!');
+      runInAction(() => {
+        this.gistsList = this.allStarred = res.map(gist => resolveGist(gist));
+        this.getGistsOpen(this.gistsList[0].id);
+        this.setLoading(false);
         callback && callback();
       });
     });
@@ -225,7 +241,6 @@ export class Stores {
     this.getGistsOpen(this.gistsList[0].id);
     this.selected.type = 'tag';
     this.selected.val = val;
-    this.selected.id = this.gistsList[0].id;
     this.selected.sort = 'all';
     this.selected.updated = false;
     console.log(this);

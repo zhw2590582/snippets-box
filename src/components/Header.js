@@ -15,6 +15,7 @@ import {
 import Setting from './Setting';
 import About from './About';
 import { redirect_uri } from '../config';
+import { version } from '../../package.json';
 
 const InputGroup = Input.Group;
 const Search = Input.Search;
@@ -30,14 +31,16 @@ const HeaderContainer = styled.div`
   height: ${props => props.theme.headerHeight}px;
   line-height: ${props => props.theme.headerHeight}px;
   background: ${props => props.theme.headerBg};
-  border-bottom: 1px solid ${props => props.theme.borderColor};
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.07);
 
   .header-left {
     width: ${props => props.theme.sidebarWidth}px;
     padding-left: 15px;
     border-right: 1px solid ${props => props.theme.borderColor};
+    background: ${props => props.theme.logoBg};
     .logo {
       display: block;
+      color: #fff;
       img {
         width: 30px;
         height: 30px;
@@ -45,7 +48,11 @@ const HeaderContainer = styled.div`
       }
       span {
         font-size: 16px;
-        color: #666;
+      }
+      .version{
+        margin-left:5px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
       }
       &:hover {
         opacity: 0.75;
@@ -184,7 +191,10 @@ class Header extends React.Component {
               alt="logo"
               src={require('../images/icon-48.png')}
             />
-            <span className="fl">Snippets Box</span>
+            <span className="fl">
+              Snippets Box
+              <span className="version">{version}</span>
+            </span>
           </a>
         </div>
         <div className="header-search fl">

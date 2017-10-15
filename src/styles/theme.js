@@ -2,8 +2,9 @@ const theme = {
   // 颜色
   bodyBg: '#fff',
   primary: '#108ee9',
+  logoBg: '#3e445c',
   headerBg: '#fff',
-  sidebarBg: '#fff',
+  sidebarBg: '#333a4d',
   gistsListBg: '#fff',
   borderColor: '#eaeaea',
 

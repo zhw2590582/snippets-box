@@ -16,6 +16,12 @@ const GistContainer = styled.div`
     .name {
       font-size: 16px;
       color: #000;
+      .avatar {
+        width: 20px;
+        vertical-align: text-top;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
       .anticon {
         font-size: 14px;
         margin-right: 5px;
@@ -61,6 +67,7 @@ class Gist extends React.Component {
               onClick={getGistsOpen.bind(this, gist.id, e => e)}
             >
               <div className="name text-ellipsis">
+                <img className="avatar" src={gist.owner.avatar_url} />
                 {gist.public ? (
                   <Tooltip placement="bottom" title="Public">
                     <Icon type="unlock" />

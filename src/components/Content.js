@@ -13,7 +13,8 @@ const ButtonGroup = Button.Group;
 
 const ContentContainer = styled.div`
   position: relative;
-  padding-left: ${props => props.theme.sidebarWidth + props.theme.gistsListWidth}px;
+  padding-left: ${props =>
+    props.theme.sidebarWidth + props.theme.gistsListWidth}px;
   max-width: 2000px;
   padding-top: 50px;
   .gistheader {
@@ -134,7 +135,6 @@ class Content extends React.Component {
     Prism.highlightAll();
   }
 
-  // Panel默认闭合时不显示Dom的bug ==> 待优化
   panelChange = () => {
     setTimeout(() => {
       Prism.highlightAll();
@@ -142,11 +142,10 @@ class Content extends React.Component {
   };
 
   render() {
-    let { openGist } = this.props.store;
+    let { openGist, userInfo } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
-    let defaultActiveKey = openGist && Object.keys(openGist.files).map(
-      (file, index) => '' + index
-    );
+    let defaultActiveKey =
+      openGist && Object.keys(openGist.files).map((file, index) => '' + index);
     return (
       <ContentContainer>
         {openGist ? (
@@ -165,12 +164,19 @@ class Content extends React.Component {
                 {openGist.name || 'No Name'}
               </div>
               <div className="date">
-                {`${Object.keys(openGist.files)
-                  .length} Files – Created on ${moment(
-                  openGist.created_at
-                ).format('YYYY-MM-DD HH:mm:ss')} – Last updated ${moment(
-                  openGist.updated_at
-                ).format('YYYY-MM-DD HH:mm:ss')}`}
+                {`${Object.keys(openGist.files).length} Files - `}
+                Created by{' '}
+                <a
+                  href={`https://gist.github.com/${openGist.owner.login}`}
+                  target="_blank"
+                >
+                  {openGist.owner.login}
+                </a>
+                {` on ${moment(openGist.created_at).format(
+                  'YYYY-MM-DD HH:mm:ss'
+                )} – Last updated ${moment(openGist.updated_at).format(
+                  'YYYY-MM-DD HH:mm:ss'
+                )}`}
               </div>
               <div className="description">
                 {openGist.description || 'No Description'}
@@ -186,15 +192,17 @@ class Content extends React.Component {
                   : 'No Labels'}
               </div>
             </div>
-            <Affix offsetTop={50}>
-              <div className="gistTools clearfix">
-                <ButtonGroup className="fl">
-                  <Button icon="edit">Edit</Button>
-                  <Button icon="eye-o">Open</Button>
-                  <Button icon="delete">Delete</Button>
-                </ButtonGroup>
-              </div>
-            </Affix>
+            {openGist.owner.login === userInfo.login && (
+              <Affix offsetTop={50}>
+                <div className="gistTools clearfix">
+                  <ButtonGroup className="fl">
+                    <Button icon="edit">Edit</Button>
+                    <Button icon="eye-o">Open</Button>
+                    <Button icon="delete">Delete</Button>
+                  </ButtonGroup>
+                </div>
+              </Affix>
+            )}
             <div className="gistCode">
               <Collapse
                 defaultActiveKey={defaultActiveKey}
