@@ -13,16 +13,24 @@ const ButtonGroup = Button.Group;
 
 const ContentContainer = styled.div`
   position: relative;
-  padding-left: ${props =>
-    props.theme.sidebarWidth + props.theme.gistsListWidth}px;
+  padding-left: ${props => props.theme.sidebarWidth + props.theme.gistsListWidth}px;
   max-width: 2000px;
   padding-top: 50px;
+  .noGist{
+    text-align: center;
+    font-size: 20px;
+    margin-top: 50px;
+    color: #999;
+    .anticon {
+      margin-right: 15px;
+    }
+  }
   .gistheader {
     padding: 10px;
     border-bottom: 1px solid ${props => props.theme.borderColor};
     background: #f5f9fc;
     .name {
-      font-size: 16px;
+      font-size: 20px;
       color: #000;
       .anticon {
         font-size: 14px;
@@ -34,7 +42,7 @@ const ContentContainer = styled.div`
       color: #999;
     }
     .description {
-      font-size: 14px;
+      font-size: 16px;
       color: #666;
       margin: 20px 0;
     }
@@ -236,7 +244,10 @@ class Content extends React.Component {
             </div>
           </div>
         ) : (
-          'Select a Gist to view'
+          <div className="noGist">
+            <Icon type="file-text" />
+            Select a Gist to view
+          </div>
         )}
       </ContentContainer>
     );

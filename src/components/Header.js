@@ -35,6 +35,7 @@ const HeaderContainer = styled.div`
 
   .header-left {
     width: ${props => props.theme.sidebarWidth}px;
+    height: ${props => props.theme.headerHeight}px;
     padding-left: 15px;
     border-right: 1px solid ${props => props.theme.borderColor};
     background: ${props => props.theme.logoBg};
