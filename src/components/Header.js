@@ -27,13 +27,13 @@ const HeaderContainer = styled.div`
   right: 0;
   z-index: 99;
   width: 100%;
-  height: ${props => props.theme.headerHeight};
-  line-height: ${props => props.theme.headerHeight};
+  height: ${props => props.theme.headerHeight}px;
+  line-height: ${props => props.theme.headerHeight}px;
   background: ${props => props.theme.headerBg};
   border-bottom: 1px solid ${props => props.theme.borderColor};
 
   .header-left {
-    width: ${props => props.theme.sidebarWidth};
+    width: ${props => props.theme.sidebarWidth}px;
     padding-left: 15px;
     border-right: 1px solid ${props => props.theme.borderColor};
     .logo {

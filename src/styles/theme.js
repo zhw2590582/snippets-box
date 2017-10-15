@@ -8,9 +8,9 @@ const theme = {
   borderColor: '#eaeaea',
 
   // 布局
-  headerHeight: '50px',
-  sidebarWidth: '220px',
-  gistsListWidth: '300px',
+  headerHeight: 50,
+  sidebarWidth: 220,
+  gistsListWidth: 300,
 };
 
 export default theme;

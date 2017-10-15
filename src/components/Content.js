@@ -13,12 +13,12 @@ const ButtonGroup = Button.Group;
 
 const ContentContainer = styled.div`
   position: relative;
-  padding-left: 570px;
+  padding-left: ${props => props.theme.sidebarWidth + props.theme.gistsListWidth}px;
   max-width: 2000px;
   padding-top: 50px;
   .gistheader {
     padding: 10px;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid ${props => props.theme.borderColor};
     background: #fff;
     .name {
       font-size: 16px;
@@ -51,7 +51,7 @@ const ContentContainer = styled.div`
   .gistTools {
     padding: 10px;
     background: #fff;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid ${props => props.theme.borderColor};
   }
   .gistCode {
     padding: 10px;

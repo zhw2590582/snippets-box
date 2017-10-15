@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { inject, observer } from 'mobx-react';
-import Filter from './Filter';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Icon } from 'antd';
 
@@ -12,8 +11,8 @@ const SidebarContainer = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  padding-top: ${props => props.theme.headerHeight};
-  width: ${props => props.theme.sidebarWidth};
+  padding-top: ${props => props.theme.headerHeight}px;
+  width: ${props => props.theme.sidebarWidth}px;
   height: 100%;
   background: ${props => props.theme.sidebarBg};
   border-right: 1px solid ${props => props.theme.borderColor};
@@ -58,11 +57,8 @@ class Sidebar extends React.Component {
       allGists,
       reset,
       userInfo,
-      getLanguages,
       getTags,
-      getLanguagesLength,
       getTagsLength,
-      getGistsByLanguage,
       getGistsByTag
     } = this.props.store;
     return (
@@ -90,18 +86,27 @@ class Sidebar extends React.Component {
               <span className="fl name"># Starred</span>
             </a>
           </div>
-          <Filter
-            filterName="tag"
-            filterList={getTags}
-            length={getTagsLength}
-            filterFn={getGistsByTag}
-          />
-          <Filter
-            filterName="language"
-            filterList={getLanguages}
-            length={getLanguagesLength}
-            filterFn={getGistsByLanguage}
-          />
+          <div className="filter">
+            <div className="title">
+              <Icon type="tags-o" />
+              {` All Tags`}
+            </div>
+            {Object.keys(getTags).map(item => {
+              return (
+                <div
+                  className={`item hand clearfix ${selected.type == 'tag' &&
+                  selected.val == item
+                    ? 'selected'
+                    : ''}`}
+                  key={item}
+                  onClick={getGistsByTag.bind(this, item)}
+                >
+                  <span className="fl name"># {item}</span>
+                  <span className="fr num">{getTags[item]}</span>
+                </div>
+              );
+            })}
+          </div>
         </Scrollbars>
       </SidebarContainer>
     );

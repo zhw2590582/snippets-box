@@ -9,12 +9,12 @@ import { Icon, Radio, Checkbox } from 'antd';
 const GistsListContainer = styled.div`
   position: fixed;
   z-index: 99;
-  left: ${props => props.theme.sidebarWidth};
+  left: ${props => props.theme.sidebarWidth}px;
   top: 0;
   bottom: 0;
-  padding-top: ${props => props.theme.headerHeight};
+  padding-top: ${props => props.theme.headerHeight}px;
   z-index: 91;
-  width: ${props => props.theme.gistsListWidth};
+  width: ${props => props.theme.gistsListWidth}px;
   height: 100%;
   background: ${props => props.theme.gistsListBg};
   border-right: 1px solid ${props => props.theme.borderColor};
