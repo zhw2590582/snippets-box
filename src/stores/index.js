@@ -205,7 +205,12 @@ export class Stores {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.gistsList = this.allStarred = res.map(gist => resolveGist(gist));
-        this.getGistsOpen(this.gistsList[0].id);
+        if (this.gistsList.length) {
+          this.getGistsOpen(this.gistsList[0].id);
+        } else {
+          this.openGist = null;
+          this.setLoading(false);
+        }
         callback && callback();
       });
     });
@@ -238,7 +243,12 @@ export class Stores {
         this.gistsByTag.push(gist);
     });
     this.gistsList = this.gistsByTag;
-    this.getGistsOpen(this.gistsList[0].id);
+    if (this.gistsList.length) {
+      this.getGistsOpen(this.gistsList[0].id);
+    } else {
+      this.openGist = null;
+      this.setLoading(false);
+    }
     this.selected.type = 'tag';
     this.selected.val = val;
     this.selected.sort = 'all';
@@ -273,6 +283,45 @@ export class Stores {
   @action
   createGist = (opts, callback) => {
     console.log(opts);
+  };
+
+  // 检测star
+  @action
+  isStarred = (id, callback) => {
+    this.gistsApi.isStarred({ id }, err => {
+      if (err) errorHandle('Please check your network!');
+      callback && callback();
+    });
+  };
+
+  // 添加star
+  @action
+  star = (id, callback) => {
+    this.setLoading(true);
+    this.gistsApi.star({ id }, err => {
+      if (err) errorHandle('Please check your network!');
+      notification.success({
+        message: 'Notification',
+        description: 'Star Success!'
+      });
+      this.setLoading(false);
+      callback && callback();
+    });
+  };
+
+  // 解除star
+  @action
+  unstar = (id, callback) => {
+    this.setLoading(true);
+    this.gistsApi.unstar({ id }, err => {
+      if (err) errorHandle('Please check your network!');
+      notification.success({
+        message: 'Notification',
+        description: 'Unstar Success!'
+      });
+      this.getStarred();
+      callback && callback();
+    });
   };
 
   // 删除Gist

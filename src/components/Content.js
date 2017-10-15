@@ -13,13 +13,14 @@ const ButtonGroup = Button.Group;
 
 const ContentContainer = styled.div`
   position: relative;
-  padding-left: ${props => props.theme.sidebarWidth + props.theme.gistsListWidth}px;
+  padding-left: ${props =>
+    props.theme.sidebarWidth + props.theme.gistsListWidth}px;
   max-width: 2000px;
   padding-top: 50px;
-  .noGist{
+  .noGist {
     text-align: center;
     font-size: 20px;
-    margin-top: 50px;
+    margin-top: 150px;
     color: #999;
     .anticon {
       margin-right: 15px;
@@ -150,7 +151,7 @@ class Content extends React.Component {
   };
 
   render() {
-    let { openGist, userInfo } = this.props.store;
+    let { openGist, userInfo, unstar, star, selected } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
     let defaultActiveKey =
       openGist && Object.keys(openGist.files).map((file, index) => '' + index);
@@ -204,17 +205,37 @@ class Content extends React.Component {
                 )}
               </div>
             </div>
-            {openGist.owner.login === userInfo.login && (
-              <Affix offsetTop={50}>
-                <div className="gistTools clearfix">
+            <Affix offsetTop={50}>
+              <div className="gistTools clearfix">
+                {openGist.owner.login === userInfo.login && (
                   <ButtonGroup className="fl">
                     <Button icon="edit">Edit</Button>
-                    <Button icon="eye-o">Open</Button>
                     <Button icon="delete">Delete</Button>
                   </ButtonGroup>
-                </div>
-              </Affix>
-            )}
+                )}
+                <ButtonGroup className="fr">
+                  <Button icon="eye-o">Open</Button>
+                  {
+                    // 检测是否star不成功 ==> 未解决
+                  }
+                  {selected.type === 'starred' ? (
+                    <Button
+                      icon="star"
+                      onClick={unstar.bind(this, openGist.id, e => null)}
+                    >
+                      Unstar
+                    </Button>
+                  ) : (
+                    <Button
+                      icon="star-o"
+                      onClick={star.bind(this, openGist.id, e => null)}
+                    >
+                      Star
+                    </Button>
+                  )}
+                </ButtonGroup>
+              </div>
+            </Affix>
             <div className="gistCode">
               <Collapse
                 defaultActiveKey={defaultActiveKey}
