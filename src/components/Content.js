@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
   .gistheader {
     padding: 10px;
     border-bottom: 1px solid ${props => props.theme.borderColor};
-    background: #fff;
+    background: #f5f9fc;
     .name {
       font-size: 16px;
       color: #000;
@@ -36,7 +36,7 @@ const ContentContainer = styled.div`
     .description {
       font-size: 14px;
       color: #666;
-      margin: 10px 0;
+      margin: 20px 0;
     }
     .tags {
       font-size: 12px;
@@ -182,14 +182,18 @@ class Content extends React.Component {
                 {openGist.description || 'No Description'}
               </div>
               <div className="tags clearfix">
-                {openGist.tags.length > 0
-                  ? openGist.tags.map(tag => (
-                      <span className="fl" key={tag}>
-                        <Icon type="tags" />
-                        {tag}
-                      </span>
-                    ))
-                  : 'No Labels'}
+                {openGist.tags.length > 0 ? (
+                  openGist.tags.map(tag => (
+                    <span className="fl" key={tag}>
+                      <Icon type="tags" />
+                      {tag}
+                    </span>
+                  ))
+                ) : (
+                  <span className="fl">
+                    <Icon type="tags" />No Labels
+                  </span>
+                )}
               </div>
             </div>
             {openGist.owner.login === userInfo.login && (

@@ -11,7 +11,7 @@ const GistContainer = styled.div`
     border-bottom: 1px solid ${props => props.theme.borderColor};
     &:hover,
     &.selected {
-      background: #ecf6fd;
+      background: #f7f7f7;
     }
     .name {
       font-size: 16px;
@@ -61,8 +61,8 @@ class Gist extends React.Component {
           return (
             <div
               className={`item hand ${selected.id == gist.id
-              ? 'selected'
-              : ''}`}
+                ? 'selected'
+                : ''}`}
               key={gist.id}
               onClick={getGistsOpen.bind(this, gist.id, e => e)}
             >
@@ -86,14 +86,18 @@ class Gist extends React.Component {
                 {gist.description || 'No Description'}
               </div>
               <div className="tags clearfix">
-                {gist.tags.length > 0
-                  ? gist.tags.map(tag => (
-                      <span className="fl" key={tag}>
-                        <Icon type="tags" />
-                        {tag}
-                      </span>
-                    ))
-                  : 'No Labels'}
+                {gist.tags.length > 0 ? (
+                  gist.tags.map(tag => (
+                    <span className="fl" key={tag}>
+                      <Icon type="tags" />
+                      {tag}
+                    </span>
+                  ))
+                ) : (
+                  <span className="fl">
+                    <Icon type="tags" />No Labels
+                  </span>
+                )}
               </div>
             </div>
           );
@@ -105,7 +109,7 @@ class Gist extends React.Component {
 
 Gist.propTypes = {
   store: PropTypes.object,
-  list: PropTypes.object.isRequired,
+  list: PropTypes.object.isRequired
 };
 
 export default Gist;

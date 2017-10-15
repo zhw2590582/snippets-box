@@ -71,7 +71,7 @@ class Sidebar extends React.Component {
               className={`item hand clearfix ${selected.type == 'all'
                 ? 'selected'
                 : ''}`}
-              onClick={reset.bind(this)}
+              onClick={reset.bind(this, () => null)}
             >
               <span className="fl name"># My Gists</span>
               <span className="fr num">{allGists.length}</span>

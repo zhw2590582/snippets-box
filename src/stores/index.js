@@ -170,6 +170,7 @@ export class Stores {
         } else {
           this.setLoading(false);
         }
+        callback && callback();
       });
     });
   };
@@ -205,7 +206,6 @@ export class Stores {
       runInAction(() => {
         this.gistsList = this.allStarred = res.map(gist => resolveGist(gist));
         this.getGistsOpen(this.gistsList[0].id);
-        this.setLoading(false);
         callback && callback();
       });
     });

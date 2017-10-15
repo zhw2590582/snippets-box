@@ -21,6 +21,7 @@ const GistsListContainer = styled.div`
   .sort {
     padding: 10px;
     border-bottom: 1px solid ${props => props.theme.borderColor};
+    background: #f5f9fc;
   }
   .noGists {
     color: #999;

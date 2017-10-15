@@ -120,7 +120,7 @@ class Header extends React.Component {
   reload = event => {
     event.preventDefault();
     this.props.store.setLoading(true);
-    this.props.store.getGists(() => {
+    this.props.store.reset(() => {
       notification.success({
         message: 'Notification',
         description: 'Refresh Gists Success'
