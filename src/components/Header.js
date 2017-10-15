@@ -45,7 +45,7 @@ const HeaderContainer = styled.div`
       img {
         width: 30px;
         height: 30px;
-        margin: 10px 15px 0 0;
+        margin: 10px 10px 0 0;
       }
       span {
         font-size: 16px;
