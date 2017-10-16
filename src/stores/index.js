@@ -248,8 +248,11 @@ export class Stores {
       }
 
       // 打开第一个
-      if(this.gistsList[0].length > 0){
+      if(this.gistsList.length > 0){
         this.getGistsOpen(this.gistsList[0].id);
+      } else {
+        this.openGist = null;
+        this.setLoading(false);
       }
     } else {
       this.gistsList = [];
