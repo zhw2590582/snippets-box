@@ -251,6 +251,7 @@ export class Stores {
       if(this.gistsList.length > 0){
         this.getGistsOpen(this.gistsList[0].id);
       } else {
+        this.gistsList = [];
         this.openGist = null;
         this.setLoading(false);
       }
