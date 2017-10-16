@@ -143,6 +143,7 @@ export class Stores {
   // 重置
   @action
   reset = callback => {
+    this.setLoading(true);
     // 还原默认值
     this.selected = {
       type: 'all', // 类型
@@ -168,7 +169,6 @@ export class Stores {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.allGists = res.map(gist => resolveGist(gist));
-        console.log(this.allGists);
         callback && callback(this.allGists);
       });
     });
