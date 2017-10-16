@@ -265,6 +265,7 @@ export class Stores {
       runInAction(() => {
         this.openGist = resolveGist(gist);
         this.setLoading(false);
+        console.log(this);
         callback && callback();
       });
     });
