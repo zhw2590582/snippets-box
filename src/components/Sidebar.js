@@ -49,17 +49,18 @@ const SidebarContainer = styled.div`
 @observer
 class Sidebar extends React.Component {
   setSelected = opt => {
+    Object.assign(opt, {
+      id: '', // 当前选中gist
+      public: 'all', // 公开排序
+      updated: false, // 更新排序
+      keywork: '' // 关键词
+    });
     this.props.store.setLoading(true);
     this.props.store.setSelected(opt);
   };
 
   render() {
-    let {
-      selected,
-      allGists,
-      allStarred,
-      getTags
-    } = this.props.store;
+    let { selected, allGists, allStarred, getTags } = this.props.store;
     return (
       <SidebarContainer>
         <Scrollbars className="scrollbars">
