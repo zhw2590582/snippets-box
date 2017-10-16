@@ -24,7 +24,7 @@ const AppContainer = styled.div`
 @observer
 class App extends React.Component {
   componentDidMount() {
-    let { setToken, setUserInfo, reset, createGist } = this.props.store;
+    let { setToken, setUserInfo, reset, createGist, setLoading } = this.props.store;
 
     // 同步用户信息
     getStorage('userInfo', storage => {
@@ -32,9 +32,10 @@ class App extends React.Component {
       setUserInfo(storage);
     });
 
-    // 同步access_token
+    // 同步access_token, 并重置gists信息
     getStorage('access_token', storage => {
       if (!storage) return;
+      setLoading(true);
       setToken(storage, () => {
         reset();
       });

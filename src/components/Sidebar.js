@@ -36,7 +36,8 @@ const SidebarContainer = styled.div`
       .num {
         color: #ccc;
       }
-      &:hover, &.selected {
+      &:hover,
+      &.selected {
         color: #fff;
         background: ${props => props.theme.primary};
       }
@@ -47,17 +48,17 @@ const SidebarContainer = styled.div`
 @inject('store')
 @observer
 class Sidebar extends React.Component {
+  setSelected = opt => {
+    this.props.store.setLoading(true);
+    this.props.store.setSelected(opt);
+  };
+
   render() {
     let {
       selected,
       allGists,
       allStarred,
-      reset,
-      getStarred,
-      userInfo,
-      getTags,
-      getTagsLength,
-      getGistsByTag
+      getTags
     } = this.props.store;
     return (
       <SidebarContainer>
@@ -71,16 +72,16 @@ class Sidebar extends React.Component {
               className={`item hand clearfix ${selected.type == 'all'
                 ? 'selected'
                 : ''}`}
-              onClick={reset.bind(this, () => null)}
+              onClick={this.setSelected.bind(this, { type: 'all' })}
             >
               <span className="fl name"># My Gists</span>
               <span className="fr num">{allGists.length}</span>
             </div>
             <div
               className={`item hand clearfix ${selected.type == 'starred'
-              ? 'selected'
-              : ''}`}
-              onClick={getStarred.bind(this, () => null)}              
+                ? 'selected'
+                : ''}`}
+              onClick={this.setSelected.bind(this, { type: 'starred' })}
             >
               <span className="fl name"># Starred</span>
               <span className="fr num">{allStarred.length}</span>
@@ -95,11 +96,14 @@ class Sidebar extends React.Component {
               return (
                 <div
                   className={`item hand clearfix ${selected.type == 'tag' &&
-                  selected.val == item
+                  selected.tagName == item
                     ? 'selected'
                     : ''}`}
                   key={item}
-                  onClick={getGistsByTag.bind(this, item)}
+                  onClick={this.setSelected.bind(this, {
+                    type: 'tag',
+                    tagName: item
+                  })}
                 >
                   <span className="fl name"># {item}</span>
                   <span className="fr num">{getTags[item]}</span>

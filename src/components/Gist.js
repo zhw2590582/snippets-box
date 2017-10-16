@@ -52,9 +52,14 @@ const GistContainer = styled.div`
 @inject('store')
 @observer
 class Gist extends React.Component {
+  getGistsOpen = id => {
+    this.props.store.setLoading(true);
+    this.props.store.getGistsOpen(id);
+  };
+
   render() {
     let { list } = this.props;
-    let { getGistsOpen, selected } = this.props.store;
+    let { selected } = this.props.store;
     return (
       <GistContainer>
         {list.map(gist => {
@@ -64,7 +69,7 @@ class Gist extends React.Component {
                 ? 'selected'
                 : ''}`}
               key={gist.id}
-              onClick={getGistsOpen.bind(this, gist.id, e => e)}
+              onClick={this.getGistsOpen.bind(this, gist.id)}
             >
               <div className="name text-ellipsis">
                 <img className="avatar" src={gist.owner.avatar_url} />

@@ -22,58 +22,31 @@ export class Stores {
   @observable gistsList = []; // 当前Gists
   @observable openGist = null; // 打开Gist
   @observable newGist = null; // 新建Gist
-  @observable filesByLanguage = []; // 语言过滤
-  @observable gistsByTag = []; // 标签过滤
   @observable // 过滤条件
   selected = {
     type: 'all', // 类型
-    val: '', // 值
+    tagName: '', // 值
     id: '', // 当前选中gist
     sort: 'all', // 公开排序
     updated: false, // 更新排序
     keywork: '' // 关键词
   };
 
-  // 获取所有语言
-  @computed
-  get getLanguages() {
-    let allLanguages = {};
-    this.allGists.forEach(gist => {
-      Object.keys(gist.files).map(file => {
-        let language = gist.files[file].language || 'Text';
-        allLanguages[language] || (allLanguages[language] = 0);
-        allLanguages[language] += 1;
-      });
-    });
-    return allLanguages;
-  }
-
-  // 获取所有语言数量
-  @computed
-  get getLanguagesLength() {
-    let res = 0;
-    Object.keys(this.getLanguages).forEach(item => {
-      res += this.getLanguages[item];
-    });
-    return res;
-  }
-
   // 获取所有标签
   @computed
   get getTags() {
     let alltags = {};
     this.allGists.forEach(gist => {
-      gist.tags.length > 0 &&
-        gist.tags.map(tag => {
-          tag = tag.trim();
-          alltags[tag] || (alltags[tag] = 0);
-          alltags[tag] += 1;
-        });
+      if (gist.tags.length === 0) return;
+      gist.tags.forEach(tag => {
+        tag = tag.trim();
+        (alltags[tag] && (alltags[tag] += 1)) || (alltags[tag] = 1);
+      });
     });
     return alltags;
   }
 
-  // 获取所有语言数量
+  // 获取所有语标签的数量总和
   @computed
   get getTagsLength() {
     let res = 0;
@@ -118,9 +91,9 @@ export class Stores {
         runInAction(() => {
           this.access_token = data.access_token;
           this.userInfo = userInfo;
-          this.reset();
           history.replaceState(null, '', redirect_uri);
           this.logging = false;
+          this.reset();
           callback && callback();
         });
       });
@@ -152,33 +125,9 @@ export class Stores {
   @action
   logout = callback => {
     this.userInfo = null;
+    this.access_token = null;
     cleanStorage();
     callback && callback();
-  };
-
-  // 重置
-  @action
-  reset = callback => {
-    this.setLoading(true);
-    this.selected.type = 'all';
-    this.selected.sort = 'all';
-    this.selected.updated = false;
-    this.setGistsApi(this.access_token, () => {
-      this.getGists(() => {
-        if (this.allGists.length > 0) {
-          this.getGistsOpen(this.allGists[0].id);
-          runInAction(() => {
-            this.gistsList = this.allGists;
-          });
-        } else {
-          this.gistsList = [];
-          this.openGist = null;
-          this.setLoading(false);
-        }
-        this.getStarredOne();
-        callback && callback();
-      });
-    });
   };
 
   // 实例化Gists Api
@@ -190,100 +139,108 @@ export class Stores {
     callback && callback();
   };
 
-  // 获取gists
+  // 重置
+  @action
+  reset = callback => {
+    this.selected = {
+      type: 'all', // 类型
+      tagName: '', // 值
+      sort: 'all', // 公开排序
+      updated: false, // 更新排序
+      keywork: '' // 关键词
+    };
+    this.setGistsApi(this.access_token, () => {
+      // 获取全部gists, 且打开第一个gist
+      this.setSelected({ type: 'all' }, () => {
+        callback && callback();
+      });
+      // 获取全部starred,只为显示其数量
+      this.getStarred();
+    });
+  };
+
+  // 获取全部gists
   @action
   getGists = callback => {
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.allGists = res.map(gist => resolveGist(gist));
-        callback && callback();
+        callback && callback(this.allGists);
       });
     });
   };
 
-  // 一次性获取starred数目
+  // 获取全部starred
   @action
-  getStarredOne = callback => {
+  getStarred = callback => {
     this.gistsApi.starred({ user: this.userInfo.login }, (err, res) => {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.allStarred = res.map(gist => resolveGist(gist));
+        callback && callback(this.allStarred);
       });
     });
   };
 
-  // 获取starred
+  // 获取某标签下的Gists, 回调函数返回gists列表
   @action
-  getStarred = callback => {
-    this.setLoading(true);
-    this.selected.type = 'starred';
-    this.gistsApi.starred({ user: this.userInfo.login }, (err, res) => {
-      if (err) errorHandle('Please check your network!');
-      runInAction(() => {
-        this.gistsList = this.allStarred = res.map(gist => resolveGist(gist));
-        if (this.gistsList.length) {
-          this.getGistsOpen(this.gistsList[0].id);
-        } else {
-          this.openGist = null;
-          this.setLoading(false);
+  getGistsByTag = (tagName, callback) => {
+    let gistsByTag = [];
+    this.getGists(() => {
+      this.allGists.forEach(gist => {
+        if (gist.tags.length > 0 && gist.tags.includes(tagName)) {
+          gistsByTag.push(gist);
         }
-        callback && callback();
       });
+      callback && callback(gistsByTag);
     });
   };
 
-  // 获取某语言下的Gists
+  // 更新选择方式
   @action
-  getGistsByLanguage = (val, callback) => {
-    this.selected.type = 'language';
-    this.selected.val = val;
-    this.filesByLanguage = [];
-    this.allGists.forEach(gist => {
-      Object.keys(gist.files).map(file => {
-        val = val == 'Text' ? null : val;
-        gist.files[file].language == val &&
-          this.filesByLanguage.push(gist.files[file]);
-      });
-    });
-    this.gistsList = [];
-    console.log(this);
+  setSelected = (opt, callback) => {
+    this.selected = Object.assign({}, this.selected, opt);
+    switch (this.selected.type) {
+      case 'all':
+        this.getGists(gists => {
+          this.updateGists(gists);
+          callback && callback();
+        });
+        break;
+      case 'starred':
+        this.getStarred(gists => {
+          this.updateGists(gists);
+          callback && callback();
+        });
+        break;
+      case 'tag':
+        this.getGistsByTag(this.selected.tagName, gists => {
+          this.updateGists(gists);
+          console.log(5);
+          callback && callback();
+        });
+        break;
+    }
   };
 
-  // 获取某标签下的Gists
+  // 更新列表并试图打开第一个gist
   @action
-  getGistsByTag = (val, callback) => {
-    this.gistsByTag = [];
-    this.allGists.forEach(gist => {
-      gist.tags.length > 0 &&
-        gist.tags.includes(val) &&
-        this.gistsByTag.push(gist);
-    });
-    this.gistsList = this.gistsByTag;
-    if (this.gistsList.length) {
-      this.getGistsOpen(this.gistsList[0].id);
+  updateGists = (gists, callback) => {
+    if (gists.length > 0) {
+      this.gistsList = gists;
+      this.getGistsOpen(gists[0].id);
     } else {
+      this.gistsList = [];
       this.openGist = null;
       this.setLoading(false);
     }
-    this.selected.type = 'tag';
-    this.selected.val = val;
-    this.selected.sort = 'all';
-    this.selected.updated = false;
-    console.log(this);
-  };
-
-  // 更新排序方式
-  @action
-  setSort = (sort, updated) => {
-    sort && (this.selected.sort = sort);
-    updated && (this.selected.updated = !this.selected.updated);
+    callback && callback();
   };
 
   // 打开Gist
   @action
   getGistsOpen = (id, callback) => {
-    this.setLoading(true);
     this.selected.id = id;
     this.gistsApi.download({ id }, (err, gist) => {
       if (err) errorHandle('Please check your network!');
@@ -291,12 +248,11 @@ export class Stores {
         this.openGist = resolveGist(gist);
         this.setLoading(false);
         callback && callback();
-        console.log(this);
       });
     });
   };
 
-  // 检测star
+  // 检测是否star
   @action
   isStarred = (id, callback) => {
     this.gistsApi.isStarred({ id }, err => {
@@ -308,31 +264,33 @@ export class Stores {
   // 添加star
   @action
   star = (id, callback) => {
-    this.setLoading(true);
     this.gistsApi.star({ id }, err => {
       if (err) errorHandle('Please check your network!');
       notification.success({
         message: 'Notification',
         description: 'Star Success!'
       });
-      this.getStarredOne();
-      this.setLoading(false);
-      callback && callback();
+      // 只为更新数量
+      this.getStarred(() => {
+        this.setLoading(false);
+        callback && callback();
+      });
     });
   };
 
   // 解除star
   @action
   unstar = (id, callback) => {
-    this.setLoading(true);
     this.gistsApi.unstar({ id }, err => {
       if (err) errorHandle('Please check your network!');
       notification.success({
         message: 'Notification',
         description: 'Unstar Success!'
       });
-      this.getStarred();
-      callback && callback();
+      // 更新当前表
+      that.setSelected(that.selected, () => {
+        callback && callback();
+      });
     });
   };
 
@@ -351,9 +309,10 @@ export class Stores {
             message: 'Notification',
             description: 'Delete Success!'
           });
-          that.reset();
-          that.setLoading(false);
-          callback && callback();
+          // 更新当前表
+          that.setSelected(that.selected, () => {
+            callback && callback();
+          });
         });
       },
       onCancel() {

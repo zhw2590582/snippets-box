@@ -144,14 +144,34 @@ class Content extends React.Component {
     Prism.highlightAll();
   }
 
+  // panel默认关闭时，不展示代码dom的bug => 待优化
   panelChange = () => {
     setTimeout(() => {
       Prism.highlightAll();
     }, 100);
   };
 
+  // 编辑
+
+  // 删除
+  destroy = id => {
+    this.props.store.destroy(id);
+  }
+
+  // star
+  star = id => {
+    this.props.store.setLoading(true);
+    this.props.store.star(id);
+  }
+
+  // unstar
+  unstar = id => {
+    this.props.store.setLoading(true);
+    this.props.store.unstar(id);
+  }
+
   render() {
-    let { openGist, userInfo, unstar, star, selected, destroy } = this.props.store;
+    let { openGist, userInfo, selected } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
     let defaultActiveKey =
       openGist && Object.keys(openGist.files).map((file, index) => '' + index);
@@ -210,7 +230,7 @@ class Content extends React.Component {
                 {openGist.owner.login === userInfo.login && (
                   <ButtonGroup className="fl">
                     <Button icon="edit">Edit</Button>
-                    <Button icon="delete" onClick={destroy.bind(this, openGist.id, e => null)}>Delete</Button>
+                    <Button icon="delete" onClick={this.destroy.bind(this, openGist.id)}>Delete</Button>
                   </ButtonGroup>
                 )}
                 <ButtonGroup className="fr">
@@ -221,14 +241,14 @@ class Content extends React.Component {
                   {selected.type === 'starred' ? (
                     <Button
                       icon="star"
-                      onClick={unstar.bind(this, openGist.id, e => null)}
+                      onClick={this.unstar.bind(this, openGist.id)}
                     >
                       Unstar
                     </Button>
                   ) : (
                     <Button
                       icon="star-o"
-                      onClick={star.bind(this, openGist.id, e => null)}
+                      onClick={this.star.bind(this, openGist.id)}
                     >
                       Star
                     </Button>
