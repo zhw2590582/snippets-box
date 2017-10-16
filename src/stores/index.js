@@ -10,6 +10,7 @@ import {
 import { client_id, client_secret, redirect_uri } from '../config';
 import { notification, Modal } from 'antd';
 import Gists from 'gists';
+import moment from 'moment';
 
 export class Stores {
   gistsApi = null; // Gists Api实例
@@ -27,7 +28,7 @@ export class Stores {
     type: 'all', // 类型
     tagName: '', // 值
     id: '', // 当前选中gist
-    sort: 'all', // 公开排序
+    public: 'all', // 公开排序
     updated: false, // 更新排序
     keywork: '' // 关键词
   };
@@ -142,10 +143,11 @@ export class Stores {
   // 重置
   @action
   reset = callback => {
+    // 还原默认值
     this.selected = {
       type: 'all', // 类型
       tagName: '', // 值
-      sort: 'all', // 公开排序
+      public: 'all', // 公开排序
       updated: false, // 更新排序
       keywork: '' // 关键词
     };
@@ -166,6 +168,7 @@ export class Stores {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.allGists = res.map(gist => resolveGist(gist));
+        console.log(this.allGists);
         callback && callback(this.allGists);
       });
     });
@@ -217,7 +220,6 @@ export class Stores {
       case 'tag':
         this.getGistsByTag(this.selected.tagName, gists => {
           this.updateGists(gists);
-          console.log(5);
           callback && callback();
         });
         break;
@@ -228,8 +230,24 @@ export class Stores {
   @action
   updateGists = (gists, callback) => {
     if (gists.length > 0) {
-      this.gistsList = gists;
-      this.getGistsOpen(gists[0].id);
+      // 更新排序
+      if (this.selected.updated) {
+        gists = gists.sort((a, b) => {
+          return moment(a.updated_at).isBefore(b.updated_at);
+        });
+      }
+
+      // 公开排序
+      if (this.selected.public === 'all') {
+        this.gistsList = gists;
+      } else {
+        this.gistsList = gists.filter(
+          gist => gist.public == (this.selected.public === 'public')
+        );
+      }
+
+      // 打开第一个
+      this.getGistsOpen(this.gistsList[0].id);
     } else {
       this.gistsList = [];
       this.openGist = null;

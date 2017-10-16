@@ -37,11 +37,17 @@ const GistsListContainer = styled.div`
 @observer
 class GistsList extends React.Component {
   sortChange = e => {
-    this.props.store.setSort(e.target.value);
+    this.props.store.setLoading(true);
+    this.props.store.setSelected({
+      public: e.target.value
+    });
   };
 
-  updated = e => {
-    this.props.store.setSort(null, true);
+  updatedChange = e => {
+    this.props.store.setLoading(true);
+    this.props.store.setSelected({
+      updated: !this.props.store.selected.updated
+    });
   };
 
   render() {
@@ -52,7 +58,7 @@ class GistsList extends React.Component {
           <div className="sort clearfix">
             <div className="fl">
               <Radio.Group
-                value={selected.sort}
+                value={selected.public}
                 onChange={this.sortChange}
                 size="small"
               >
@@ -62,7 +68,7 @@ class GistsList extends React.Component {
               </Radio.Group>
             </div>
             <div className="fr">
-              <Checkbox checked={selected.updated} onChange={this.updated}>
+              <Checkbox checked={selected.updated} onChange={this.updatedChange}>
                 Updated
               </Checkbox>
             </div>
