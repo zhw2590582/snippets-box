@@ -248,7 +248,9 @@ export class Stores {
       }
 
       // 打开第一个
-      this.getGistsOpen(this.gistsList[0].id);
+      if(this.gistsList[0].length > 0){
+        this.getGistsOpen(this.gistsList[0].id);
+      }
     } else {
       this.gistsList = [];
       this.openGist = null;
