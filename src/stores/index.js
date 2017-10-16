@@ -148,6 +148,7 @@ export class Stores {
     this.selected = {
       type: 'all', // 类型
       tagName: '', // 值
+      id: '', // 当前选中gist
       public: 'all', // 公开排序
       updated: false, // 更新排序
       keywork: '' // 关键词
