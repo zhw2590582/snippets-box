@@ -339,6 +339,12 @@ export class Stores {
     });
   };
 
+  // 搜索Gist
+  @action
+  searchGist = (opts, callback) => {
+    console.log(opts);
+  };
+
   // 新建Gist
   @action
   createGist = (opts, callback) => {
@@ -346,6 +352,16 @@ export class Stores {
   };
 
   // 编辑Gist
+  @action
+  editGist = (opts, callback) => {
+    console.log(opts);
+  };
+
+  // 系统设置
+  @action
+  setting = (opts, callback) => {
+    console.log(opts);
+  };
 }
 
 export default new Stores();
