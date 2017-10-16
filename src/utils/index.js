@@ -19,7 +19,7 @@ export const resolveGist = gist => {
     gist.name = snippetsMeta.name;
     gist.tags = snippetsMeta.tags;
   } else {
-    gist.name = '';
+    gist.name = Object.keys(gist.files)[0] || '';
     gist.tags = [];
   }
   return gist;
