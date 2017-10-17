@@ -29,6 +29,10 @@ export class Stores {
     });
 
     // 同步配置信息
+    getStorage('options', storage => {
+      if (!storage) return;
+      this.setOptions(storage);
+    });
   }
 
   gistsApi = null; // Gists Api实例
@@ -163,41 +167,26 @@ export class Stores {
     callback && callback();
   };
 
-  // 重置, 第一个参数表示是否静默更新则不改变现有过滤条件
+  // 静默重置
   @action
-  reset = (silent, callback) => {
+  reset = callback => {
     this.setLoading(true);
     this.setGistsApi(this.access_token, () => {
-      if (silent) {
-        runInAction(() => {
-          this.getGists(() => {
-            this.getStarred(() => {
-              this.setLoading(false);
+      runInAction(() => {
+        this.getGists(() => {
+          this.getStarred(() => {
+            // 清空gist缓存, 重新请求
+            this.gistsCache = {};
+            this.setSelected(this.selected, false, () => {
               callback && callback();
             });
           });
         });
-      } else {
-        runInAction(() => {
-          this.selected = {
-            type: 'all',
-            tagName: '',
-            id: '',
-            public: 'all',
-            updated: false,
-            keywork: ''
-          };
-          this.getGists(gists => {
-            this.updateGists(gists);
-            callback && callback();
-          });
-          this.getStarred();
-        });
-      }
+      });
     });
   };
 
-  // 获取全部gists
+  // 获取全部gists, 回调函数返回gists列表
   @action
   getGists = callback => {
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
@@ -209,7 +198,7 @@ export class Stores {
     });
   };
 
-  // 获取全部starred
+  // 获取全部starred, 回调函数返回gists列表
   @action
   getStarred = callback => {
     this.gistsApi.starred({ user: this.userInfo.login }, (err, res) => {
@@ -360,12 +349,7 @@ export class Stores {
   star = (id, callback) => {
     this.gistsApi.star({ id }, err => {
       if (err) errorHandle('Please check your network!');
-      notification.success({
-        message: 'Notification',
-        description: 'Star Success!'
-      });
-      // 静默更新
-      this.reset(true, () => {
+      this.reset(() => {
         callback && callback();
       });
     });
@@ -376,12 +360,7 @@ export class Stores {
   unstar = (id, callback) => {
     this.gistsApi.unstar({ id }, err => {
       if (err) errorHandle('Please check your network!');
-      notification.success({
-        message: 'Notification',
-        description: 'Unstar Success!'
-      });
-      // 静默更新
-      this.reset(true, () => {
+      this.reset(() => {
         callback && callback();
       });
     });
@@ -398,12 +377,7 @@ export class Stores {
         that.setLoading(true);
         that.gistsApi.destroy({ id }, err => {
           if (err) errorHandle('Please check your network!');
-          notification.success({
-            message: 'Notification',
-            description: 'Delete Success!'
-          });
-          // 静默更新
-          that.reset(true, () => {
+          that.reset(() => {
             callback && callback();
           });
         });
@@ -435,7 +409,8 @@ export class Stores {
   // 系统设置
   @action
   setOptions = (opts, callback) => {
-    console.log(opts);
+    this.options = Object.assign({}, this.options, opt);
+    callback && callback();
   };
 }
 

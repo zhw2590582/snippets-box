@@ -158,19 +158,34 @@ class Content extends React.Component {
 
   // 删除
   destroy = id => {
-    this.props.store.destroy(id);
+    this.props.store.destroy(id, () => {
+      notification.success({
+        message: 'Notification',
+        description: 'Delete Success!'
+      });
+    });
   };
 
   // star
   star = id => {
     this.props.store.setLoading(true);
-    this.props.store.star(id);
+    this.props.store.star(id, () => {
+      notification.success({
+        message: 'Notification',
+        description: 'Star Success!'
+      });
+    });
   };
 
   // unstar
   unstar = id => {
     this.props.store.setLoading(true);
-    this.props.store.unstar(id);
+    this.props.store.unstar(id, () => {
+      notification.success({
+        message: 'Notification',
+        description: 'Unstar Success!'
+      });
+    });
   };
 
   render() {
