@@ -15,7 +15,6 @@ import {
 import Setting from './Setting';
 import About from './About';
 import { redirect_uri } from '../config';
-import { version } from '../../package.json';
 
 const InputGroup = Input.Group;
 const Search = Input.Search;
@@ -49,11 +48,6 @@ const HeaderContainer = styled.div`
       }
       span {
         font-size: 16px;
-      }
-      .version{
-        margin-left:5px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.5);
       }
       &:hover {
         opacity: 0.75;
@@ -194,7 +188,6 @@ class Header extends React.Component {
             />
             <span className="fl">
               Snippets Box
-              <span className="version">{version}</span>
             </span>
           </a>
         </div>
