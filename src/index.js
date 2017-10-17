@@ -10,6 +10,8 @@ import App from './components/App';
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 import './styles/global';
+import { LocaleProvider } from 'antd';
+import enUS from 'antd/lib/locale-provider/en_US';
 
 useStrict(true);
 
@@ -18,7 +20,9 @@ const renderApp = Component => {
     <AppContainer>
       <Provider store={stores}>
         <ThemeProvider theme={theme}>
-          <Component />
+          <LocaleProvider locale={enUS}>
+            <Component />
+          </LocaleProvider>
         </ThemeProvider>
       </Provider>
     </AppContainer>,
