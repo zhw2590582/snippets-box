@@ -24,23 +24,8 @@ const AppContainer = styled.div`
 @observer
 class App extends React.Component {
   componentDidMount() {
-    let { setToken, setUserInfo, reset, createGist } = this.props.store;
-
-    // 同步用户信息
-    getStorage('userInfo', storage => {
-      if (!storage) return;
-      setUserInfo(storage);
-    });
-
-    // 同步access_token, 并重置gists信息
-    getStorage('access_token', storage => {
-      if (!storage) return;
-      setToken(storage, () => {
-        reset();
-      });
-    });
-
     // 菜单创建Gist
+    let { createGist } = this.props.store;
     document.body.addEventListener('__snippets_box_hood__', e => {
       if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist')
         return;
@@ -56,7 +41,7 @@ class App extends React.Component {
   }
 
   render() {
-    let { isLoading, userInfo, openGist } = this.props.store;
+    let { isLoading, userInfo } = this.props.store;
     return userInfo ? (
       <AppContainer>
         <Header />

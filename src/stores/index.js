@@ -13,7 +13,26 @@ import Gists from 'gists';
 import moment from 'moment';
 
 export class Stores {
+  constructor() {
+    // 同步用户信息
+    getStorage('userInfo', storage => {
+      if (!storage) return;
+      this.setUserInfo(storage);
+    });
+
+    // 同步access_token, 并重置gists信息
+    getStorage('access_token', storage => {
+      if (!storage) return;
+      this.setToken(storage, () => {
+        this.reset();
+      });
+    });
+
+    // 同步配置信息
+  }
+
   gistsApi = null; // Gists Api实例
+  gistsCache = true; // 是否从缓存中读取
   @observable logging = false; // 登录中
   @observable isLoading = false; // 加载状态
   @observable access_token = ''; // 访问Token
@@ -155,7 +174,8 @@ export class Stores {
     };
     this.setGistsApi(this.access_token, () => {
       // 获取全部gists, 且打开第一个gist
-      this.setSelected({ type: 'all' }, () => {
+      this.getGists(gists => {
+        this.updateGists(gists);
         callback && callback();
       });
       // 获取全部starred,只为显示其数量
@@ -191,14 +211,12 @@ export class Stores {
   @action
   getGistsByTag = (tagName, callback) => {
     let gistsByTag = [];
-    this.getGists(() => {
-      this.allGists.forEach(gist => {
-        if (gist.tags.length > 0 && gist.tags.includes(tagName)) {
-          gistsByTag.push(gist);
-        }
-      });
-      callback && callback(gistsByTag);
+    this.allGists.forEach(gist => {
+      if (gist.tags.length > 0 && gist.tags.includes(tagName)) {
+        gistsByTag.push(gist);
+      }
     });
+    callback && callback(gistsByTag);
   };
 
   // 更新选择方式
@@ -207,22 +225,41 @@ export class Stores {
     this.selected = Object.assign({}, this.selected, opt);
     switch (this.selected.type) {
       case 'all':
-        this.getGists(gists => {
-          this.updateGists(gists);
+        if (this.gistsCache) {
+          this.updateGists(this.allGists);
           callback && callback();
-        });
+        } else {
+          this.getGists(gists => {
+            this.updateGists(gists);
+            callback && callback();
+          });
+        }
         break;
       case 'starred':
-        this.getStarred(gists => {
-          this.updateGists(gists);
+        if (this.gistsCache) {
+          this.updateGists(this.allStarred);
           callback && callback();
-        });
+        } else {
+          this.getStarred(gists => {
+            this.updateGists(gists);
+            callback && callback();
+          });
+        }
         break;
       case 'tag':
-        this.getGistsByTag(this.selected.tagName, gists => {
-          this.updateGists(gists);
-          callback && callback();
-        });
+        if (this.gistsCache) {
+          this.getGistsByTag(this.selected.tagName, gists => {
+            this.updateGists(gists);
+            callback && callback();
+          });
+        } else {
+          this.getGists(() => {
+            this.getGistsByTag(this.selected.tagName, gists => {
+              this.updateGists(gists);
+              callback && callback();
+            });
+          });
+        }
         break;
     }
   };
