@@ -56,7 +56,7 @@ class Sidebar extends React.Component {
       keywork: '' // 关键词
     });
     this.props.store.setLoading(true);
-    this.props.store.setSelected(opt, this.props.store.setting.fromCache);
+    this.props.store.setSelected(opt, this.props.store.options.fromCache);
   };
 
   render() {

@@ -33,7 +33,7 @@ export class Stores {
 
   gistsApi = null; // Gists Api实例
   @observable
-  setting = {
+  options = {
     fromCache: true // 是否从缓存中读取gists
   };
   gistsCache = {}; // 缓存的gists
@@ -317,7 +317,7 @@ export class Stores {
     }
 
     // 是否已存在缓存
-    if (this.setting.fromCache && this.gistsCache[id]) {
+    if (this.options.fromCache && this.gistsCache[id]) {
       this.openGist = this.gistsCache[id];
       this.setLoading(false);
       callback && callback();
@@ -425,7 +425,7 @@ export class Stores {
 
   // 系统设置
   @action
-  setSetting = (opts, callback) => {
+  setOptions = (opts, callback) => {
     console.log(opts);
   };
 }
