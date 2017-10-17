@@ -32,7 +32,10 @@ export class Stores {
   }
 
   gistsApi = null; // Gists Api实例
-  fromCache = true; // 是否从缓存中读取gists
+  @observable
+  setting = {
+    fromCache: true // 是否从缓存中读取gists
+  };
   gistsCache = {}; // 缓存的gists
   @observable logging = false; // 登录中
   @observable isLoading = false; // 加载状态
@@ -314,7 +317,7 @@ export class Stores {
     }
 
     // 是否已存在缓存
-    if (this.fromCache && this.gistsCache[id]) {
+    if (this.setting.fromCache && this.gistsCache[id]) {
       this.openGist = this.gistsCache[id];
       this.setLoading(false);
       callback && callback();
@@ -422,7 +425,7 @@ export class Stores {
 
   // 系统设置
   @action
-  setting = (opts, callback) => {
+  setSetting = (opts, callback) => {
     console.log(opts);
   };
 }

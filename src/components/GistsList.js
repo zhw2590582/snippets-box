@@ -40,14 +40,14 @@ class GistsList extends React.Component {
     this.props.store.setLoading(true);
     this.props.store.setSelected({
       public: e.target.value
-    }, this.props.store.fromCache);
+    }, this.props.store.setting.fromCache);
   };
 
   updatedChange = e => {
     this.props.store.setLoading(true);
     this.props.store.setSelected({
       updated: !this.props.store.selected.updated
-    }, this.props.store.fromCache);
+    }, this.props.store.setting.fromCache);
   };
 
   render() {
