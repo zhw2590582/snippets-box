@@ -32,7 +32,8 @@ export class Stores {
   }
 
   gistsApi = null; // Gists Api实例
-  @observable fromCache = true; // 是否从缓存中读取gists表，注意并不保存gist详情
+  fromCache = true; // 是否从缓存中读取gists
+  gistsCache = {}; // 缓存的gists
   @observable logging = false; // 登录中
   @observable isLoading = false; // 加载状态
   @observable access_token = ''; // 访问Token
@@ -304,16 +305,29 @@ export class Stores {
   @action
   getGistsOpen = (id, callback) => {
     this.selected.id = id;
+
+    // 是否与现在的gist相同
     if (this.openGist && this.openGist.id === id) {
       this.setLoading(false);
       callback && callback();
       return;
     }
+
+    // 是否已存在缓存
+    if(this.fromCache && this.gistsCache[id]){
+      this.openGist = this.gistsCache[id];
+      this.setLoading(false);
+      callback && callback();
+      return;
+    }
+
+    // 发起新请求
     this.gistsApi.download({ id }, (err, gist) => {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
-        this.openGist = resolveGist(gist);
+        this.gistsCache[id] = this.openGist = resolveGist(gist);
         this.setLoading(false);
+        console.log(this)
         callback && callback();
       });
     });
@@ -355,7 +369,7 @@ export class Stores {
         description: 'Unstar Success!'
       });
       // 更新当前表 -- 发生请求
-      this.setSelected(that.selected, true, () => {
+      this.setSelected(this.selected, true, () => {
         callback && callback();
       });
     });
