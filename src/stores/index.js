@@ -32,7 +32,7 @@ export class Stores {
   }
 
   gistsApi = null; // Gists Api实例
-  gistsCache = true; // 是否从缓存中读取
+  @observable fromCache = true; // 是否从缓存中读取gists表，注意并不保存gist详情
   @observable logging = false; // 登录中
   @observable isLoading = false; // 加载状态
   @observable access_token = ''; // 访问Token
@@ -219,13 +219,13 @@ export class Stores {
     callback && callback(gistsByTag);
   };
 
-  // 更新选择方式
+  // 更新Gists方式: 第一个为选项，第二个为是否读缓存，
   @action
-  setSelected = (opt, callback) => {
+  setSelected = (opt, fromCache, callback) => {
     this.selected = Object.assign({}, this.selected, opt);
     switch (this.selected.type) {
       case 'all':
-        if (this.gistsCache) {
+        if (fromCache) {
           this.updateGists(this.allGists);
           callback && callback();
         } else {
@@ -236,7 +236,7 @@ export class Stores {
         }
         break;
       case 'starred':
-        if (this.gistsCache) {
+        if (fromCache) {
           this.updateGists(this.allStarred);
           callback && callback();
         } else {
@@ -247,7 +247,7 @@ export class Stores {
         }
         break;
       case 'tag':
-        if (this.gistsCache) {
+        if (fromCache) {
           this.getGistsByTag(this.selected.tagName, gists => {
             this.updateGists(gists);
             callback && callback();
@@ -284,8 +284,12 @@ export class Stores {
         );
       }
 
-      // 打开第一个
+      // 打开第一个, 并判断是否与已打开的是否同一个
       if (this.gistsList.length > 0) {
+        if (this.openGist && this.openGist.id === this.gistsList[0].id) {
+          this.setLoading(false);
+          return;
+        }
         this.getGistsOpen(this.gistsList[0].id);
       } else {
         this.gistsList = [];
@@ -350,8 +354,8 @@ export class Stores {
         message: 'Notification',
         description: 'Unstar Success!'
       });
-      // 更新当前表
-      that.setSelected(that.selected, () => {
+      // 更新当前表 -- 发生请求
+      this.setSelected(that.selected, true, () => {
         callback && callback();
       });
     });
@@ -372,8 +376,8 @@ export class Stores {
             message: 'Notification',
             description: 'Delete Success!'
           });
-          // 更新当前表
-          that.setSelected(that.selected, () => {
+          // 更新当前表 -- 发生请求
+          that.setSelected(that.selected, true, () => {
             callback && callback();
           });
         });
