@@ -99,13 +99,33 @@ const HeaderContainer = styled.div`
 @observer
 class Header extends React.Component {
   state = {
+    timer: 0,
     settingModal: false,
     aboutModal: false
   };
 
-  // 搜索
-  search = value => {
-    console.log(value);
+  // 立即搜索
+  onSearch = value => {
+    clearTimeout(this.state.timer);
+    this.props.store.searchGist(value);
+  };
+
+  // 延迟执行函数
+  throttle = (fn, delay) => {
+    clearTimeout(this.state.timer);
+    this.setState({
+      timer: setTimeout(() => {
+        fn();
+      }, delay)
+    });
+  };
+
+  // 监听搜索
+  onInput = e => {
+    let value = e.target.value;
+    this.throttle(() => {
+      this.props.store.searchGist(value);
+    }, 500);
   };
 
   // 创建
@@ -185,16 +205,16 @@ class Header extends React.Component {
               alt="logo"
               src={require('../images/icon-48.png')}
             />
-            <span className="fl">
-              Snippets Box
-            </span>
+            <span className="fl">Snippets Box</span>
           </a>
         </div>
         <div className="header-search fl">
           <Search
-            placeholder="Search by keyword or #label"
+            placeholder="Search by name | description | tag | filename"
             style={{ width: 300 }}
-            onSearch={this.search}
+            maxLength="100"
+            onInput={this.onInput}
+            onSearch={this.onSearch}
           />
         </div>
         <div className="header-right fr clearfix">

@@ -1,4 +1,4 @@
-import { observable, action, computed, runInAction } from 'mobx';
+import { observable, action, computed, runInAction, toJS } from 'mobx';
 import { post, get } from '../utils/fetch';
 import { resolveGist, errorHandle } from '../utils';
 import {
@@ -11,6 +11,7 @@ import { client_id, client_secret, redirect_uri } from '../config';
 import { notification, Modal } from 'antd';
 import Gists from 'gists';
 import moment from 'moment';
+import Fuse from 'fuse.js';
 
 export class Stores {
   constructor() {
@@ -36,6 +37,7 @@ export class Stores {
   }
 
   gistsApi = null; // Gists Api实例
+  gistsFuse = null; // Fuse实例
   @observable
   options = {
     fromCache: true // 是否从缓存中读取gists
@@ -56,9 +58,14 @@ export class Stores {
     tagName: '', // 值
     id: '', // 当前选中gist
     public: 'all', // 公开排序
-    updated: false, // 更新排序
-    keywork: '' // 关键词
+    updated: false // 更新排序
   };
+
+  // 获取allGists + allStarred
+  @computed
+  get allFavorites() {
+    return this.allGists.concat(this.allStarred.filter(gist => gist.owner.id !== this.userInfo.id));
+  }
 
   // 获取所有标签
   @computed
@@ -186,7 +193,7 @@ export class Stores {
     });
   };
 
-  // 获取全部gists, 回调函数返回gists列表
+  // 获取全部自己的gists, 回调函数返回gists列表
   @action
   getGists = callback => {
     this.gistsApi.list({ user: this.userInfo.login }, (err, res) => {
@@ -198,7 +205,7 @@ export class Stores {
     });
   };
 
-  // 获取全部starred, 回调函数返回gists列表
+  // 获取全部自己starred, 回调函数返回gists列表
   @action
   getStarred = callback => {
     this.gistsApi.starred({ user: this.userInfo.login }, (err, res) => {
@@ -390,8 +397,37 @@ export class Stores {
 
   // 搜索Gist
   @action
-  searchGist = (opts, callback) => {
-    console.log(opts);
+  searchGist = (value, callback) => {
+    this.setLoading(true);
+    if (!value) {
+      this.setSelected({ type: 'all' }, this.options.fromCache);
+    } else {
+      // 清除选中状态
+      this.selected = {
+        tagName: '',
+        id: '',
+        public: 'all',
+        updated: false
+      };
+
+      // 合并自己和标记的gists并转换为javascript结构 => 注意自己标记自己的gist
+      let searchLists = toJS(this.allGists).concat(toJS(this.allStarred.filter(gist => gist.owner.id !== this.userInfo.id)));
+
+      // 实例化
+      this.gistsFuse = new Fuse(searchLists, {
+        keys: ['name', 'description', 'tags', 'filenames']
+      });
+
+      // 获取关键id
+      let searchId = this.gistsFuse.search(value).map(gist => gist.id);
+      
+      // 更新
+      this.updateGists(
+        this.allFavorites.filter(gist => {
+          return searchId.includes(gist.id);
+        })
+      );
+    }
   };
 
   // 新建Gist

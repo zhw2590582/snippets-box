@@ -18,9 +18,11 @@ export const resolveGist = gist => {
     gist.description = gist.description.split('@snippetsMeta')[0];
     gist.name = snippetsMeta.name;
     gist.tags = snippetsMeta.tags;
+    gist.filenames = Object.keys(gist.files).map(name => name);
   } else {
     gist.name = Object.keys(gist.files)[0] || '';
     gist.tags = [];
+    gist.filenames = [];
   }
   return gist;
 };
