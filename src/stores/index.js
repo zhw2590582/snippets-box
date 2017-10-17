@@ -314,7 +314,7 @@ export class Stores {
     }
 
     // 是否已存在缓存
-    if(this.fromCache && this.gistsCache[id]){
+    if (this.fromCache && this.gistsCache[id]) {
       this.openGist = this.gistsCache[id];
       this.setLoading(false);
       callback && callback();
@@ -327,7 +327,7 @@ export class Stores {
       runInAction(() => {
         this.gistsCache[id] = this.openGist = resolveGist(gist);
         this.setLoading(false);
-        console.log(this)
+        console.log(this);
         callback && callback();
       });
     });
@@ -369,7 +369,7 @@ export class Stores {
         description: 'Unstar Success!'
       });
       // 更新当前表 -- 发生请求
-      this.setSelected(this.selected, true, () => {
+      this.setSelected(this.selected, false, () => {
         callback && callback();
       });
     });
@@ -391,7 +391,7 @@ export class Stores {
             description: 'Delete Success!'
           });
           // 更新当前表 -- 发生请求
-          that.setSelected(that.selected, true, () => {
+          that.setSelected(that.selected, false, () => {
             callback && callback();
           });
         });
