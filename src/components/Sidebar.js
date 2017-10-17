@@ -52,7 +52,7 @@ const SidebarContainer = styled.div`
 @observer
 class Sidebar extends React.Component {
   setSelected = opt => {
-    let { setLoading, setSelected, fromCache } = this.props.store;
+    let { setLoading, setSelected } = this.props.store;
     Object.assign(opt, {
       id: '',
       public: 'all',
@@ -60,7 +60,7 @@ class Sidebar extends React.Component {
       keywork: ''
     });
     setLoading(true);
-    setSelected(opt, fromCache);
+    setSelected(opt, this.props.store.options.fromCache);
   };
 
   render() {
