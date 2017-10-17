@@ -54,7 +54,6 @@ class Sidebar extends React.Component {
   setSelected = opt => {
     let { setLoading, setSelected } = this.props.store;
     Object.assign(opt, {
-      tagName: '',
       id: '',
       public: 'all',
       updated: false

@@ -256,9 +256,10 @@ class Header extends React.Component {
         </div>
         <Modal
           title="Setting"
+          width={350}
           visible={this.state.settingModal}
-          onOk={this.settingOk}
           onCancel={this.settingCancel}
+          footer={null}
         >
           <Setting />
         </Modal>

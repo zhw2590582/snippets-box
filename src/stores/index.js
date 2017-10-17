@@ -64,7 +64,9 @@ export class Stores {
   // 获取allGists + allStarred
   @computed
   get allFavorites() {
-    return this.allGists.concat(this.allStarred.filter(gist => gist.owner.id !== this.userInfo.id));
+    return this.allGists.concat(
+      this.allStarred.filter(gist => gist.owner.id !== this.userInfo.id)
+    );
   }
 
   // 获取所有标签
@@ -411,7 +413,9 @@ export class Stores {
       };
 
       // 合并自己和标记的gists并转换为javascript结构 => 注意自己标记自己的gist
-      let searchLists = toJS(this.allGists).concat(toJS(this.allStarred.filter(gist => gist.owner.id !== this.userInfo.id)));
+      let searchLists = toJS(this.allGists).concat(
+        toJS(this.allStarred.filter(gist => gist.owner.id !== this.userInfo.id))
+      );
 
       // 实例化
       this.gistsFuse = new Fuse(searchLists, {
@@ -420,7 +424,7 @@ export class Stores {
 
       // 获取关键id
       let searchId = this.gistsFuse.search(value).map(gist => gist.id);
-      
+
       // 更新
       this.updateGists(
         this.allFavorites.filter(gist => {
@@ -444,9 +448,11 @@ export class Stores {
 
   // 系统设置
   @action
-  setOptions = (opts, callback) => {
-    this.options = Object.assign({}, this.options, opt);
-    callback && callback();
+  setOptions = (option, callback) => {
+    this.options = Object.assign({}, this.options, option);
+    setStorage('options', this.options, () => {
+      callback && callback();
+    });
   };
 }
 
