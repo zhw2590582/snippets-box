@@ -163,27 +163,37 @@ export class Stores {
     callback && callback();
   };
 
-  // 重置
+  // 重置, 第一个参数表示是否静默更新则不改变现有过滤条件
   @action
-  reset = callback => {
+  reset = (silent, callback) => {
     this.setLoading(true);
-    // 还原默认值
-    this.selected = {
-      type: 'all', // 类型
-      tagName: '', // 值
-      id: '', // 当前选中gist
-      public: 'all', // 公开排序
-      updated: false, // 更新排序
-      keywork: '' // 关键词
-    };
     this.setGistsApi(this.access_token, () => {
-      // 获取全部gists, 且打开第一个gist
-      this.getGists(gists => {
-        this.updateGists(gists);
-        callback && callback();
-      });
-      // 获取全部starred,只为显示其数量
-      this.getStarred();
+      if (silent) {
+        runInAction(() => {
+          this.getGists(() => {
+            this.getStarred(() => {
+              this.setLoading(false);
+              callback && callback();
+            });
+          });
+        });
+      } else {
+        runInAction(() => {
+          this.selected = {
+            type: 'all',
+            tagName: '',
+            id: '',
+            public: 'all',
+            updated: false,
+            keywork: ''
+          };
+          this.getGists(gists => {
+            this.updateGists(gists);
+            callback && callback();
+          });
+          this.getStarred();
+        });
+      }
     });
   };
 
@@ -354,9 +364,8 @@ export class Stores {
         message: 'Notification',
         description: 'Star Success!'
       });
-      // 只为更新数量
-      this.getStarred(() => {
-        this.setLoading(false);
+      // 静默更新
+      this.reset(true, () => {
         callback && callback();
       });
     });
@@ -371,8 +380,8 @@ export class Stores {
         message: 'Notification',
         description: 'Unstar Success!'
       });
-      // 更新当前表 -- 发生请求
-      this.setSelected(this.selected, false, () => {
+      // 静默更新
+      this.reset(true, () => {
         callback && callback();
       });
     });
@@ -393,8 +402,8 @@ export class Stores {
             message: 'Notification',
             description: 'Delete Success!'
           });
-          // 更新当前表 -- 发生请求
-          that.setSelected(that.selected, false, () => {
+          // 静默更新
+          that.reset(true, () => {
             callback && callback();
           });
         });
