@@ -284,12 +284,8 @@ export class Stores {
         );
       }
 
-      // 打开第一个, 并判断是否与已打开的是否同一个
+      // 打开第一个
       if (this.gistsList.length > 0) {
-        if (this.openGist && this.openGist.id === this.gistsList[0].id) {
-          this.setLoading(false);
-          return;
-        }
         this.getGistsOpen(this.gistsList[0].id);
       } else {
         this.gistsList = [];
@@ -308,12 +304,16 @@ export class Stores {
   @action
   getGistsOpen = (id, callback) => {
     this.selected.id = id;
+    if (this.openGist && this.openGist.id === id) {
+      this.setLoading(false);
+      callback && callback();
+      return;
+    }
     this.gistsApi.download({ id }, (err, gist) => {
       if (err) errorHandle('Please check your network!');
       runInAction(() => {
         this.openGist = resolveGist(gist);
         this.setLoading(false);
-        console.log(this);
         callback && callback();
       });
     });
@@ -402,8 +402,8 @@ export class Stores {
 
   // 编辑Gist
   @action
-  editGist = (opts, callback) => {
-    console.log(opts);
+  editGist = (gist, callback) => {
+    console.log(gist);
   };
 
   // 系统设置

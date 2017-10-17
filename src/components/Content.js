@@ -152,23 +152,26 @@ class Content extends React.Component {
   };
 
   // 编辑
+  edit = gist => {
+    this.props.store.editGist(gist);
+  }
 
   // 删除
   destroy = id => {
     this.props.store.destroy(id);
-  }
+  };
 
   // star
   star = id => {
     this.props.store.setLoading(true);
     this.props.store.star(id);
-  }
+  };
 
   // unstar
   unstar = id => {
     this.props.store.setLoading(true);
     this.props.store.unstar(id);
-  }
+  };
 
   render() {
     let { openGist, userInfo, selected } = this.props.store;
@@ -229,8 +232,18 @@ class Content extends React.Component {
               <div className="gistTools clearfix">
                 {openGist.owner.login === userInfo.login && (
                   <ButtonGroup className="fl">
-                    <Button icon="edit">Edit</Button>
-                    <Button icon="delete" onClick={this.destroy.bind(this, openGist.id)}>Delete</Button>
+                    <Button
+                      icon="edit"
+                      onClick={this.edit.bind(this, openGist)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      icon="delete"
+                      onClick={this.destroy.bind(this, openGist.id)}
+                    >
+                      Delete
+                    </Button>
                   </ButtonGroup>
                 )}
                 <ButtonGroup className="fr">

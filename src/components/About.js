@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
 import { version } from '../../package.json';
 
 const AboutContainer = styled.div`
@@ -13,12 +11,10 @@ const AboutContainer = styled.div`
     .name {
       margin-right: 10px;
     }
-    .info {
-    }
   }
 `;
 
-const About = observer(props => {
+const About = () => {
   return (
     <AboutContainer>
       <div className="item clearfix">
@@ -39,6 +35,6 @@ const About = observer(props => {
       </div>
     </AboutContainer>
   );
-});
+};
 
 export default About;

@@ -9,15 +9,14 @@ import Sidebar from './Sidebar';
 import GistsList from './GistsList';
 import Content from './Content';
 import Loading from './Loading';
-import { isProduction } from '../utils';
-import { getStorage, delStorage } from '../utils/storage';
-import DevTools from 'mobx-react-devtools';
 import { redirect_uri } from '../config';
+import { isProduction } from '../utils';
+import DevTools from 'mobx-react-devtools';
 
 const AppContainer = styled.div`
   height: 100%;
-  background: ${props => props.theme.bodyBg};
   font-size: 14px;
+  background: ${props => props.theme.bodyBg};
 `;
 
 @inject('store')
@@ -25,11 +24,12 @@ const AppContainer = styled.div`
 class App extends React.Component {
   componentDidMount() {
     // 菜单创建Gist
+    let { userInfo, createGist } = this.props.store;
     document.body.addEventListener('__snippets_box_hood__', e => {
       if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist')
         return;
-      if (this.props.store.userInfo) {
-        this.props.store.createGist(e.detail);
+      if (userInfo) {
+        createGist(e.detail);
       } else {
         notification.error({
           message: 'Notification',
@@ -48,6 +48,7 @@ class App extends React.Component {
         <GistsList />
         <Content />
         {isLoading && <Loading />}
+        {!isProduction && <DevTools />}
       </AppContainer>
     ) : (
       <Login />
