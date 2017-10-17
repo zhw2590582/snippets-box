@@ -26,6 +26,9 @@ const SidebarContainer = styled.div`
       padding: 0 15px;
       border-bottom: 1px solid #222e38;
       color: #afafaf;
+      .num{
+        color: #6b6b6b;
+      }
     }
     .item {
       color: #fff;
@@ -49,25 +52,35 @@ const SidebarContainer = styled.div`
 @observer
 class Sidebar extends React.Component {
   setSelected = opt => {
+    let { setLoading, setSelected, fromCache } = this.props.store;
     Object.assign(opt, {
-      id: '', // 当前选中gist
-      public: 'all', // 公开排序
-      updated: false, // 更新排序
-      keywork: '' // 关键词
+      id: '',
+      public: 'all',
+      updated: false,
+      keywork: ''
     });
-    this.props.store.setLoading(true);
-    this.props.store.setSelected(opt, this.props.store.options.fromCache);
+    setLoading(true);
+    setSelected(opt, fromCache);
   };
 
   render() {
-    let { selected, allGists, allStarred, getTags } = this.props.store;
+    let {
+      selected,
+      allGists,
+      allStarred,
+      getTags,
+      getTagsLength
+    } = this.props.store;
     return (
       <SidebarContainer>
         <Scrollbars className="scrollbars">
           <div className="filter">
-            <div className="title">
-              <Icon type="star-o" />
-              {` Favorites`}
+            <div className="title clearfix">
+              <div className="fl">
+                <Icon type="star-o" />
+                {` Favorites`}
+              </div>
+              <div className="num fr">{allGists.length + allStarred.length}</div>
             </div>
             <div
               className={`item hand clearfix ${selected.type == 'all'
@@ -89,9 +102,12 @@ class Sidebar extends React.Component {
             </div>
           </div>
           <div className="filter">
-            <div className="title">
-              <Icon type="tags-o" />
-              {` All Tags`}
+            <div className="title clearfix">
+              <div className="fl">
+                <Icon type="tags-o" />
+                {` All Tags`}
+              </div>
+              <div className="num fr">{getTagsLength}</div>
             </div>
             {Object.keys(getTags).map(item => {
               return (
