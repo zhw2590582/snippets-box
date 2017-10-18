@@ -70,6 +70,9 @@ const HeaderContainer = styled.div`
     .creat {
       padding-right: 20px;
       border-right: 1px solid ${props => props.theme.borderColor};
+      .ant-btn {
+        margin-left: 15px;
+      }
     }
     .refresh {
     }
@@ -129,7 +132,31 @@ class Header extends React.Component {
   };
 
   // 创建
-  creat = () => {};
+  creat = () => {
+    this.props.store.setEditMode('new');
+  };
+
+  // 取消编辑
+  cancel = () => {
+    let that = this;
+    Modal.confirm({
+      title: 'Exit the current edit mode?',
+      content: '',
+      onOk() {
+        that.props.store.setEditMode('');
+      },
+      onCancel() {
+        console.log('Cancel');
+      }
+    });
+  };
+
+  // 保存编辑
+  save = () => {
+    let { editGist, createGist } = this.props.store;
+    // 验证
+    createGist();
+  };
 
   // 刷新
   reload = event => {
@@ -195,7 +222,7 @@ class Header extends React.Component {
   };
 
   render() {
-    let { userInfo } = this.props.store;
+    let { userInfo, editMode } = this.props.store;
     return (
       <HeaderContainer className="clearfix">
         <div className="header-left fl">
@@ -219,9 +246,20 @@ class Header extends React.Component {
         </div>
         <div className="header-right fr clearfix">
           <div className="item creat fl">
-            <Button type="primary" icon="file" onClick={this.creat}>
-              New Gist
-            </Button>
+            {editMode ? (
+              <div>
+                <Button icon="close" onClick={this.cancel}>
+                  Cancel
+                </Button>
+                <Button type="primary" icon="save" onClick={this.save}>
+                  Save
+                </Button>
+              </div>
+            ) : (
+              <Button type="primary" icon="file" onClick={this.creat}>
+                New Gist
+              </Button>
+            )}
           </div>
           <Tooltip placement="bottom" title="Refresh Gists">
             <a className="item refresh fl" href="#" onClick={this.reload}>

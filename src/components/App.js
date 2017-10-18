@@ -8,6 +8,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import GistsList from './GistsList';
 import Content from './Content';
+import Editor from './Editor';
 import Loading from './Loading';
 import { redirect_uri } from '../config';
 import { isProduction } from '../utils';
@@ -40,13 +41,13 @@ class App extends React.Component {
   }
 
   render() {
-    let { isLoading, userInfo } = this.props.store;
+    let { isLoading, userInfo, editMode } = this.props.store;
     return userInfo ? (
       <AppContainer>
         <Header />
         <Sidebar />
         <GistsList />
-        <Content />
+        {editMode ? <Editor /> : <Content />}
         {isLoading && <Loading />}
         {!isProduction && <DevTools />}
       </AppContainer>

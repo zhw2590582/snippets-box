@@ -51,7 +51,6 @@ export class Stores {
   @observable allStarred = []; // 收藏Gists
   @observable gistsList = []; // 当前Gists
   @observable openGist = null; // 打开Gist
-  @observable newGist = null; // 新建Gist
   @observable // 过滤条件
   selected = {
     type: 'all', // 类型
@@ -60,6 +59,11 @@ export class Stores {
     public: 'all', // 公开排序
     updated: false // 更新排序
   };
+  @observable editMode = false; // 编辑模式
+  @observable editGist = { // 编辑详情
+    
+  };
+  
 
   // 获取allGists + allStarred
   @computed
@@ -155,6 +159,13 @@ export class Stores {
   @action
   setLoading = (val, callback) => {
     this.isLoading = val;
+    callback && callback();
+  };
+
+  // 编辑模式
+  @action
+  setEditMode = (val, callback) => {
+    this.editMode = val;
     callback && callback();
   };
 
@@ -436,8 +447,11 @@ export class Stores {
 
   // 新建Gist
   @action
-  createGist = (opts, callback) => {
-    console.log(opts);
+  createGist = callback => {
+    // 保存
+    this.reset();
+    this.setEditMode(false);
+    callback && callback();
   };
 
   // 编辑Gist
