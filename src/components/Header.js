@@ -143,7 +143,7 @@ class Header extends React.Component {
       title: 'Exit the current edit mode?',
       content: '',
       onOk() {
-        that.props.store.setEditMode('');
+        that.props.store.setEditMode(false);
       },
       onCancel() {
         console.log('Cancel');

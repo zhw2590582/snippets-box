@@ -64,14 +64,20 @@ export class Stores {
   editGistInfo = {
     // 编辑详情
     id: '',
-    name: '1',
-    description: '2',
-    tags: ['3', '4'],
-    public: true,
-    files: {
-      unname: 'uncode',
-      unname2: 'uncode2'
-    }
+    name: '',
+    description: '',
+    tags: [],
+    public: false,
+    files: [
+      {
+        filename: 'filename',
+        content: 'content'
+      },
+      {
+        filename: 'filename',
+        content: 'content'
+      }
+    ]
   };
 
   // 获取allGists + allStarred
@@ -454,11 +460,37 @@ export class Stores {
     }
   };
 
-  // 新建\编辑Gist
+  // 新建Gist
   @action
   createGist = (option, callback) => {
-    this.editGistInfo[option.type] = option.value;
+    switch (option.type) {
+      case 'filename':
+        this.editGistInfo.files[option.index].filename = option.value;
+        break;
+      case 'fileContent':
+        this.editGistInfo.files[option.index].content = option.value;
+        break;
+      case 'deleteFile':
+        this.editGistInfo.files.splice(option.index, 1);
+        break;
+      default:
+        this.editGistInfo[option.type] = option.value;
+    }
     callback && callback();
+  };
+
+  // 编辑Gist
+  @action
+  editGist = (gist, callback) => {
+    this.editGistInfo.id = gist.id;
+    this.editGistInfo.name = gist.name;
+    this.editGistInfo.description = gist.description;
+    this.editGistInfo.tags = gist.tags;
+    this.editGistInfo.public = gist.public;
+    this.editGistInfo.files = Object.keys(gist.files).map(filename => ({
+      filename: filename,
+      content: gist.files[filename].content
+    }));
   };
 
   // 保存

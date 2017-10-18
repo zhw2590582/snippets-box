@@ -11,8 +11,7 @@ const EditorContainer = styled.div`
   position: relative;
   padding-top: ${props => props.theme.headerHeight}px;
   padding-left: ${props =>
-    props.theme.sidebarWidth + props.theme.gistsListWidth + 10}px;
-  padding-right: 10px;
+    props.theme.sidebarWidth + props.theme.gistsListWidth}px;
   padding-bottom: 50px;
   max-width: 2000px;
   .ant-row {
@@ -20,6 +19,32 @@ const EditorContainer = styled.div`
     label {
       font-size: 14px;
     }
+    .ant-tag{
+
+    }
+  }
+  .editorHeader {
+    padding: 0 10px 10px;
+    border-bottom: 1px solid ${props => props.theme.borderColor};
+    .name {
+    }
+    .description {
+    }
+    .tags {
+    }
+  }
+  .files {
+    .fileItem{
+      padding: 20px 10px;      
+      border-bottom: 1px solid ${props => props.theme.borderColor};
+      .filename {
+        margin-bottom: 15px;
+      }
+      .fileContent {
+      }
+    }
+  }
+  .public {
   }
 `;
 
@@ -32,7 +57,7 @@ class Editor extends React.Component {
     inputValue: ''
   };
 
-  // 标签 ------------------------------------
+  // 标签
   handleClose = removedTag => {
     const tags = this.props.store.editGistInfo.tags.filter(
       tag => tag !== removedTag
@@ -70,6 +95,7 @@ class Editor extends React.Component {
 
   saveInputRef = input => (this.input = input);
 
+  // 名字
   nameChange = e => {
     this.handleFormChange({
       type: 'name',
@@ -77,6 +103,7 @@ class Editor extends React.Component {
     });
   };
 
+  // 描述
   descriptionChange = e => {
     this.handleFormChange({
       type: 'description',
@@ -84,6 +111,7 @@ class Editor extends React.Component {
     });
   };
 
+  // 公开
   publicChange = value => {
     this.handleFormChange({
       type: 'public',
@@ -91,6 +119,34 @@ class Editor extends React.Component {
     });
   };
 
+  // 文件
+  // 文件名
+  filenameChange = (index, e) => {
+    this.handleFormChange({
+      type: 'filename',
+      index: index,
+      value: e.target.value
+    });
+  };
+
+  // 文件内容
+  fileContentChange = (index, e) => {
+    this.handleFormChange({
+      type: 'fileContent',
+      index: index,
+      value: e.target.value
+    });
+  };
+
+  // 删除文件
+  deleteFile = index => {
+    this.handleFormChange({
+      type: 'deleteFile',
+      index: index
+    });
+  };
+
+  // 监听全部
   handleFormChange = changedFields => {
     const { createGist } = this.props.store;
     createGist(changedFields);
@@ -101,64 +157,94 @@ class Editor extends React.Component {
     const { editGistInfo } = this.props.store;
     return (
       <EditorContainer>
-        <FormItem label="Name">
-          <Input
-            value={editGistInfo.name}
-            onChange={this.nameChange}
-            placeholder="Gist Name"
-            maxLength="100"
-          />
-        </FormItem>
-        <FormItem label="Description">
-          <TextArea
-            value={editGistInfo.description}
-            onChange={this.descriptionChange}
-            placeholder="Gist Description"
-            autosize={{ minRows: 2, maxRows: 4 }}
-            maxLength="200"
-          />
-        </FormItem>
-        <FormItem label="Tags">
-          {editGistInfo.tags.map((tag, index) => {
-            const isLongTag = tag.length > 20;
-            const tagElem = (
+        <div className="editorHeader">
+          <FormItem label="Name" className="name">
+            <Input
+              value={editGistInfo.name}
+              onChange={this.nameChange}
+              placeholder="Gist Name"
+              maxLength="100"
+            />
+          </FormItem>
+          <FormItem label="Description" className="description">
+            <TextArea
+              value={editGistInfo.description}
+              onChange={this.descriptionChange}
+              placeholder="Gist Description"
+              autosize={{ minRows: 2, maxRows: 4 }}
+              maxLength="200"
+            />
+          </FormItem>
+          <FormItem label="Tags" className="tags">
+            {editGistInfo.tags.map((tag, index) => {
+              const isLongTag = tag.length > 20;
+              const tagElem = (
+                <Tag
+                  key={tag}
+                  closable={true}
+                  afterClose={() => this.handleClose(tag)}
+                >
+                  {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                </Tag>
+              );
+              return isLongTag ? (
+                <Tooltip title={tag}>{tagElem}</Tooltip>
+              ) : (
+                tagElem
+              );
+            })}
+            {inputVisible && (
+              <Input
+                ref={this.saveInputRef}
+                type="text"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValue}
+                onChange={this.handleInputChange}
+                onBlur={this.handleInputConfirm}
+                onPressEnter={this.handleInputConfirm}
+              />
+            )}
+            {!inputVisible && (
               <Tag
-                key={tag}
-                closable={true}
-                afterClose={() => this.handleClose(tag)}
+                onClick={this.showInput}
               >
-                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                + New Tag
               </Tag>
-            );
-            return isLongTag ? (
-              <Tooltip title={tag}>{tagElem}</Tooltip>
-            ) : (
-              tagElem
+            )}
+          </FormItem>
+          <FormItem label="Public" className="public">
+            <Switch
+              checked={editGistInfo.public}
+              onChange={this.publicChange}
+            />
+          </FormItem>
+        </div>
+        <FormItem className="files">
+          {editGistInfo.files.map((file, index) => {
+            return (
+              <div key={index} className="fileItem">
+                <div className="filename clearfix">
+                  <Input
+                    style={{width: 300}}
+                    className="fl"
+                    value={file.filename}
+                    onChange={this.filenameChange.bind(this, index)}
+                    placeholder="FileName"
+                    maxLength="100"
+                  />
+                  <Button className="fr" type="danger" icon="delete" onClick={this.deleteFile.bind(this, index)}></Button>
+                </div>
+                <div className="fileContent">
+                  <TextArea
+                    value={file.content}
+                    onChange={this.fileContentChange.bind(this, index)}
+                    autosize={{ minRows: 8, maxRows: 15 }}
+                  />
+                </div>
+              </div>
             );
           })}
-          {inputVisible && (
-            <Input
-              ref={this.saveInputRef}
-              type="text"
-              size="small"
-              style={{ width: 78 }}
-              value={inputValue}
-              onChange={this.handleInputChange}
-              onBlur={this.handleInputConfirm}
-              onPressEnter={this.handleInputConfirm}
-            />
-          )}
-          {!inputVisible && (
-            <Tag
-              onClick={this.showInput}
-              style={{ background: '#fff', borderStyle: 'dashed' }}
-            >
-              + New Tag
-            </Tag>
-          )}
-        </FormItem>
-        <FormItem label="Public">
-          <Switch checked={editGistInfo.public} onChange={this.publicChange} />
         </FormItem>
       </EditorContainer>
     );
