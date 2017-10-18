@@ -60,10 +60,25 @@ export class Stores {
     updated: false // 更新排序
   };
   @observable editMode = false; // 编辑模式
-  @observable editGist = { // 编辑详情
-    
+  @observable
+  editGistInfo = {
+    // 编辑详情
+    name: {
+      value: 'name'
+    },
+    description: {
+      value: 'description'
+    },
+    tags: {
+      value: ['tags1', 'tags2']
+    },
+    public: {
+      value: true
+    },
+    files: {
+      value: {}
+    }
   };
-  
 
   // 获取allGists + allStarred
   @computed

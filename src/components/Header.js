@@ -133,7 +133,7 @@ class Header extends React.Component {
 
   // 创建
   creat = () => {
-    this.props.store.setEditMode('new');
+    this.props.store.setEditMode(true);
   };
 
   // 取消编辑

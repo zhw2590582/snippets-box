@@ -153,6 +153,7 @@ class Content extends React.Component {
 
   // 编辑
   edit = gist => {
+    this.props.store.setEditMode(true);
     this.props.store.editGist(gist);
   };
 
