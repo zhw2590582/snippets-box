@@ -58,7 +58,7 @@ class Gist extends React.Component {
   };
 
   render() {
-    let { list } = this.props;
+    let { list, editGistInfo } = this.props;
     let { selected } = this.props.store;
     return (
       <GistContainer>
