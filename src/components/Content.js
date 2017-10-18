@@ -154,7 +154,7 @@ class Content extends React.Component {
   // 编辑
   edit = gist => {
     this.props.store.editGist(gist);
-  }
+  };
 
   // 删除
   destroy = id => {
@@ -191,8 +191,7 @@ class Content extends React.Component {
   render() {
     let { openGist, userInfo, selected } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
-    let defaultActiveKey =
-      openGist && Object.keys(openGist.files).map((file, index) => '' + index);
+    let defaultActiveKey = openGist && Object.keys(openGist.files).map(file => file);
     return (
       <ContentContainer>
         {openGist ? (
@@ -262,7 +261,12 @@ class Content extends React.Component {
                   </ButtonGroup>
                 )}
                 <ButtonGroup className="fr">
-                  <Button icon="eye-o">Open</Button>
+                  <Button
+                    icon="eye-o"
+                    onClick={() => window.open(openGist.html_url)}
+                  >
+                    Open
+                  </Button>
                   {
                     // 检测是否star不成功 ==> 未解决
                   }
@@ -292,10 +296,7 @@ class Content extends React.Component {
                 {Object.keys(openGist.files).map((file, index) => {
                   let fileItem = openGist.files[file];
                   return (
-                    <Panel
-                      header={<PanelHeader file={fileItem} />}
-                      key={'' + index}
-                    >
+                    <Panel header={<PanelHeader file={fileItem} />} key={file}>
                       <pre className="line-numbers">
                         <code
                           className={
