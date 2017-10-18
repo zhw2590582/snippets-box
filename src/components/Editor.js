@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { Button, Modal, Form, Input, Radio, Tag, Tooltip, Switch } from 'antd';
+import { Button, Form, Input, Tag, Tooltip, Switch } from 'antd';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
@@ -23,34 +23,23 @@ const EditorContainer = styled.div`
   }
 `;
 
-// 展示组件
-@Form.create({
-  onFieldsChange(props, changedFields) {
-    props.onChange(changedFields);
-  },
-  mapPropsToFields(props) {
-    return {
-      name: props.name,
-      description: props.description,
-      tags: props.tags,
-      public: props.public,
-      files: props.files
-    };
-  }
-})
-class CustomizedForm extends React.Component {
+// 容器组件
+@inject('store')
+@observer
+class Editor extends React.Component {
   state = {
     inputVisible: false,
     inputValue: ''
   };
 
+  // 标签 ------------------------------------
   handleClose = removedTag => {
-    const tags = this.props.tags.value.filter(tag => tag !== removedTag);
-    this.props.onChange({
-      tags: {
-        name: 'tags',
-        value: tags
-      } 
+    const tags = this.props.store.editGistInfo.tags.filter(
+      tag => tag !== removedTag
+    );
+    this.handleFormChange({
+      type: 'tags',
+      value: tags
     });
   };
 
@@ -65,15 +54,13 @@ class CustomizedForm extends React.Component {
   handleInputConfirm = () => {
     const state = this.state;
     const inputValue = state.inputValue;
-    let tags = this.props.tags.value;
+    let tags = this.props.store.editGistInfo.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    this.props.onChange({
-      tags: {
-        name: 'tags',
-        value: tags
-      } 
+    this.handleFormChange({
+      type: 'tags',
+      value: tags
     });
     this.setState({
       inputVisible: false,
@@ -83,37 +70,56 @@ class CustomizedForm extends React.Component {
 
   saveInputRef = input => (this.input = input);
 
-  componentDidMount() {
+  nameChange = e => {
+    this.handleFormChange({
+      type: 'name',
+      value: e.target.value
+    });
+  };
 
-  }
+  descriptionChange = e => {
+    this.handleFormChange({
+      type: 'description',
+      value: e.target.value
+    });
+  };
+
+  publicChange = value => {
+    this.handleFormChange({
+      type: 'public',
+      value: value
+    });
+  };
+
+  handleFormChange = changedFields => {
+    const { createGist } = this.props.store;
+    createGist(changedFields);
+  };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
     const { inputVisible, inputValue } = this.state;
-    const { tags } = this.props;
-    
+    const { editGistInfo } = this.props.store;
     return (
-      <Form>
+      <EditorContainer>
         <FormItem label="Name">
-          {getFieldDecorator('name', {
-            rules: [{ required: true, message: 'Gist name is required!' }]
-          })(<Input placeholder="Gist Name" maxLength="100" />)}
+          <Input
+            value={editGistInfo.name}
+            onChange={this.nameChange}
+            placeholder="Gist Name"
+            maxLength="100"
+          />
         </FormItem>
         <FormItem label="Description">
-          {getFieldDecorator('description', {
-            rules: [
-              { required: true, message: 'Gist description is required!' }
-            ]
-          })(
-            <TextArea
-              placeholder="Gist Description"
-              autosize={{ minRows: 2, maxRows: 4 }}
-              maxLength="200"
-            />
-          )}
+          <TextArea
+            value={editGistInfo.description}
+            onChange={this.descriptionChange}
+            placeholder="Gist Description"
+            autosize={{ minRows: 2, maxRows: 4 }}
+            maxLength="200"
+          />
         </FormItem>
         <FormItem label="Tags">
-          {tags.value.map((tag, index) => {
+          {editGistInfo.tags.map((tag, index) => {
             const isLongTag = tag.length > 20;
             const tagElem = (
               <Tag
@@ -152,28 +158,8 @@ class CustomizedForm extends React.Component {
           )}
         </FormItem>
         <FormItem label="Public">
-          {getFieldDecorator('public', { valuePropName: 'checked' })(
-            <Switch />
-          )}
+          <Switch checked={editGistInfo.public} onChange={this.publicChange} />
         </FormItem>
-      </Form>
-    );
-  }
-}
-
-// 容器组件
-@inject('store')
-@observer
-class Editor extends React.Component {
-  handleFormChange = changedFields => {
-    const { createGist } = this.props.store;
-    createGist(changedFields);
-  };
-  render() {
-    const { editGistInfo } = this.props.store;
-    return (
-      <EditorContainer>
-        <CustomizedForm {...editGistInfo} onChange={this.handleFormChange} />
       </EditorContainer>
     );
   }

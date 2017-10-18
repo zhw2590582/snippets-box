@@ -61,24 +61,16 @@ export class Stores {
   };
   @observable editMode = false; // 编辑模式
   @observable
-  editGistInfo = {// 编辑详情
-    id: {
-      value: ''
-    },
-    name: {
-      value: ''
-    },
-    description: {
-      value: ''
-    },
-    tags: {
-      value: []
-    },
-    public: {
-      value: true
-    },
+  editGistInfo = {
+    // 编辑详情
+    id: '',
+    name: '1',
+    description: '2',
+    tags: ['3', '4'],
+    public: true,
     files: {
-      value: {}
+      unname: 'uncode',
+      unname2: 'uncode2'
     }
   };
 
@@ -465,8 +457,7 @@ export class Stores {
   // 新建\编辑Gist
   @action
   createGist = (option, callback) => {
-    let name = Object.keys(option)[0];
-    this.editGistInfo[name].value = option[name].value;
+    this.editGistInfo[option.type] = option.value;
     callback && callback();
   };
 
