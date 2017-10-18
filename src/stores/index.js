@@ -1,6 +1,6 @@
 import { observable, action, computed, runInAction, toJS } from 'mobx';
 import { post, get } from '../utils/fetch';
-import { resolveGist, errorHandle } from '../utils';
+import { resolveGist, constructGist, errorHandle } from '../utils';
 import {
   setStorage,
   getStorage,
@@ -272,6 +272,7 @@ export class Stores {
   // 更新Gists方式: 第一个为选项，第二个为是否读缓存，
   @action
   setSelected = (opt, fromCache, callback) => {
+    this.setEditMode(false);
     this.selected = Object.assign({}, this.selected, opt);
     switch (this.selected.type) {
       case 'all':
@@ -353,6 +354,7 @@ export class Stores {
   // 打开Gist
   @action
   getGistsOpen = (id, callback) => {
+    this.setEditMode(false);
     this.selected.id = id;
 
     // 是否与现在的gist相同
@@ -495,20 +497,28 @@ export class Stores {
   @action
   editGist = (gist, callback) => {
     this.editGistInfo.id = gist.id;
-    this.editGistInfo.name = gist.name;
-    this.editGistInfo.description = gist.description;
-    this.editGistInfo.tags = gist.tags;
-    this.editGistInfo.public = gist.public;
+    this.editGistInfo.name = gist.name || '';
+    this.editGistInfo.description = gist.description || '';
+    this.editGistInfo.tags = gist.tags || [];
+    this.editGistInfo.public = gist.public || false;
     this.editGistInfo.files = Object.keys(gist.files).map(filename => ({
       filename: filename,
       content: gist.files[filename].content
     }));
   };
 
-  // 保存
+  // 保存，新建\编辑
   @action
   saveGist = (gist, callback) => {
-    console.log(gist);
+    if (this.editGistInfo.id) {
+      this.gistsApi.edit(constructGist(this.editGistInfo), () => {
+        callback && callback();
+      });
+    } else {
+      this.gistsApi.create(constructGist(this.editGistInfo), () => {
+        callback && callback();
+      });
+    }
   };
 
   // 系统设置

@@ -28,9 +28,22 @@ export const resolveGist = gist => {
 };
 
 // 合成gist
-export const constructGist = gist => {
-  return gist;
-}
+export const constructGist = gistInfo => {
+  let description =
+    gistInfo.description +
+    '@snippetsMeta' +
+    JSON.stringify({
+      name: gistInfo.name,
+      tags: gistInfo.tags
+    });
+  let public = gistInfo.public;
+  let files = gistInfo.files;
+  return {
+    description,
+    public,
+    files
+  };
+};
 
 // 错误抛出
 export const errorHandle = (err, callback) => {
