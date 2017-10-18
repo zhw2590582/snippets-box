@@ -70,12 +70,8 @@ export class Stores {
     public: false,
     files: [
       {
-        filename: 'filename',
-        content: 'content'
-      },
-      {
-        filename: 'filename',
-        content: 'content'
+        filename: '',
+        content: ''
       }
     ]
   };
@@ -181,6 +177,21 @@ export class Stores {
   @action
   setEditMode = (val, callback) => {
     this.editMode = val;
+    if (!val) {
+      this.editGistInfo = {
+        id: '',
+        name: '',
+        description: '',
+        tags: [],
+        public: false,
+        files: [
+          {
+            filename: '',
+            content: ''
+          }
+        ]
+      };
+    }
     callback && callback();
   };
 
@@ -212,6 +223,7 @@ export class Stores {
           this.getStarred(() => {
             // 清空gist缓存, 重新请求
             this.gistsCache = {};
+            this.setEditMode(false);
             this.setSelected(this.selected, false, () => {
               callback && callback();
             });

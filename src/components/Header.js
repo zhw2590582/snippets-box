@@ -248,7 +248,7 @@ class Header extends React.Component {
           <div className="item creat fl">
             {editMode ? (
               <div>
-                <Button icon="close" onClick={this.cancel}>
+                <Button type="danger" icon="close" onClick={this.cancel}>
                   Cancel
                 </Button>
                 <Button type="primary" icon="save" onClick={this.save}>
