@@ -41,6 +41,7 @@ const GistContainer = styled.div`
       color: #999;
       span {
         margin-right: 10px;
+        margin-bottom: 5px;
         .anticon {
           margin-right: 5px;
         }

@@ -142,6 +142,7 @@ export class Stores {
       setStorage('userInfo', userInfo, () => {
         runInAction(() => {
           this.access_token = data.access_token;
+          console.log(this.access_token)
           this.userInfo = userInfo;
           history.replaceState(null, '', redirect_uri);
           this.logging = false;
@@ -474,7 +475,7 @@ export class Stores {
     }
   };
 
-  // 新建Gist
+  // 编辑动作
   @action
   createGist = (option, callback) => {
     switch (option.type) {
@@ -496,7 +497,7 @@ export class Stores {
   // 编辑Gist
   @action
   editGist = (gist, callback) => {
-    this.editGistInfo.id = gist.id;
+    this.editGistInfo.id = gist.id || '';
     this.editGistInfo.name = gist.name || '';
     this.editGistInfo.description = gist.description || '';
     this.editGistInfo.tags = gist.tags || [];
@@ -507,18 +508,11 @@ export class Stores {
     }));
   };
 
-  // 保存，新建\编辑
+  // 创建gist
   @action
-  saveGist = (gist, callback) => {
-    if (this.editGistInfo.id) {
-      this.gistsApi.edit(constructGist(this.editGistInfo), () => {
-        callback && callback();
-      });
-    } else {
-      this.gistsApi.create(constructGist(this.editGistInfo), () => {
-        callback && callback();
-      });
-    }
+  saveGist = async callback => {
+    let data = await post('https://api.github.com/gists', constructGist(this.editGistInfo));
+    this.setSelected({ type: 'all' }, false);
   };
 
   // 系统设置

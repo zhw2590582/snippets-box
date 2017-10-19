@@ -153,9 +153,8 @@ class Header extends React.Component {
 
   // 保存编辑
   save = () => {
-    let { editGist, createGist } = this.props.store;
-    // 验证
-    createGist();
+    this.props.store.setLoading(true);
+    this.props.store.saveGist();
   };
 
   // 刷新

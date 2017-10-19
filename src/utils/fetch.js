@@ -1,3 +1,5 @@
+import { getStorage } from './storage';
+
 export default function request(method, url, body) {
   method = method.toUpperCase();
   body = body && JSON.stringify(body);
@@ -7,12 +9,19 @@ export default function request(method, url, body) {
   console.log('请求数据：' + body);
   console.log('%c----------------------------------------', 'color: blue');
 
+  let headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  }
+
+  getStorage('access_token', storage => {
+    if (!storage) return;
+    headers['Authorization'] = 'token ' + storage;
+  });
+
   return fetch(url, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    },
+    headers,
     body
   }).then(res => {
     if (res.status === 404) {

@@ -5,43 +5,48 @@ export const isProduction = process.env.NODE_ENV === 'production';
 
 // 查询url参数
 export const getQueryString = name => {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
+  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  const r = window.location.search.substr(1).match(reg);
   if (r != null) return unescape(r[2]);
   return null;
 };
 
+// 解析description
+export const descriptionParser = payload => {
+  const rawDescription = payload || 'No description';
+  const regexForTitle = rawDescription.match(/\[.*\]/)
+  const rawTitle = (regexForTitle && regexForTitle[0]) || '';
+  const name = ((rawTitle.length > 0) && rawTitle.substring(1, regexForTitle[0].length - 1)) || '';
+  const descriptionAndTags = rawDescription.substring(rawTitle.length, rawDescription.length).split(' #tags:');
+  const description = descriptionAndTags[0].trim();
+  const tags = descriptionAndTags[1].split(', ');
+  return { name, description, tags };
+}
+
 // 解析gist
 export const resolveGist = gist => {
-  if (gist.description && gist.description.includes('@snippetsMeta')) {
-    let snippetsMeta = JSON.parse(gist.description.split('@snippetsMeta')[1]);
-    gist.description = gist.description.split('@snippetsMeta')[0];
-    gist.name = snippetsMeta.name;
-    gist.tags = snippetsMeta.tags;
-    gist.filenames = Object.keys(gist.files).map(name => name);
-  } else {
-    gist.name = Object.keys(gist.files)[0] || '';
-    gist.tags = [];
-    gist.filenames = [];
-  }
+  const newGist = descriptionParser(gist.description);
+  gist.name = newGist.name;
+  gist.description = newGist.description;
+  gist.tags = newGist.tags;
+  gist.filenames = Object.keys(gist.files).map(name => name);
   return gist;
 };
 
 // 合成gist
 export const constructGist = gistInfo => {
-  let description =
-    gistInfo.description +
-    '@snippetsMeta' +
-    JSON.stringify({
-      name: gistInfo.name,
-      tags: gistInfo.tags
-    });
-  let public = gistInfo.public;
-  let files = gistInfo.files;
+  let description = '[' + gistInfo.name + ']' + gistInfo.description + ' #tags:' + gistInfo.tags.join(', ');
+  let isPublic = gistInfo.public;
+  let files = {};
+  gistInfo.files.map(file => {
+    files[file.filename] = {
+      content: file.content
+    };
+  });
   return {
-    description,
-    public,
-    files
+    description: description,
+    public: isPublic,
+    files: files
   };
 };
 
