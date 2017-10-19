@@ -225,36 +225,32 @@ class Editor extends React.Component {
         </div>
         <FormItem className="files">
           {editGistInfo.files.map((file, index) => {
-            return (
-              !file.delFile && (
-                <div key={index} className="fileItem">
-                  <div className="filename clearfix">
-                    <Input
-                      style={{ width: 300 }}
-                      className="fl"
-                      value={file.filename}
-                      onChange={this.filenameChange.bind(this, index)}
-                      placeholder="FileName"
-                      maxLength="100"
-                    />
-                    {editGistInfo.files.length > 1 && (
-                      <Button
-                        className="fr"
-                        type="danger"
-                        icon="delete"
-                        onClick={this.deleteFile.bind(this, index)}
-                      />
-                    )}
-                  </div>
-                  <div className="fileContent">
-                    <TextArea
-                      value={file.content}
-                      onChange={this.fileContentChange.bind(this, index)}
-                      autosize={{ minRows: 10, maxRows: 20 }}
-                    />
-                  </div>
+            return file.delFile ? null : (
+              <div key={index} className="fileItem">
+                <div className="filename clearfix">
+                  <Input
+                    style={{ width: 300 }}
+                    className="fl"
+                    value={file.filename}
+                    onChange={this.filenameChange.bind(this, index)}
+                    placeholder="FileName"
+                    maxLength="100"
+                  />
+                  <Button
+                    className="fr"
+                    type="danger"
+                    icon="delete"
+                    onClick={this.deleteFile.bind(this, index)}
+                  />
                 </div>
-              )
+                <div className="fileContent">
+                  <TextArea
+                    value={file.content}
+                    onChange={this.fileContentChange.bind(this, index)}
+                    autosize={{ minRows: 10, maxRows: 20 }}
+                  />
+                </div>
+              </div>
             );
           })}
           <Button

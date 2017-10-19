@@ -1,5 +1,5 @@
 import { observable, action, computed, runInAction, toJS } from 'mobx';
-import { post, get } from '../utils/fetch';
+import { post, get, patch } from '../utils/fetch';
 import { resolveGist, constructGist, errorHandle } from '../utils';
 import {
   setStorage,
@@ -71,7 +71,9 @@ export class Stores {
     files: [
       {
         filename: '',
-        content: ''
+        content: '',
+        delFile: false,
+        oldName: ''        
       }
     ]
   };
@@ -188,7 +190,9 @@ export class Stores {
         files: [
           {
             filename: '',
-            content: ''
+            content: '',
+            delFile: false,
+            oldName: ''
           }
         ]
       };
@@ -358,13 +362,6 @@ export class Stores {
     this.setEditMode(false);
     this.selected.id = id;
 
-    // 是否与现在的gist相同
-    if (this.openGist && this.openGist.id === id) {
-      this.setLoading(false);
-      callback && callback();
-      return;
-    }
-
     // 是否已存在缓存
     if (this.options.fromCache && this.gistsCache[id]) {
       this.openGist = this.gistsCache[id];
@@ -480,20 +477,13 @@ export class Stores {
   createGist = (option, callback) => {
     switch (option.type) {
       case 'filename':
-        if (this.editGistInfo.id) {
-          this.editGistInfo.files[option.index].newFilename = true;
-        }
         this.editGistInfo.files[option.index].filename = option.value;
         break;
       case 'fileContent':
         this.editGistInfo.files[option.index].content = option.value;
         break;
       case 'deleteFile':
-        if (this.editGistInfo.id) {
-          this.editGistInfo.files[option.index].delFile = true;
-        } else {
-          this.editGistInfo.files.splice(option.index, 1);
-        }
+        this.editGistInfo.files[option.index].delFile = true;
         break;
       case 'addFile':
         this.editGistInfo.files.push({
@@ -504,7 +494,6 @@ export class Stores {
       default:
         this.editGistInfo[option.type] = option.value;
     }
-    console.log(this.editGistInfo);
     callback && callback();
   };
 
@@ -518,6 +507,8 @@ export class Stores {
     this.editGistInfo.public = gist.public || false;
     this.editGistInfo.files = Object.keys(gist.files).map(filename => ({
       filename: filename,
+      oldFilename: filename,
+      delFile: false,
       content: gist.files[filename].content
     }));
   };
@@ -525,14 +516,22 @@ export class Stores {
   // 创建保存gist
   @action
   saveGist = async callback => {
-    console.log(constructGist(this.editGistInfo))
-    return;
-    let data = await post(
-      'https://api.github.com/gists',
-      constructGist(this.editGistInfo)
-    );
-    callback && callback();
-    this.setSelected({ type: 'all' }, false);
+    let gistInfo = constructGist(this.editGistInfo);
+    let data = {};
+    if(this.editGistInfo.id){
+      data = await patch('https://api.github.com/gists/' + this.editGistInfo.id, gistInfo);
+    } else {
+      data = await post('https://api.github.com/gists/', gistInfo);
+    }
+    if(data.id){
+      this.reset(() => {
+        this.setSelected({ type: 'all' }, true);
+      })
+      callback && callback();
+    } else {
+      this.setLoading(false);
+      if (err) errorHandle('Please check your network!');
+    }
   };
 
   // 系统设置

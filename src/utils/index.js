@@ -33,23 +33,33 @@ export const resolveGist = gist => {
   return gist;
 };
 
-// 合成gist
+// 合成新建的gist
 export const constructGist = gistInfo => {
   let description = '[' + (gistInfo.name || 'new_gist') + ']' + (gistInfo.description || 'No description') + ' #tags:' + gistInfo.tags.join(', ');
   let isPublic = gistInfo.public;
   let files = {};
+
   gistInfo.files.map((file, index) => {
-    let name = file.filename || 'new_gist_file_' + index;
-    if(file === null){
-      files[name] = null;
-    } else {
-      files[name] = {
-        content: file.content || '_'
-      };
-      if(file.newFilename){
-        files[name].filename = file.newFilename;
-      } 
+    // 是否删除
+    if(file.delFile){
+      files[file.oldFilename] = null;
+      return;
     }
+
+    // 是否改名
+    console.log(file.oldFilename, file.filename)
+    if(file.oldFilename && (file.filename !== file.oldFilename)){
+      files[file.oldFilename] = {
+        filename: file.filename,
+        content: file.content || '_'
+      }
+      return;
+    }
+
+    // 新建
+    files[file.filename || 'new_gist_file_' + index] = {
+      content: file.content || '_'
+    };
   });
   return {
     description: description,

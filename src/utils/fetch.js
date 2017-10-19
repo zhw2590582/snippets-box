@@ -34,3 +34,4 @@ export default function request(method, url, body) {
 
 export const get = url => request('GET', url, undefined);
 export const post = (url, body) => request('POST', url, body);
+export const patch = (url, body) => request('PATCH', url, body);
