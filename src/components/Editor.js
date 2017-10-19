@@ -164,6 +164,10 @@ class Editor extends React.Component {
   render() {
     const { inputVisible, inputValue } = this.state;
     const { editGistInfo } = this.props.store;
+    const isOneGist =
+      editGistInfo.files.filter(file => {
+        return !file.delFile;
+      }).length === 1;
     return (
       <EditorContainer>
         <div className="editorHeader">
@@ -236,12 +240,14 @@ class Editor extends React.Component {
                     placeholder="FileName"
                     maxLength="100"
                   />
-                  <Button
-                    className="fr"
-                    type="danger"
-                    icon="delete"
-                    onClick={this.deleteFile.bind(this, index)}
-                  />
+                  {isOneGist ? null : (
+                    <Button
+                      className="fr"
+                      type="danger"
+                      icon="delete"
+                      onClick={this.deleteFile.bind(this, index)}
+                    />
+                  )}
                 </div>
                 <div className="fileContent">
                   <TextArea

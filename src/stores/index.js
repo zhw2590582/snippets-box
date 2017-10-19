@@ -513,31 +513,34 @@ export class Stores {
     }));
   };
 
-  // 创建保存gist
+  // 保存新建的gist
   @action
   saveGist = async callback => {
     let gistInfo = constructGist(this.editGistInfo);
-    //gistInfo.id = this.editGistInfo.id;
-    this.gistsApi.create(gistInfo, () => {
-      console.log('ok')
-    });
-    return;
-    let data = {};
-    if(this.editGistInfo.id){
-      data = await patch('https://api.github.com/gists/' + this.editGistInfo.id, gistInfo);
-    } else {
-      data = await post('https://api.github.com/gists/', gistInfo);
-    }
+    let data = await post('https://api.github.com/gists', gistInfo);;
     if(data.id){
       this.reset(() => {
         this.setSelected({ type: 'all' }, true);
       })
-      callback && callback();
     } else {
       this.setLoading(false);
-      if (err) errorHandle('Please check your network!');
+      errorHandle('Please check your network!');
     }
   };
+
+  // 保存编辑的gist
+  @action
+  saveEditGist = callback => {
+    let gistInfo = constructGist(this.editGistInfo);
+    gistInfo.id = this.editGistInfo.id;
+    this.gistsApi.edit(gistInfo, err => {
+      if (err) errorHandle('Please check your network!');
+      this.reset(() => {
+        this.setSelected({ type: 'all' }, true);
+      })
+      callback && callback();
+    });
+  }
 
   // 系统设置
   @action

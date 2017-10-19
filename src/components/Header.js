@@ -144,12 +144,21 @@ class Header extends React.Component {
   // 保存编辑
   save = () => {
     this.props.store.setLoading(true);
-    this.props.store.saveGist(() => {
-      notification.success({
-        message: 'Notification',
-        description: 'Save Gist Success'
+    if(this.props.store.editGistInfo.id){
+      this.props.store.saveEditGist(() => {
+        notification.success({
+          message: 'Notification',
+          description: 'Edit Gist Success'
+        });
       });
-    });
+    } else {
+      this.props.store.saveGist(() => {
+        notification.success({
+          message: 'Notification',
+          description: 'Save New Gist Success'
+        });
+      });
+    }
   };
 
   // 刷新
