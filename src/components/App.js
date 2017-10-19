@@ -25,12 +25,12 @@ const AppContainer = styled.div`
 class App extends React.Component {
   componentDidMount() {
     // 菜单创建Gist
-    let { userInfo, createGist } = this.props.store;
+    let { userInfo, createGistByMenu } = this.props.store;
     document.body.addEventListener('__snippets_box_hood__', e => {
       if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist')
         return;
       if (userInfo) {
-        createGist(e.detail);
+        createGistByMenu(e.detail);
       } else {
         notification.error({
           message: 'Notification',

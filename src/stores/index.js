@@ -228,7 +228,6 @@ export class Stores {
           this.getStarred(() => {
             // 清空gist缓存, 重新请求
             this.gistsCache = {};
-            this.setEditMode(false);
             this.setSelected(this.selected, false, () => {
               callback && callback();
             });
@@ -277,7 +276,6 @@ export class Stores {
   // 更新Gists方式: 第一个为选项，第二个为是否读缓存，
   @action
   setSelected = (opt, fromCache, callback) => {
-    this.setEditMode(false);
     this.selected = Object.assign({}, this.selected, opt);
     switch (this.selected.type) {
       case 'all':
@@ -359,7 +357,6 @@ export class Stores {
   // 打开Gist
   @action
   getGistsOpen = (id, callback) => {
-    this.setEditMode(false);
     this.selected.id = id;
 
     // 是否已存在缓存
@@ -519,9 +516,11 @@ export class Stores {
     let gistInfo = constructGist(this.editGistInfo);
     let data = await post('https://api.github.com/gists', gistInfo);;
     if(data.id){
+      this.setEditMode(false);
       this.reset(() => {
         this.setSelected({ type: 'all' }, true);
       })
+      callback && callback();
     } else {
       this.setLoading(false);
       errorHandle('Please check your network!');
@@ -535,11 +534,20 @@ export class Stores {
     gistInfo.id = this.editGistInfo.id;
     this.gistsApi.edit(gistInfo, err => {
       if (err) errorHandle('Please check your network!');
+      this.setEditMode(false);
       this.reset(() => {
         this.setSelected({ type: 'all' }, true);
       })
       callback && callback();
     });
+  }
+
+  // 菜单创建gist
+  @action
+  createGistByMenu = (option, callback) => {
+    this.setEditMode(true);
+    this.editGistInfo = option;
+    callback && callback();
   }
 
   // 系统设置

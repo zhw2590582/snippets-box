@@ -17,6 +17,7 @@ const ContentContainer = styled.div`
     props.theme.sidebarWidth + props.theme.gistsListWidth}px;
   max-width: 2000px;
   padding-top: 50px;
+  padding-bottom: 200px;
   .noGist {
     text-align: center;
     font-size: 20px;

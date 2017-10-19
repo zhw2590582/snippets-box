@@ -52,7 +52,8 @@ const SidebarContainer = styled.div`
 @observer
 class Sidebar extends React.Component {
   setSelected = opt => {
-    let { setLoading, setSelected } = this.props.store;
+    let { setLoading, setSelected, setEditMode } = this.props.store;
+    setEditMode(false);    
     Object.assign(opt, {
       id: '',
       public: 'all',

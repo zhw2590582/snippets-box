@@ -37,7 +37,8 @@ const GistsListContainer = styled.div`
 @observer
 class GistsList extends React.Component {
   sortChange = e => {
-    let { setLoading, setSelected } = this.props.store;
+    let { setLoading, setSelected, setEditMode } = this.props.store;
+    setEditMode(false);
     setLoading(true);
     setSelected({
       public: e.target.value
@@ -45,7 +46,8 @@ class GistsList extends React.Component {
   };
 
   updatedChange = e => {
-    let { setLoading, setSelected } = this.props.store;
+    let { setLoading, setSelected, setEditMode } = this.props.store;
+    setEditMode(false);
     setLoading(true);
     setSelected({
       updated: !this.props.store.selected.updated

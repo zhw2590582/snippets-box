@@ -40,12 +40,22 @@ chrome.contextMenus.create({
 
 // 菜单新建Gist
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-  goSnippets((type, tab) => {
+  goSnippets((type, snippetTab) => {
     // 拼接Gist信息
     let gistCache = {
       type: 'creatGist',
-      name: tab.title + ' --- ' + tab.url,
-      description: info.selectionText
+      name: tab.title,
+      description: tab.url,
+      tags: [],
+      public: false,
+      files: [
+        {
+          filename: 'new_gist_file',
+          content: info.selectionText,
+          delFile: false,
+          oldName: ''
+        }
+      ]
     };
 
     // 假如页面未打开则先缓存，等待组件创建完再新建Gist
@@ -55,6 +65,6 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     }
 
     // 假如页面已打开则新建Gist
-    chrome.tabs.sendMessage(tab.id, gistCache);
+    chrome.tabs.sendMessage(snippetTab.id, gistCache);
   });
 });
