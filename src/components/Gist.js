@@ -55,6 +55,7 @@ const GistContainer = styled.div`
 class Gist extends React.Component {
   getGistsOpen = id => {
     this.props.store.setLoading(true);
+    this.props.store.setEditMode(false);
     this.props.store.getGistsOpen(id);
   };
 
