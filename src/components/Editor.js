@@ -12,15 +12,14 @@ const EditorContainer = styled.div`
   padding-top: ${props => props.theme.headerHeight}px;
   padding-left: ${props =>
     props.theme.sidebarWidth + props.theme.gistsListWidth}px;
-  padding-bottom: 50px;
+  padding-bottom: 200px;
   max-width: 2000px;
   .ant-row {
     margin-bottom: 10px;
     label {
       font-size: 14px;
     }
-    .ant-tag{
-
+    .ant-tag {
     }
   }
   .editorHeader {
@@ -34,14 +33,17 @@ const EditorContainer = styled.div`
     }
   }
   .files {
-    .fileItem{
-      padding: 20px 10px;      
+    .fileItem {
+      padding: 20px 10px;
       border-bottom: 1px solid ${props => props.theme.borderColor};
       .filename {
         margin-bottom: 15px;
       }
       .fileContent {
       }
+    }
+    .addFile {
+      margin: 10px;
     }
   }
   .public {
@@ -146,6 +148,12 @@ class Editor extends React.Component {
     });
   };
 
+  addFile = () => {
+    this.handleFormChange({
+      type: 'addFile'
+    });
+  };
+
   // 监听全部
   handleFormChange = changedFields => {
     const { createGist } = this.props.store;
@@ -205,13 +213,7 @@ class Editor extends React.Component {
                 onPressEnter={this.handleInputConfirm}
               />
             )}
-            {!inputVisible && (
-              <Tag
-                onClick={this.showInput}
-              >
-                + New Tag
-              </Tag>
-            )}
+            {!inputVisible && <Tag onClick={this.showInput}>+ New Tag</Tag>}
           </FormItem>
           <FormItem label="Public" className="public">
             <Switch
@@ -226,25 +228,40 @@ class Editor extends React.Component {
               <div key={index} className="fileItem">
                 <div className="filename clearfix">
                   <Input
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     className="fl"
                     value={file.filename}
                     onChange={this.filenameChange.bind(this, index)}
                     placeholder="FileName"
                     maxLength="100"
                   />
-                  <Button className="fr" type="danger" icon="delete" onClick={this.deleteFile.bind(this, index)}></Button>
+                  {index !== 0 && (
+                    <Button
+                      className="fr"
+                      type="danger"
+                      icon="delete"
+                      onClick={this.deleteFile.bind(this, index)}
+                    />
+                  )}
                 </div>
                 <div className="fileContent">
                   <TextArea
                     value={file.content}
                     onChange={this.fileContentChange.bind(this, index)}
-                    autosize={{ minRows: 8, maxRows: 15 }}
+                    autosize={{ minRows: 10, maxRows: 20 }}
                   />
                 </div>
               </div>
             );
           })}
+          <Button
+            className="addFile"
+            type="primary"
+            icon="file-add"
+            onClick={this.addFile}
+          >
+            Add File
+          </Button>
         </FormItem>
       </EditorContainer>
     );

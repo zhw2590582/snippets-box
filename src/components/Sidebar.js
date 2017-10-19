@@ -31,7 +31,7 @@ const SidebarContainer = styled.div`
       }
     }
     .item {
-      color: #fff;
+      color: #d2d2d2;
       display: block;
       height: 35px;
       line-height: 35px;

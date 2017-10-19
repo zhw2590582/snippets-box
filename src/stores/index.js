@@ -488,6 +488,12 @@ export class Stores {
       case 'deleteFile':
         this.editGistInfo.files.splice(option.index, 1);
         break;
+      case 'addFile':
+        this.editGistInfo.files.push({
+          filename: '',
+          content: ''
+        });
+        break;
       default:
         this.editGistInfo[option.type] = option.value;
     }
@@ -512,6 +518,7 @@ export class Stores {
   @action
   saveGist = async callback => {
     let data = await post('https://api.github.com/gists', constructGist(this.editGistInfo));
+    callback && callback();
     this.setSelected({ type: 'all' }, false);
   };
 

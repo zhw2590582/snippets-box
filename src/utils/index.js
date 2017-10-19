@@ -19,7 +19,7 @@ export const descriptionParser = payload => {
   const name = ((rawTitle.length > 0) && rawTitle.substring(1, regexForTitle[0].length - 1)) || '';
   const descriptionAndTags = rawDescription.substring(rawTitle.length, rawDescription.length).split(' #tags:');
   const description = descriptionAndTags[0].trim();
-  const tags = descriptionAndTags[1].split(', ');
+  const tags = descriptionAndTags[1] ? descriptionAndTags[1].split(', ') : [];
   return { name, description, tags };
 }
 
@@ -35,12 +35,12 @@ export const resolveGist = gist => {
 
 // 合成gist
 export const constructGist = gistInfo => {
-  let description = '[' + gistInfo.name + ']' + gistInfo.description + ' #tags:' + gistInfo.tags.join(', ');
+  let description = '[' + (gistInfo.name || 'new_gist') + ']' + (gistInfo.description || 'No description') + ' #tags:' + gistInfo.tags.join(', ');
   let isPublic = gistInfo.public;
   let files = {};
-  gistInfo.files.map(file => {
-    files[file.filename] = {
-      content: file.content
+  gistInfo.files.map((file, index) => {
+    files[file.filename || 'new_gist_file_' + index] = {
+      content: file.content || '_'
     };
   });
   return {
