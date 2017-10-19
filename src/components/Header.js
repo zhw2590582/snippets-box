@@ -138,17 +138,7 @@ class Header extends React.Component {
 
   // 取消编辑
   cancel = () => {
-    let that = this;
-    Modal.confirm({
-      title: 'Exit the current edit mode?',
-      content: '',
-      onOk() {
-        that.props.store.setEditMode(false);
-      },
-      onCancel() {
-        console.log('Cancel');
-      }
-    });
+    this.props.store.setEditMode(false);
   };
 
   // 保存编辑
@@ -211,17 +201,18 @@ class Header extends React.Component {
     event.preventDefault();
     let that = this;
     Modal.confirm({
-      title: 'Logout',
-      content: 'Are you sure you are logged out?',
+      title: 'Are you logged out?',
+      content: '',
       onOk() {
-        that.props.store.logout(() => {
+        this.props.store.logout(() => {
           notification.success({
             message: 'Notification',
-            description: 'Sign Out Successful！'
+            description: 'Logged Out Successful！'
           });
-        });
-      },
-      onCancel() {}
+        });      },
+      onCancel() {
+        console.log('Cancel');
+      }
     });
   };
 

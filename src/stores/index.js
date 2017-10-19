@@ -517,6 +517,11 @@ export class Stores {
   @action
   saveGist = async callback => {
     let gistInfo = constructGist(this.editGistInfo);
+    //gistInfo.id = this.editGistInfo.id;
+    this.gistsApi.create(gistInfo, () => {
+      console.log('ok')
+    });
+    return;
     let data = {};
     if(this.editGistInfo.id){
       data = await patch('https://api.github.com/gists/' + this.editGistInfo.id, gistInfo);
