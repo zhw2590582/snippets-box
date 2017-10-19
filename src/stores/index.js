@@ -142,7 +142,7 @@ export class Stores {
       setStorage('userInfo', userInfo, () => {
         runInAction(() => {
           this.access_token = data.access_token;
-          console.log(this.access_token)
+          console.log(this.access_token);
           this.userInfo = userInfo;
           history.replaceState(null, '', redirect_uri);
           this.logging = false;
@@ -480,13 +480,20 @@ export class Stores {
   createGist = (option, callback) => {
     switch (option.type) {
       case 'filename':
+        if (this.editGistInfo.id) {
+          this.editGistInfo.files[option.index].newFilename = true;
+        }
         this.editGistInfo.files[option.index].filename = option.value;
         break;
       case 'fileContent':
         this.editGistInfo.files[option.index].content = option.value;
         break;
       case 'deleteFile':
-        this.editGistInfo.files.splice(option.index, 1);
+        if (this.editGistInfo.id) {
+          this.editGistInfo.files[option.index].delFile = true;
+        } else {
+          this.editGistInfo.files.splice(option.index, 1);
+        }
         break;
       case 'addFile':
         this.editGistInfo.files.push({
@@ -497,6 +504,7 @@ export class Stores {
       default:
         this.editGistInfo[option.type] = option.value;
     }
+    console.log(this.editGistInfo);
     callback && callback();
   };
 
@@ -514,10 +522,15 @@ export class Stores {
     }));
   };
 
-  // 创建gist
+  // 创建保存gist
   @action
   saveGist = async callback => {
-    let data = await post('https://api.github.com/gists', constructGist(this.editGistInfo));
+    console.log(constructGist(this.editGistInfo))
+    return;
+    let data = await post(
+      'https://api.github.com/gists',
+      constructGist(this.editGistInfo)
+    );
     callback && callback();
     this.setSelected({ type: 'all' }, false);
   };

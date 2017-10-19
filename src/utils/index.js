@@ -39,9 +39,17 @@ export const constructGist = gistInfo => {
   let isPublic = gistInfo.public;
   let files = {};
   gistInfo.files.map((file, index) => {
-    files[file.filename || 'new_gist_file_' + index] = {
-      content: file.content || '_'
-    };
+    let name = file.filename || 'new_gist_file_' + index;
+    if(file === null){
+      files[name] = null;
+    } else {
+      files[name] = {
+        content: file.content || '_'
+      };
+      if(file.newFilename){
+        files[name].filename = file.newFilename;
+      } 
+    }
   });
   return {
     description: description,
