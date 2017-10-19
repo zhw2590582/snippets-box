@@ -213,7 +213,7 @@ class Header extends React.Component {
       title: 'Are you logged out?',
       content: '',
       onOk() {
-        this.props.store.logout(() => {
+        that.props.store.logout(() => {
           notification.success({
             message: 'Notification',
             description: 'Logged Out Successful！'
