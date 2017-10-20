@@ -251,7 +251,7 @@ class Editor extends React.Component {
                   )}
                 </div>
                 <div className="fileContent">
-                  <CodeWrap content={file.content} language={file.language} updateCode={this.fileContentChange.bind(this, index)} />
+                  <CodeWrap filename={file.filename} content={file.content} language={file.language} updateCode={this.fileContentChange.bind(this, index)} />
                 </div>
               </div>
             );

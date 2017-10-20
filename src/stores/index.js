@@ -74,7 +74,7 @@ export class Stores {
         content: '',
         delFile: false,
         oldName: '',
-        language: 'Text'
+        language: 'Plain Text'
       }
     ]
   };
@@ -194,7 +194,7 @@ export class Stores {
             content: '',
             delFile: false,
             oldName: '',
-            language: 'Text'
+            language: 'Plain Text'
           }
         ]
       };
@@ -510,7 +510,7 @@ export class Stores {
       oldFilename: filename,
       delFile: false,
       content: gist.files[filename].content,
-      language: gist.files[filename].language || 'Text',
+      language: gist.files[filename].language || 'Plain Text',
     }));
   };
 
@@ -522,7 +522,7 @@ export class Stores {
     if(data.id){
       this.setEditMode(false);
       this.reset(() => {
-        this.setSelected({ type: 'all' }, true);
+        this.setSelected({ type: 'all' }, false);
       })
       callback && callback();
     } else {
@@ -540,7 +540,7 @@ export class Stores {
       if (err) errorHandle('Please check your network!');
       this.setEditMode(false);
       this.reset(() => {
-        this.setSelected({ type: 'all' }, true);
+        this.setSelected({ type: 'all' }, false);
       })
       callback && callback();
     });

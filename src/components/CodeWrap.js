@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import CodeMirror from 'react-codemirror';
+
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/mdn-like.css';
 import 'codemirror/mode/tiddlywiki/tiddlywiki.css';
 import 'codemirror/mode/tiki/tiki.css';
 import 'codemirror/addon/dialog/dialog.css';
 import 'codemirror/addon/fold/foldgutter.css';
+import 'codemirror/addon/scroll/simplescrollbars.css';
+import 'codemirror/addon/display/fullscreen.css';
+
 import 'codemirror/mode/meta';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/dylan/dylan';
@@ -128,6 +132,7 @@ import 'codemirror/mode/tcl/tcl';
 import 'codemirror/mode/protobuf/protobuf';
 import 'codemirror/mode/yacas/yacas';
 import 'codemirror/mode/sass/sass';
+
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/matchtags';
 import 'codemirror/addon/dialog/dialog';
@@ -142,6 +147,8 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/markdown-fold';
 import 'codemirror/addon/display/placeholder';
+import 'codemirror/addon/display/fullscreen';
+import 'codemirror/addon/scroll/simplescrollbars';
 
 const CodeWrapContainer = styled.div`
   .CodeMirror {
@@ -149,29 +156,70 @@ const CodeWrapContainer = styled.div`
     font-size: 14px;
     line-height: 1.5;
   }
+  .CodeMirror-fullscreen{
+    z-index: 99999;
+  }
 `;
 
-const CodeWrap = props => {
-  return (
-    <CodeWrapContainer>
-      <CodeMirror
-        onChange={props.updateCode}
-        value={props.content}
-        options={{
-          theme: 'mdn-like',
-          lineNumbers: true,
-          matchBrackets: true,
-          matchTags: true,
-          lineWrapping: true,
-          viewportMargin: Infinity,
-          foldGutter: true,
-          gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-          readOnly: props.readOnly,
-          mode: (props.language || 'Text').toLowerCase()
-        }}
-      />
-    </CodeWrapContainer>
-  );
-};
+class CodeWrap extends React.Component {
+  componentDidMount() {
+    this.CodeMirror = this.cm.getCodeMirrorInstance();
+    this.cm
+      .getCodeMirror()
+      .setOption('mode', (this.props.language || 'Plain Text').toLowerCase());
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { filename, content } = this.props;
+    if (this.props.readOnly && prevProps.content !== content) {
+      this.cm.codeMirror.setValue(content);
+    } else {
+      if (prevProps.filename !== filename) {
+        this.setMode(filename);
+      }
+    }
+  }
+
+  setMode(filename) {
+    const modeInfo = filename
+      ? this.CodeMirror.findModeByFileName(filename)
+      : this.CodeMirror.findModeByName('Plain Text');
+    modeInfo && this.cm.getCodeMirror().setOption('mode', modeInfo.mode);
+    console.log(modeInfo);
+  }
+
+  render() {
+    return (
+      <CodeWrapContainer>
+        <CodeMirror
+          ref={el => (this.cm = el)}
+          onChange={this.props.updateCode}
+          value={this.props.content}
+          options={{
+            theme: 'mdn-like',
+            lineNumbers: true,
+            scrollbarStyle: 'simple',
+            matchBrackets: true,
+            matchTags: true,
+            lineWrapping: true,
+            viewportMargin: Infinity,
+            foldGutter: true,
+            gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+            readOnly: this.props.readOnly,
+            extraKeys: {
+              F11: function(cm) {
+                cm.setOption('fullScreen', !cm.getOption('fullScreen'));
+              },
+              Esc: function(cm) {
+                if (cm.getOption('fullScreen'))
+                  cm.setOption('fullScreen', false);
+              }
+            }
+          }}
+        />
+      </CodeWrapContainer>
+    );
+  }
+}
 
 export default CodeWrap;
