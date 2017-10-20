@@ -156,27 +156,27 @@ const CodeWrapContainer = styled.div`
     font-size: 14px;
     line-height: 1.5;
   }
-  .CodeMirror-fullscreen{
+  .CodeMirror-fullscreen {
     z-index: 99999;
   }
 `;
 
 class CodeWrap extends React.Component {
   componentDidMount() {
+    const { filename } = this.props;
     this.CodeMirror = this.cm.getCodeMirrorInstance();
-    this.cm
-      .getCodeMirror()
-      .setOption('mode', (this.props.language || 'Plain Text').toLowerCase());
+    this.setMode(filename);
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { filename, content } = this.props;
+
+    if (prevProps.filename !== filename) {
+      this.setMode(filename);
+    }
+
     if (this.props.readOnly && prevProps.content !== content) {
       this.cm.codeMirror.setValue(content);
-    } else {
-      if (prevProps.filename !== filename) {
-        this.setMode(filename);
-      }
     }
   }
 
@@ -185,7 +185,6 @@ class CodeWrap extends React.Component {
       ? this.CodeMirror.findModeByFileName(filename)
       : this.CodeMirror.findModeByName('Plain Text');
     modeInfo && this.cm.getCodeMirror().setOption('mode', modeInfo.mode);
-    console.log(modeInfo);
   }
 
   render() {

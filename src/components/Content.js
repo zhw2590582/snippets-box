@@ -291,7 +291,7 @@ class Content extends React.Component {
                   let fileItem = openGist.files[file];
                   return (
                     <Panel header={<PanelHeader file={fileItem} />} key={file}>
-                      <CodeWrap content={fileItem.content} language={fileItem.language} readOnly />
+                      <CodeWrap filename={fileItem.filename} content={fileItem.content} readOnly />
                     </Panel>
                   );
                 })}
