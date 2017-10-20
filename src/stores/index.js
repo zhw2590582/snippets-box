@@ -73,7 +73,8 @@ export class Stores {
         filename: '',
         content: '',
         delFile: false,
-        oldName: ''        
+        oldName: '',
+        language: 'Text'
       }
     ]
   };
@@ -192,7 +193,8 @@ export class Stores {
             filename: '',
             content: '',
             delFile: false,
-            oldName: ''
+            oldName: '',
+            language: 'Text'
           }
         ]
       };
@@ -497,6 +499,7 @@ export class Stores {
   // 编辑Gist
   @action
   editGist = (gist, callback) => {
+    console.log(gist);
     this.editGistInfo.id = gist.id || '';
     this.editGistInfo.name = gist.name || '';
     this.editGistInfo.description = gist.description || '';
@@ -506,7 +509,8 @@ export class Stores {
       filename: filename,
       oldFilename: filename,
       delFile: false,
-      content: gist.files[filename].content
+      content: gist.files[filename].content,
+      language: gist.files[filename].language || 'Text',
     }));
   };
 

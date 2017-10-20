@@ -6,6 +6,7 @@ import { toJS } from 'mobx';
 import { Button, Form, Input, Tag, Tooltip, Switch } from 'antd';
 const FormItem = Form.Item;
 const { TextArea } = Input;
+import CodeWrap from './CodeWrap';
 
 const EditorContainer = styled.div`
   position: relative;
@@ -132,11 +133,11 @@ class Editor extends React.Component {
   };
 
   // 文件内容
-  fileContentChange = (index, e) => {
+  fileContentChange = (index, newCode) => {
     this.handleFormChange({
       type: 'fileContent',
       index: index,
-      value: e.target.value
+      value: newCode
     });
   };
 
@@ -250,11 +251,7 @@ class Editor extends React.Component {
                   )}
                 </div>
                 <div className="fileContent">
-                  <TextArea
-                    value={file.content}
-                    onChange={this.fileContentChange.bind(this, index)}
-                    autosize={{ minRows: 10, maxRows: 20 }}
-                  />
+                  <CodeWrap content={file.content} language={file.language} updateCode={this.fileContentChange.bind(this, index)} />
                 </div>
               </div>
             );
