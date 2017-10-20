@@ -5,6 +5,7 @@
 ## Install the Chrome Extension
 - Download and Install the **Chrome Extension** from **snippets-box/chrome/snippets-box.crx**
 - You can change the **Snippets Box Url** in the **Options Page** ==> Click the extension icon in the upper right corner
+![N1 Screenshot](https://raw.githubusercontent.com/zhw2590582/snippets-box/master/screenshot/02.png)
 
 ## Want to host this repository on your github pages ?
 
