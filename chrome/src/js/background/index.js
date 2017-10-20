@@ -38,20 +38,20 @@ chrome.contextMenus.create({
   contexts: ['all']
 });
 
-// 菜单新建Gist
-chrome.contextMenus.onClicked.addListener(function(info, tab) {
+// 新建Gist
+window.creatGist = (name, description, content, callback) => {
   goSnippets((type, snippetTab) => {
     // 拼接Gist信息
     let gistCache = {
       type: 'creatGist',
-      name: tab.title,
-      description: tab.url,
+      name: name,
+      description: description,
       tags: [],
       public: false,
       files: [
         {
           filename: 'new_gist_file',
-          content: info.selectionText,
+          content: content,
           delFile: false,
           oldName: ''
         }
@@ -66,5 +66,17 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
     // 假如页面已打开则新建Gist
     chrome.tabs.sendMessage(snippetTab.id, gistCache);
+  });
+};
+
+// 菜单新建Gist
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+  creatGist(tab.title, tab.url, info.selectionText);
+});
+
+// 代码块新建Gist
+chrome.runtime.onConnect.addListener(port => {
+  port.onMessage.addListener(message => {
+    creatGist(message.name, message.description, message.content);
   });
 });

@@ -513,7 +513,7 @@ export class Stores {
       oldFilename: filename,
       delFile: false,
       content: gist.files[filename].content,
-      language: gist.files[filename].language || 'Plain Text',
+      language: gist.files[filename].language || 'Plain Text'
     }));
   };
 
@@ -521,12 +521,12 @@ export class Stores {
   @action
   saveGist = async callback => {
     let gistInfo = constructGist(this.editGistInfo);
-    let data = await post('https://api.github.com/gists', gistInfo);;
-    if(data.id){
+    let data = await post('https://api.github.com/gists', gistInfo);
+    if (data.id) {
       this.setEditMode(false);
       this.reset(() => {
         this.setSelected({ type: 'all' }, false);
-      })
+      });
       callback && callback();
     } else {
       this.setLoading(false);
@@ -544,10 +544,10 @@ export class Stores {
       this.setEditMode(false);
       this.reset(() => {
         this.setSelected({ type: 'all' }, false);
-      })
+      });
       callback && callback();
     });
-  }
+  };
 
   // 菜单创建gist
   @action
@@ -558,9 +558,9 @@ export class Stores {
         this.setEditMode(true);
         this.editGistInfo = option;
         callback && callback();
-      })
-    }, 500)
-  }
+      });
+    }, 500);
+  };
 
   // 系统设置
   @action

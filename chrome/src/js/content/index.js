@@ -1,3 +1,8 @@
+import '../../styles/content.scss';
+
+// 端口
+const port = chrome.runtime.connect({ name: 'content' });
+
 // 发送到页面
 const sendMessage = data => {
   document.body.dispatchEvent(
@@ -21,3 +26,19 @@ chrome.storage.local.get('gistCache', storage => {
     chrome.storage.local.remove('gistCache');
   }, 500);
 });
+
+// 查询页面代码块
+setTimeout(() => {
+  const codes = [].slice.call(document.querySelectorAll('pre'));
+  codes.forEach(function(ele) {
+    ele.classList.add('snippets-box-code');
+    ele.insertAdjacentHTML('beforeend', '<div class="snippets-box-btn"></div>');
+    ele.querySelector('.snippets-box-btn').addEventListener('click', () => {
+      port.postMessage({
+        name: document.title,
+        description: window.location.href,
+        content: ele.innerText
+      });
+    });
+  });
+}, 1000);

@@ -1,0 +1,20 @@
+.snippets-box-code{
+  position: relative;
+  .snippets-box-btn{
+    position: absolute;
+    opacity: .5;
+    right: 10px;
+    top: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;    
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAHIUExURQAAAP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7V0HAQAAACXdFJOUwBBcK70uPavsIjT6oIKDsXKXswcVjTI7gK3tqm9MxSKEeF12gcZjcHD/GLJGLGn+/qdbthG0ajC8AbmZqMXc8bL9RsdPaRvY0RIWgi85P1PeZ82CTkL15F01LS5soMTEC5+LIe/BFTPLz9dzpaLq1tX5TIojyKEf/dLPu3pFWSQBYyqgXycaHsM8sdZAd5yKpXAK5nEYezGmIeLAAAB/0lEQVRIx+2W51fUQBTF7xbKsoUqvXekd+lVEAtVpdgL2KUICkqxUVQUUOH9u5JEzpk32U02fGXvl3lz7vudzLzMmwQIKaQzqhsZMzWx1zNPxZ57EBE1n5eSVWcdfZZKJ0pMsMi6SFTamBXWQVwvss2Zgr7XcUWuDFSTrBhT1p6kZaaTXuMm7CIZ6aEhO2vI0kUj1nvBGHb6DOAEMtGQAfzWDB4OzN6/agZPBEL7E8lUUXN+0afRFJRS4/XspXCe06FV17XtpO/ccY/qWq+EZ1QgTBnKsVPVsPuXe0nSs680c7/Wi6/KuAUP/UCb9Pbjkhn8iLtdPejtUoJudNDRb/RK+7aLbLa04Tr0fFNri7JKomYfWrh/bVqAz3OvBt56NSjUnIMm/OEZNgGuYM4mtGoRvcdnddwHGlnKHQHmr7jUh3Y1WEX+BzU4xN5PlpIiwPV8UZ3AF2V0wKbOf6HbzTMeC/ATqZqt2sLXsaHMqoFOKSFdgBvlM+jBxyIqWUPecRwGtMq+Q4Bf6k7wyvG9W4wCJcz9XwFRuQI8oHPdLU761OZRwhy7vjsWBLgpx++dsxyos0rZ8YwlS7LxzrhlhR2RWvLezeDZ4mS5octigmWn8v19EweDQcPf+b8A32TVVhqTVZOupUDXZ+bzwrTyCKZIQbcbXl2+G/rRCuks6B9hXbYXdM9c7wAAAABJRU5ErkJggg==');    
+    background-position: center center;
+    background-size: contain;
+    cursor: pointer;
+    &:hover{
+      opacity: .85;
+    }
+  }
+}
