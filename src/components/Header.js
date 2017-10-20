@@ -253,7 +253,7 @@ class Header extends React.Component {
           <div className="item creat fl">
             {editMode ? (
               <div>
-                Press F11 \ Esc to switch FullScreen Mode
+                FullScreen Mode: F11 \ Esc
                 <Button type="danger" icon="close" onClick={this.cancel}>
                   Cancel
                 </Button>
