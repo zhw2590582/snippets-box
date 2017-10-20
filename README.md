@@ -1,42 +1,44 @@
 # Snippets Box
 [https://zhw2590582.github.io/snippets-box/](https://zhw2590582.github.io/snippets-box/)
+
+事情是这样的，我一直在寻找一个简单易用的代码片段管理器，要免费，要自动同步，要跨平台的，要所见即所得，要自托管的。[Gistbox](https://app.gistboxapp.com) 基于Gist免费且功能丰富，用了一段时间后发现它准备不再维护；Mac的 [SnippetsLab](http://www.renfei.org/snippets-lab/) 虽然界面不错但收费且不支持同步；[Lepton](https://github.com/hackjutsu/Lepton) 基于Gist开源多平台支持同步等等各方面都不错，但软件界面不是很漂亮且目前还是不支持starred查询。所以还是决定自己动手写一个基于 Gist 的网页端，直接托管在 Github Pages，加上 Chrome Extension 可以做到所见所得，岂不是美滋滋！！！
+
 ![N1 Screenshot](https://raw.githubusercontent.com/zhw2590582/snippets-box/master/screenshot/01.png)
 
-## Install the Chrome Extension
-- Download and Install the **Chrome Extension** from **snippets-box/chrome/snippets-box.crx**
-- You can change the **Snippets Box Url** in the **Options Page** ==> Click the extension icon in the upper right corner
+技术框架方面主要使用了单页面应用的React、Mobx、Ant Design，打包后的静态文件不超过3兆，可以存放于任何服务器运行，不过我还是选择直接放在Github Pages，便于更新迭代。
+
+## 安装 Chrome Extension
+- 扩展的源码也存在于这个项目，安装文件在： **snippets-box/chrome/snippets-box.crx**
+- 安装完后点击图标，可以调到选项页，假如你有自己托管的 Snippets Box 地址，可以填写你要的地址。
+- 安装扩展后，可以在选中任意文字后右键 **Add to Snippets Box** 以创建Gist，或者在代码块的右上角点击创建Gist
 ![N1 Screenshot](https://raw.githubusercontent.com/zhw2590582/snippets-box/master/screenshot/02.png)
 
-## Want to host this repository on your github pages ?
+## 托管到你自己的 Github Pages
 
-### Step 1) Fork this Repository
-Fork it.
+### Step 1) Fork 这个项目
+然后你获取到你的 **Homepage URL** 例如: https://github.com/you-name/snippets-box
 
-Then you can get your **Homepage URL** like: https://github.com/you-name/snippets-box
+### Step 2) 在设置页面创建基于 /docs 目录的 GitHub Pages
+然后你获取到你的 **Authorization callback URL** 例如: https://you-name.github.io/snippets-box/
 
-### Step 2) Creat you GitHub Pages in the Settings page
-Built from the /docs folder in the master branch.
+### Step 3) 创建一个 Github OAuth App. 
+打开 [https://github.com/settings/applications/new](https://github.com/settings/applications/new) ，填写信息以注册一个新的 OAuth App。
 
-Then you can get your **Authorization callback URL** like: https://you-name.github.io/snippets-box/
+然后你获取到你的 **Client ID** 和 **Client Secret**
 
-### Step 3) Creat A Github OAuth App. 
-Open [https://github.com/settings/applications/new](https://github.com/settings/applications/new) register a new OAuth application.
+### Step 4) Clone 你刚刚 Fork 的项目到本地
+修改配置文件 **snippets-box/src/config/index.js**
 
-Then you can get you **Client ID** and **Client Secret**
+- client_id：[Your Client ID]
 
-### Step 4) Clone your Repository
-Change the configuration In the **snippets-box/src/config/index.js** file.
+- client_secret：[Your Client Secret]
 
-client_id     ==> Your Client ID
+- redirect_uri： [Your Authorization callback URL]
 
-client_secret ==> Your Client Secret
-
-redirect_uri  ==> Your Authorization callback URL
-
-### Step 5) Update you Repository
+重新打包，你的 docs 文件夹将会变化
 ```bash
 $ npm install
 $ npm run build
 ```
 
-Push it and Done!
+### Step 5) Push 你的修改，结束！！！
