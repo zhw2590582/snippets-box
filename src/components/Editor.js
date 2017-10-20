@@ -39,6 +39,12 @@ const EditorContainer = styled.div`
       border-bottom: 1px solid ${props => props.theme.borderColor};
       .filename {
         margin-bottom: 15px;
+        .language{
+          margin-left: 15px;
+          height: 28px;
+          line-height: 28px;
+          color: #b9b9b9;
+        }
       }
       .fileContent {
       }
@@ -129,6 +135,15 @@ class Editor extends React.Component {
       type: 'filename',
       index: index,
       value: e.target.value
+    });
+  };
+
+  // 文件语言
+  fileLanguageChange = (index, language) => {
+    this.handleFormChange({
+      type: 'fileLanguage',
+      index: index,
+      value: language
     });
   };
 
@@ -241,6 +256,7 @@ class Editor extends React.Component {
                     placeholder="FileName"
                     maxLength="100"
                   />
+                  <span className="language fl">{file.language}</span>
                   {isOneGist ? null : (
                     <Button
                       className="fr"
@@ -251,7 +267,12 @@ class Editor extends React.Component {
                   )}
                 </div>
                 <div className="fileContent">
-                  <CodeWrap filename={file.filename} content={file.content} updateCode={this.fileContentChange.bind(this, index)} />
+                  <CodeWrap
+                    filename={file.filename}
+                    content={file.content}
+                    updateLanguage={this.fileLanguageChange.bind(this, index)}
+                    updateCode={this.fileContentChange.bind(this, index)}
+                  />
                 </div>
               </div>
             );

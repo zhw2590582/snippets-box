@@ -484,6 +484,9 @@ export class Stores {
       case 'deleteFile':
         this.editGistInfo.files[option.index].delFile = true;
         break;
+      case 'fileLanguage':
+        this.editGistInfo.files[option.index].language = option.value;
+        break;
       case 'addFile':
         this.editGistInfo.files.push({
           filename: '',

@@ -185,6 +185,9 @@ class CodeWrap extends React.Component {
       ? this.CodeMirror.findModeByFileName(filename)
       : this.CodeMirror.findModeByName('Plain Text');
     modeInfo && this.cm.getCodeMirror().setOption('mode', modeInfo.mode);
+    if(!this.props.readOnly){
+      this.props.updateLanguage(modeInfo ? modeInfo.name : 'Plain Text');
+    }
   }
 
   render() {
