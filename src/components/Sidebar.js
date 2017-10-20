@@ -111,7 +111,7 @@ class Sidebar extends React.Component {
               </div>
               <div className="num fr">{getTagsLength}</div>
             </div>
-            {Object.keys(getTags).map(item => {
+            {Object.keys(getTags).sort((a, b) => getTags[b] - getTags[a]).map(item => {
               return (
                 <div
                   className={`item hand clearfix ${selected.type == 'tag' &&

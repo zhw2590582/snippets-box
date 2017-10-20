@@ -11,7 +11,7 @@ const GistContainer = styled.div`
     border-bottom: 1px solid ${props => props.theme.borderColor};
     &:hover,
     &.selected {
-      background: #f7f7f7;
+      background: #efefef;
     }
     .name {
       font-size: 16px;

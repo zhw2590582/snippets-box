@@ -1,8 +1,5 @@
 import '../../styles/content.scss';
 
-// 端口
-const port = chrome.runtime.connect({ name: 'content' });
-
 // 发送到页面
 const sendMessage = data => {
   document.body.dispatchEvent(
@@ -34,6 +31,7 @@ setTimeout(() => {
     ele.classList.add('snippets-box-code');
     ele.insertAdjacentHTML('beforeend', '<div class="snippets-box-btn"></div>');
     ele.querySelector('.snippets-box-btn').addEventListener('click', () => {
+      const port = chrome.runtime.connect({ name: 'content' });      
       port.postMessage({
         name: document.title,
         description: window.location.href,
