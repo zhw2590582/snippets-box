@@ -29,6 +29,7 @@ module.exports = {
       {
         test: /\.scss|css$/,
         use: [
+          'style-loader',
           'css-loader',
           'postcss-loader?sourceMap',
           'resolve-url-loader',
