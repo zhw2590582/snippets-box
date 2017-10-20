@@ -9,7 +9,7 @@
 
 ## 安装 Chrome Extension
 - 扩展的源码也存在于这个项目，安装文件在： **snippets-box/chrome/snippets-box.crx**
-- 安装完后点击图标，可以调到选项页，假如你有自己托管的 Snippets Box 地址，可以填写你要的地址。
+- 安装完后点击图标，可以跳到选项页，假如你有自己托管的 Snippets Box 地址，可以填写你要的地址。
 - 安装扩展后，可以在选中任意文字后右键 **Add to Snippets Box** 以创建Gist，或者在代码块的右上角点击创建Gist
 ![N1 Screenshot](https://raw.githubusercontent.com/zhw2590582/snippets-box/master/screenshot/02.png)
 
