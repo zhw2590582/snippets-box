@@ -34,7 +34,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 // 创建右键菜单
 chrome.contextMenus.create({
   id: 'SnippetsBox',
-  title: 'Add to SnippetsBox',
+  title: 'Add to Snippets Box',
   contexts: ['all']
 });
 

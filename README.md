@@ -51,3 +51,12 @@ $ npm run build
 $ npm run devChrome
 $ npm run buildChrome
 ```
+
+## 已知 Bug
+- 检测 Gist 是否被 Star 不准确
+- Gist 的文件列表闭合展开不可控问题
+- Chrome Extension 的代码块检测不准确
+
+## 待办事项
+- 添加多语言支持
+- 添加多皮肤支持
