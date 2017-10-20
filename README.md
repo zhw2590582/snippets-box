@@ -1,11 +1,11 @@
 # Snippets Box
 [https://zhw2590582.github.io/snippets-box/](https://zhw2590582.github.io/snippets-box/)
 
-事情是这样的，我一直在寻找一个简单易用的代码片段管理器，要免费，要自动同步，要跨平台的，要所见即所得，要自托管的。[Gistbox](https://app.gistboxapp.com) 基于Gist免费且功能丰富，用了一段时间后发现它准备不再维护；Mac的 [SnippetsLab](http://www.renfei.org/snippets-lab/) 虽然界面不错但收费且不支持同步；[Lepton](https://github.com/hackjutsu/Lepton) 基于Gist开源多平台支持同步等等各方面都不错，但软件界面不是很漂亮且目前还是不支持starred查询。所以还是决定自己动手写一个基于 Gist 的网页端，直接托管在 Github Pages，加上 Chrome Extension 可以做到所见所得，岂不是美滋滋！！！
+事情是这样的，我一直在寻找一个简单易用的代码片段管理器，要免费，要自动同步，要跨平台的，要所见即所得，要自托管的。[Gistbox](https://app.gistboxapp.com) 基于Gist免费且功能丰富，用了一段时间后发现它准备不再维护；Mac的 [SnippetsLab](http://www.renfei.org/snippets-lab/) 虽然界面不错但收费且不支持同步；[Lepton](https://github.com/hackjutsu/Lepton) 基于Gist开源多平台支持同步等等各方面都不错，但软件界面不是很漂亮且目前还是不支持starred查询。所以还是决定自己动手写一个基于 [Gist](https://gist.github.com/) 的网页端，直接托管在 [Github Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)，加上 [Chrome Extension](https://developer.chrome.com/extensions) 可以做到所见所得，岂不是美滋滋！！！
 
 ![N1 Screenshot](https://raw.githubusercontent.com/zhw2590582/snippets-box/master/screenshot/01.png)
 
-技术框架方面主要使用了单页面应用的React、Mobx、Ant Design，打包后的静态文件不超过3兆，可以存放于任何服务器运行，不过我还是选择直接放在Github Pages，便于更新迭代。
+技术框架方面主要使用了单页面应用的[React](https://github.com/facebook/react)、[Mobx](https://github.com/mobxjs/mobx)、[Ant Design](https://github.com/ant-design/ant-design)，打包后的静态文件不超过3兆，可以存放于任何服务器运行，不过我还是选择直接放在Github Pages，便于更新迭代。
 
 ## 安装 Chrome Extension
 - 扩展的源码也存在于这个项目，安装文件在： **snippets-box/chrome/snippets-box.crx**
@@ -42,3 +42,12 @@ $ npm run build
 ```
 
 ### Step 5) Push 你的修改，结束！！！
+
+## 开发
+项目只有四个 npm 指令，前两个用于开发单页面: 源码 src 目录，后两个用于开发 Chrome Extension: 源码 chrome 目录
+```bash
+$ npm run dev
+$ npm run build
+$ npm run devChrome
+$ npm run buildChrome
+```
