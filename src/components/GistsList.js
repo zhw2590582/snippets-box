@@ -40,18 +40,24 @@ class GistsList extends React.Component {
     let { setLoading, setSelected, setEditMode } = this.props.store;
     setEditMode(false);
     setLoading(true);
-    setSelected({
-      public: e.target.value
-    }, this.props.store.options.fromCache);
+    setSelected(
+      {
+        public: e.target.value
+      },
+      this.props.store.options.fromCache
+    );
   };
 
   updatedChange = e => {
     let { setLoading, setSelected, setEditMode } = this.props.store;
     setEditMode(false);
     setLoading(true);
-    setSelected({
-      updated: !this.props.store.selected.updated
-    }, this.props.store.options.fromCache);
+    setSelected(
+      {
+        updated: !this.props.store.selected.updated
+      },
+      this.props.store.options.fromCache
+    );
   };
 
   render() {
@@ -72,7 +78,10 @@ class GistsList extends React.Component {
               </Radio.Group>
             </div>
             <div className="fr">
-              <Checkbox checked={selected.updated} onChange={this.updatedChange}>
+              <Checkbox
+                checked={selected.updated}
+                onChange={this.updatedChange}
+              >
                 Updated
               </Checkbox>
             </div>

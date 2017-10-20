@@ -144,7 +144,7 @@ class Header extends React.Component {
   // 保存编辑
   save = () => {
     this.props.store.setLoading(true);
-    if(this.props.store.editGistInfo.id){
+    if (this.props.store.editGistInfo.id) {
       this.props.store.saveEditGist(() => {
         notification.success({
           message: 'Notification',
@@ -218,7 +218,8 @@ class Header extends React.Component {
             message: 'Notification',
             description: 'Logged Out Successful！'
           });
-        });      },
+        });
+      },
       onCancel() {
         console.log('Cancel');
       }

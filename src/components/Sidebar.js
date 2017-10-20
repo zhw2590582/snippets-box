@@ -26,7 +26,7 @@ const SidebarContainer = styled.div`
       padding: 0 15px;
       border-bottom: 1px solid #222e38;
       color: #afafaf;
-      .num{
+      .num {
         color: #6b6b6b;
       }
     }
@@ -53,7 +53,7 @@ const SidebarContainer = styled.div`
 class Sidebar extends React.Component {
   setSelected = opt => {
     let { setLoading, setSelected, setEditMode } = this.props.store;
-    setEditMode(false);    
+    setEditMode(false);
     Object.assign(opt, {
       id: '',
       public: 'all',
@@ -80,7 +80,9 @@ class Sidebar extends React.Component {
                 <Icon type="star-o" />
                 {` Favorites`}
               </div>
-              <div className="num fr">{allGists.length + allStarred.length}</div>
+              <div className="num fr">
+                {allGists.length + allStarred.length}
+              </div>
             </div>
             <div
               className={`item hand clearfix ${selected.type == 'all'

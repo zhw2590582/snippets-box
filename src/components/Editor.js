@@ -39,7 +39,7 @@ const EditorContainer = styled.div`
       border-bottom: 1px solid ${props => props.theme.borderColor};
       .filename {
         margin-bottom: 15px;
-        .language{
+        .language {
           margin-left: 15px;
           height: 28px;
           line-height: 28px;

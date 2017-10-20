@@ -26,7 +26,7 @@ export const descriptionParser = payload => {
 // 解析gist
 export const resolveGist = gist => {
   const newGist = descriptionParser(gist.description);
-  gist.name = newGist.name;
+  gist.name = newGist.name || Object.keys(gist.files)[0];
   gist.description = newGist.description;
   gist.tags = newGist.tags;
   gist.filenames = Object.keys(gist.files).map(name => name);

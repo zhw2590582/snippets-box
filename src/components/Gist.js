@@ -72,7 +72,7 @@ class Gist extends React.Component {
                 : ''}`}
               key={gist.id}
               data-gist={gist.id}
-              data-selected={selected.id}              
+              data-selected={selected.id}
               onClick={this.getGistsOpen.bind(this, gist.id)}
             >
               <div className="name text-ellipsis">

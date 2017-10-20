@@ -27,8 +27,7 @@ class App extends React.Component {
     // 菜单创建Gist
     let { userInfo, createGistByMenu } = this.props.store;
     document.body.addEventListener('__snippets_box_hood__', e => {
-      if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist')
-        return;
+      if (e.target.baseURI !== redirect_uri || e.detail.type !== 'creatGist') return;
       if (userInfo) {
         createGistByMenu(e.detail);
       } else {

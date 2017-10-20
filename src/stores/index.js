@@ -552,9 +552,14 @@ export class Stores {
   // 菜单创建gist
   @action
   createGistByMenu = (option, callback) => {
-    this.setEditMode(true);
-    this.editGistInfo = option;
-    callback && callback();
+    this.setEditMode(false);
+    setTimeout(() => {
+      runInAction(() => {
+        this.setEditMode(true);
+        this.editGistInfo = option;
+        callback && callback();
+      })
+    }, 500)
   }
 
   // 系统设置

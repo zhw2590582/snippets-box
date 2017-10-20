@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CodeMirror from 'react-codemirror';
 
@@ -185,7 +186,7 @@ class CodeWrap extends React.Component {
       ? this.CodeMirror.findModeByFileName(filename)
       : this.CodeMirror.findModeByName('Plain Text');
     modeInfo && this.cm.getCodeMirror().setOption('mode', modeInfo.mode);
-    if(!this.props.readOnly){
+    if (!this.props.readOnly) {
       this.props.updateLanguage(modeInfo ? modeInfo.name : 'Plain Text');
     }
   }
@@ -223,5 +224,12 @@ class CodeWrap extends React.Component {
     );
   }
 }
+
+CodeWrap.propTypes = {
+  filename: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  updateLanguage: PropTypes.func,
+  updateCode: PropTypes.func
+};
 
 export default CodeWrap;

@@ -185,7 +185,8 @@ class Content extends React.Component {
   render() {
     let { openGist, userInfo, selected } = this.props.store;
     // Gist切换时遗留的activeKey的bug ==> 未解决
-    let defaultActiveKey = openGist && Object.keys(openGist.files).map(file => file);
+    let defaultActiveKey =
+      openGist && Object.keys(openGist.files).map(file => file);
     return (
       <ContentContainer>
         {openGist ? (
@@ -291,7 +292,11 @@ class Content extends React.Component {
                   let fileItem = openGist.files[file];
                   return (
                     <Panel header={<PanelHeader file={fileItem} />} key={file}>
-                      <CodeWrap filename={fileItem.filename} content={fileItem.content} readOnly />
+                      <CodeWrap
+                        filename={fileItem.filename}
+                        content={fileItem.content}
+                        readOnly
+                      />
                     </Panel>
                   );
                 })}
