@@ -30,7 +30,7 @@
     "html-webpack-plugin": "^2.22.0",
     "image-webpack-loader": "^3.4.2",
     "mobx-react-devtools": "^4.2.6",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.6.0",
     "postcss-cssnext": "^3.0.2",
     "postcss-loader": "^2.0.6",
     "react-hot-loader": "next",
