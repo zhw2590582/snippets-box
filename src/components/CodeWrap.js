@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import CodeMirror from 'react-codemirror';
 
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/mdn-like.css';
 import 'codemirror/mode/tiddlywiki/tiddlywiki.css';
 import 'codemirror/mode/tiki/tiki.css';
 import 'codemirror/addon/dialog/dialog.css';
@@ -199,7 +198,7 @@ class CodeWrap extends React.Component {
           onChange={this.props.updateCode}
           value={this.props.content}
           options={{
-            theme: 'mdn-like',
+            theme: 'default',
             lineNumbers: true,
             scrollbarStyle: 'simple',
             matchBrackets: true,
