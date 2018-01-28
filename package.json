@@ -24,7 +24,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-declaration-sorter": "^2.1.0",
     "css-loader": "^0.28.7",
-    "css-mqpacker": "^6.0.1",
+    "css-mqpacker": "^6.0.2",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.22.0",
