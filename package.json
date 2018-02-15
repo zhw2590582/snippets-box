@@ -48,7 +48,7 @@
     "fuse.js": "^3.2.0",
     "gists": "^1.0.0",
     "mobx": "^3.5.1",
-    "mobx-react": "^4.3.3",
+    "mobx-react": "^4.4.2",
     "moment": "^2.19.0",
     "normalize.css": "^8.0.0",
     "promise-polyfill": "^7.1.0",
