@@ -3408,9 +3408,9 @@ gifsicle@^3.0.0:
     bin-wrapper "^3.0.0"
     logalot "^2.0.0"
 
-gists@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gists/-/gists-1.0.0.tgz#82ae801dbba4cbb94ac932436018d5c2b9cd8e51"
+gists@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gists/-/gists-1.0.1.tgz#37df6a40820d8737656430a17e06098b0c9ffa99"
   dependencies:
     github-base "^0.5.4"
 
