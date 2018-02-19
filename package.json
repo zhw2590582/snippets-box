@@ -31,7 +31,7 @@
     "image-webpack-loader": "^4.1.0",
     "mobx-react-devtools": "^4.2.6",
     "node-sass": "^4.5.3",
-    "postcss-cssnext": "^3.0.2",
+    "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^2.1.0",
     "react-hot-loader": "next",
     "resolve-url-loader": "^2.1.0",
