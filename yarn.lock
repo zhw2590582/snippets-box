@@ -6797,6 +6797,10 @@ react-hot-loader@next:
     prop-types "^15.6.0"
     shallowequal "^1.0.2"
 
+react-is@^16.3.1:
+  version "16.4.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.1.tgz#d624c4650d2c65dbd52c72622bbf389435d9776e"
+
 react-lazy-load@^3.0.12:
   version "3.0.13"
   resolved "https://registry.yarnpkg.com/react-lazy-load/-/react-lazy-load-3.0.13.tgz#3b0a92d336d43d3f0d73cbe6f35b17050b08b824"
@@ -7809,9 +7813,9 @@ style-loader@^0.21.0:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
-styled-components@^3.2.5:
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.2.5.tgz#b5d5d7d618ab240ff10602b5ca5886b8db3d0a0d"
+styled-components@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.3.3.tgz#09e702055ab11f7a8eab8229b1c0d0b855095686"
   dependencies:
     buffer "^5.0.3"
     css-to-react-native "^2.0.3"
@@ -7819,6 +7823,7 @@ styled-components@^3.2.5:
     hoist-non-react-statics "^2.5.0"
     is-plain-object "^2.0.1"
     prop-types "^15.5.4"
+    react-is "^16.3.1"
     stylis "^3.5.0"
     stylis-rule-sheet "^0.0.10"
     supports-color "^3.2.3"
