@@ -5031,11 +5031,12 @@ mobx-react-devtools@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/mobx-react-devtools/-/mobx-react-devtools-5.0.1.tgz#9473c85929b2fc0c95086430419028cebd96fb3b"
 
-mobx-react@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-4.4.2.tgz#22d710974883de1763cdafce3025570a79c64336"
+mobx-react@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.1.2.tgz#ec5c2d29a1df823dbd1b37e214fa36a0907054e2"
   dependencies:
-    hoist-non-react-statics "^2.3.1"
+    hoist-non-react-statics "^2.5.0"
+    react-lifecycles-compat "^3.0.2"
 
 mobx@^4.2.1:
   version "4.2.1"
