@@ -47,7 +47,7 @@
     "clipboard": "^2.0.4",
     "fuse.js": "^3.4.4",
     "gists": "^2.0.0",
-    "mobx": "^4.9.3",
+    "mobx": "^5.9.4",
     "mobx-react": "^5.4.3",
     "moment": "^2.22.2",
     "normalize.css": "^8.0.1",
