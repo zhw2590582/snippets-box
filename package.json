@@ -43,7 +43,7 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "antd": "^3.20.6",
+    "antd": "^3.20.7",
     "clipboard": "^2.0.4",
     "fuse.js": "^3.4.5",
     "gists": "^2.0.0",
