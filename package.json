@@ -40,7 +40,7 @@
     "style-loader": "^1.1.1",
     "url-loader": "^3.0.0",
     "webpack": "^4.41.4",
-    "webpack-dev-server": "^3.10.0"
+    "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
     "antd": "^3.26.2",
