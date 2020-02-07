@@ -2314,11 +2314,11 @@ css-color-keywords@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"
 
-css-declaration-sorter@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/css-declaration-sorter/-/css-declaration-sorter-5.0.0.tgz#1be7a3a952496e62ca37d78337fbc71e9c1b555c"
+css-declaration-sorter@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/css-declaration-sorter/-/css-declaration-sorter-5.1.0.tgz#b950910eec46948bd31f6ba62eb91515011f6ca4"
   dependencies:
-    postcss "^7.0.25"
+    postcss "^7.0.26"
     timsort "^0.3.0"
 
 css-loader@^3.4.2:
@@ -6164,9 +6164,9 @@ postcss@^6.0, postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.11, postcss@^6.0.3, p
     source-map "^0.6.1"
     supports-color "^5.2.0"
 
-postcss@^7.0.0, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.23, postcss@^7.0.25, postcss@^7.0.5, postcss@^7.0.6:
-  version "7.0.25"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.25.tgz#dd2a2a753d50b13bed7a2009b4a18ac14d9db21e"
+postcss@^7.0.0, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.23, postcss@^7.0.26, postcss@^7.0.5, postcss@^7.0.6:
+  version "7.0.26"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.26.tgz#5ed615cfcab35ba9bbb82414a4fa88ea10429587"
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
