@@ -12,9 +12,9 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@ant-design/icons-svg/-/icons-svg-4.0.0.tgz#6683db0df97c0c6900bb28a280faf391522ec734"
 
-"@ant-design/icons@^4.0.0-rc.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@ant-design/icons/-/icons-4.0.0.tgz#cdb870777f185422cfc0e235392592d3e4795ef6"
+"@ant-design/icons@^4.0.0":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@ant-design/icons/-/icons-4.0.2.tgz#6fce64b3e207d99d1e258ff527674e22b9b2afc0"
   dependencies:
     "@ant-design/colors" "^3.1.0"
     "@ant-design/icons-svg" "^4.0.0"
@@ -453,11 +453,11 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.0.0.tgz#1566ee4a4c9ff5deb446cc3ce7604d4495fd2d38"
+antd@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.0.1.tgz#506365bb6f697237dddf675c78c0a41375bd314e"
   dependencies:
-    "@ant-design/icons" "^4.0.0-rc.0"
+    "@ant-design/icons" "^4.0.0"
     "@ant-design/react-slick" "~0.25.5"
     array-tree-filter "^2.1.0"
     classnames "~2.2.6"
@@ -489,7 +489,7 @@ antd@^4.0.0:
     rc-slider "~9.2.1"
     rc-steps "~3.5.0"
     rc-switch "~1.9.0"
-    rc-table "~7.0.0"
+    rc-table "~7.1.0"
     rc-tabs "~10.0.0"
     rc-tooltip "~4.0.0"
     rc-tree "~3.0.0"
@@ -500,7 +500,6 @@ antd@^4.0.0:
     rc-virtual-list "~1.0.0"
     resize-observer-polyfill "^1.5.1"
     scroll-into-view-if-needed "^2.2.20"
-    shallowequal "^1.1.0"
     warning "~4.0.3"
 
 anymatch@^2.0.0:
@@ -6481,9 +6480,9 @@ rc-switch@~1.9.0:
     prop-types "^15.5.6"
     react-lifecycles-compat "^3.0.4"
 
-rc-table@~7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.0.0.tgz#53f4652f661e77cfcda98ed6ece895ea76d12308"
+rc-table@~7.1.0:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.1.2.tgz#ffd24afbdf0875de5a0381cf8e3d61c6ed450390"
   dependencies:
     classnames "^2.2.5"
     component-classes "^1.2.6"
