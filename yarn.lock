@@ -453,9 +453,9 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.0.2.tgz#84e7356322ef3620a24cee56a281d910178cbd4e"
+antd@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.0.3.tgz#b27e5c40fa00f0e60c72f3673c32257293c2540d"
   dependencies:
     "@ant-design/icons" "^4.0.0"
     "@ant-design/react-slick" "~0.25.5"
@@ -486,12 +486,12 @@ antd@^4.0.2:
     rc-rate "~2.5.1"
     rc-resize-observer "^0.1.0"
     rc-select "~10.0.0"
-    rc-slider "~9.2.1"
+    rc-slider "~9.2.3"
     rc-steps "~3.5.0"
     rc-switch "~1.9.0"
-    rc-table "~7.2.0"
+    rc-table "~7.3.0"
     rc-tabs "~10.0.0"
-    rc-tooltip "~4.0.0"
+    rc-tooltip "~4.0.2"
     rc-tree "~3.0.0"
     rc-tree-select "~3.0.0"
     rc-trigger "~4.0.0"
@@ -6451,13 +6451,12 @@ rc-select@^10.0.0, rc-select@~10.0.0:
     rc-virtual-list "^1.0.0"
     warning "^4.0.3"
 
-rc-slider@~9.2.1:
-  version "9.2.2"
-  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-9.2.2.tgz#852ed38abda337b98aed5ada2090538d98446cc2"
+rc-slider@~9.2.3:
+  version "9.2.3"
+  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-9.2.3.tgz#b80f03ada71ef3ec35dfcb67d2e0f87d84ce2781"
   dependencies:
     babel-runtime "6.x"
     classnames "^2.2.5"
-    prop-types "^15.5.4"
     rc-tooltip "^4.0.0"
     rc-util "^4.0.4"
     shallowequal "^1.1.0"
@@ -6480,9 +6479,9 @@ rc-switch@~1.9.0:
     prop-types "^15.5.6"
     react-lifecycles-compat "^3.0.4"
 
-rc-table@~7.2.0:
-  version "7.2.2"
-  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.2.2.tgz#1a18806396b81296b1f6a8481a5e81ee89635c70"
+rc-table@~7.3.0:
+  version "7.3.8"
+  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.3.8.tgz#64903faf73a2489aa47a41ce314136d9359cf0a2"
   dependencies:
     classnames "^2.2.5"
     component-classes "^1.2.6"
@@ -6509,9 +6508,9 @@ rc-tabs@~10.0.0:
     resize-observer-polyfill "^1.5.1"
     warning "^4.0.3"
 
-rc-tooltip@^4.0.0, rc-tooltip@~4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/rc-tooltip/-/rc-tooltip-4.0.1.tgz#e7a800571c5661f80dfd411c13a1dabaa9646d3a"
+rc-tooltip@^4.0.0, rc-tooltip@~4.0.2:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/rc-tooltip/-/rc-tooltip-4.0.3.tgz#728b760863643ec2e85827a2e7fb28d961b3b759"
   dependencies:
     rc-trigger "^4.0.0"
 
