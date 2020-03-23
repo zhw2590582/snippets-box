@@ -462,9 +462,9 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.0.3.tgz#b27e5c40fa00f0e60c72f3673c32257293c2540d"
+antd@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.0.4.tgz#fe7bf58151e069226941a4febe429f1e2f6c596f"
   dependencies:
     "@ant-design/icons" "^4.0.0"
     "@ant-design/react-slick" "~0.25.5"
