@@ -45,7 +45,7 @@
   "dependencies": {
     "antd": "^4.1.0",
     "clipboard": "^2.0.6",
-    "fuse.js": "^3.6.1",
+    "fuse.js": "^5.1.0",
     "gists": "^2.0.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
