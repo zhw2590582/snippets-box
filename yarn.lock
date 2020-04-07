@@ -4969,15 +4969,15 @@ mobx-react-devtools@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/mobx-react-devtools/-/mobx-react-devtools-6.1.1.tgz#a462b944085cf11ff96fc937d12bf31dab4c8984"
 
-mobx-react-lite@^1.4.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-1.5.2.tgz#c4395b0568b9cb16f07669d8869cc4efa1b8656d"
+mobx-react-lite@2:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-2.0.4.tgz#bc38c9dfb56918d2d39588324d1ce1e3a649fb66"
 
-mobx-react@^6.1.8:
-  version "6.1.8"
-  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-6.1.8.tgz#5b9a3950463d58c154dda2c94d16d48ed8fcb02e"
+mobx-react@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-6.2.1.tgz#2f2cf7be2e9f9b4661a31cec3b70b8116b1ebeff"
   dependencies:
-    mobx-react-lite "^1.4.2"
+    mobx-react-lite "2"
 
 mobx@^5.15.4:
   version "5.15.4"
